@@ -1,0 +1,91 @@
+! Allow sixel graphics. (Try: "convert -colors 16 foo.jpg sixel:-").
+xterm*decTerminalID	:	vt340
+
+! Allow lsix to read the terminal window size (op #14)
+xterm*allowWindowOps      : False
+xterm*disallowedWindowOps : 1,2,3,4,5,6,7,8,9,11,13,18,19,20,21,GetSelection,SetSelection,SetWinLines,SetXprop
+
+! Allow sixel graphics. (Try: "convert -colors 16 foo.jpg sixel:-").
+Termite*decTerminalID     :       vt340
+
+! Allow lsix to read the terminal window size (op #14)
+Termite*allowWindowOps      : False
+Termite*disallowedWindowOps : 1,2,3,4,5,6,7,8,9,11,13,18,19,20,21,GetSelection,SetSelection,SetWinLines,SetXprop
+
+! Allow sixel graphics. (Try: "convert -colors 16 foo.jpg sixel:-").
+xterm-termite*decTerminalID     :       vt340
+
+! Allow lsix to read the terminal window size (op #14)
+xterm-termite*allowWindowOps      : False
+xterm-termite*disallowedWindowOps : 1,2,3,4,5,6,7,8,9,11,13,18,19,20,21,GetSelection,SetSelection,SetWinLines,SetXprop
+
+
+URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select
+URxvt.url-select.launcher:  firefox-nightly
+URxvt.url-select.underline: true
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-Escape:      perl:keyboard-select:activate
+URxvt.keysym.M-s:           perl:keyboard-select:search
+
+!- Font Render
+Xft.dpi:96
+Xft.antialiasing:true
+Xft.rgba:rgb
+Xft.hinting:true
+Xft.lcdfilter:lcddefault
+
+*.cursorColor: #ebac54
+
+URxvt.borderColor:          #1B1D1E
+URxvt.borderless:           true
+URxvt.internalBorder: 5
+
+URxvt.underlineColor:       #333333
+URxvt.highlightColor:       #6eddba
+URxvt.highlightTextColor:   #353535
+
+URxvt.scrollstyle:plain
+URxvt.scrollBar:false
+URxvt.scrollTtyOutput:false
+URxvt.scrollWithBuffer:true
+URxvt.scrollTtyKeypress:true
+
+URxvt.cursorBlink:          true
+URxvt.cursorUnderline:      false
+URxvt.depth:31
+
+!- Copy/paste
+URxvt.iso14755: False
+URxvt.keysym.Shift-Alt-C: perl:clipboard:copy
+URxvt.keysym.Shift-Alt-V: perl:clipboard:paste
+
+URxvt.underlineURLs:        true
+URxvt.font.xft:DejaVu Sans Mono:pixelsize=11
+URxvt.transparent:false
+URxvt.shading:30
+URxvt.geometry:226x53
+
+!-Urgent Terminal for Notification
+URxvt*urgentOnBell: true
+URxvt*visualBell:   false
+
+	!colorscheme
+
+URxvt.background:  #101113
+URxvt.foreground:  #cdd2d5
+URxvt.color0:  #101113
+URxvt.color1:  #f84513
+URxvt.color2:  #25ef2e
+URxvt.color3:  #ffff00
+URxvt.color4:  #1e90ff
+URxvt.color5:  #8a4178
+URxvt.color6:  #add8e6
+URxvt.color7:  #ffffff
+URxvt.color8:  #4f4e60
+URxvt.color9:  #be7b6a
+URxvt.color10:  #52c75e
+URxvt.color11:  #ffa500
+URxvt.color12:  #add8e6
+URxvt.color13:  #b194a6
+URxvt.color14:  #8d8ea2
+URxvt.color15:  #bfbfbf
