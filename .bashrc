@@ -153,18 +153,6 @@ tor_check () {
 	echo ""
 }
 
-# WIP img viewer.
-# Stuck this alias in Functions section due to one of the functions requiring it.
-alias img='clear; bash /home/valley/Scripts/img'
-
-boi_function () {
-	clear
-	echo "By Continuing, you acknowlege that you will see [NSFW] material."
-	echo -e "\n"
-	read -p "Press [Enter] to continue."
-	img '/run/media/valley/Music and Pics/Pics/Porn/ed641678c2a1091b9a2f849dbd8602b4.png'
-}
-
 ###########
 # Aliases #
 ###########
@@ -318,6 +306,9 @@ alias torcheck='tor_check'
 
 # ss with most used options.
 alias ss='echo ""; ss -nlt; echo ""'
+
+# WIP img viewer.
+alias img='clear; bash /home/valley/Scripts/img'
 
 ### Arch Only ###
 
