@@ -43,22 +43,22 @@ clear_fetch () {
 pipe () {
 	clear
 	echo "Welcome to cpipes! Please setup how you want your cpipes to look."
-	echo
+	echo ""
 	echo "How many pipes do you want?"
 	read amount
-	echo
+	echo ""
 	echo "What is your desired framerate?"
 	read framerate
-	echo
+	echo ""
 	echo "How much of a chance do you want your pipes to change direction every second?"
 	echo "(Insert a value between 0.1 and 0.9)."
 	read chance
-	echo
+	echo ""
 
 	cpipes --pipes=$amount --fps=$framerate --prob=$chance
-	}
+}
 
-se() {
+se () {
 	clear
 	compgen -c | grep -i "${1:?No search parameter given}"
 }
@@ -116,9 +116,9 @@ spliturl () {
 }
 
 cdate () {
-	clear
+	echo ""
 	cal | sed "s/^/ /;s/$/ /;s/ $(date +%e) / $(date +%e | sed 's/./#/g') /"
-	echo
+	echo ""
 }
 
 mvf () {
@@ -130,6 +130,39 @@ mvf () {
 			cd `dirname ${1}`
 		fi
 	fi
+}
+
+who_am_i () {
+	echo ""
+	id=$(id -un)
+	echo "You are "$id"."
+	echo ""
+}
+
+tor_check () {
+	echo ""
+	echo "Would you like me to clear your terminal before displaying results? (yes/no)"
+	read answer
+	if [ "$answer" = "yes" ]; then 
+		clear
+	else 
+		echo ""
+	fi
+	web=$(torsocks w3m -dump check.torproject.org)
+	echo "$web"
+	echo ""
+}
+
+# WIP img viewer.
+# Stuck this alias in Functions section due to one of the functions requiring it.
+alias img='clear; bash /home/valley/Scripts/img'
+
+boi_function () {
+	clear
+	echo "By Continuing, you acknowlege that you will see [NSFW] material."
+	echo -e "\n"
+	read -p "Press [Enter] to continue."
+	img '/run/media/valley/Music and Pics/Pics/Porn/ed641678c2a1091b9a2f849dbd8602b4.png'
 }
 
 ###########
@@ -223,9 +256,6 @@ alias clearfetch="clear_fetch"
 # Make ping pretty.
 alias ping='bash /home/valley/Scripts/prettyping'
 
-# WIP img viewer.
-alias img='clear; bash /home/valley/Scripts/img'
-
 # Tmux session with ncmpcpp and cover art.
 alias music='tmux new-session "tmux source-file ~/.ncmpcpp/tmux_session"'
 
@@ -264,6 +294,30 @@ alias 0b0='clear; cat ~/.beserk'
 
 # WTF!?!?!?!?!?!?!?
 alias wtf='clear; cat ~/.testing'
+
+# Search DDG from terminal with Tor.
+alias ddgr-tor='torsocks --isolate ddgr --ducky --unsafe --noua'
+
+# Activate Tor for the shell.
+alias tors='source torsocks on'
+
+# Disable Tor for the shell.
+alias tors-off='source torsocks off'
+
+# Speedtest with extra options.
+alias speed='clear; speedtest-cli --no-upload --bytes'
+
+# Whoami.
+alias whoami='who_am_i'
+
+# Boi.
+alias boi='boi_function'
+
+# Tor check.
+alias torcheck='tor_check'
+
+# ss with most used options.
+alias ss='echo ""; ss -nlt; echo ""'
 
 ### Arch Only ###
 
