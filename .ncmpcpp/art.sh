@@ -11,7 +11,7 @@ COVER_SIZE=490
 
 BORDERS=true
 BORDER_WIDTH=5
-BORDER_COLOR="white"
+BORDER_COLOR="black"
 
 function ffmpeg_cover {
     if $BORDERS; then
