@@ -1,0 +1,3 @@
+rofi.theme:         base16
+rofi.font:          Misc Termsynu 12
+rofi.modi:          run
