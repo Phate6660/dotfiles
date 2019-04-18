@@ -2293,7 +2293,7 @@ url-prefix("moz-extension://{e4a8a97b-f2ed-450b-b12d-ee082ba24781}/src/content/e
 }
 /*! Alters the webextension uBlock Origin
   IMPORTANT: change the Internal UUID */
-@-moz-document url-prefix("moz-extension://5c4fb747-d790-403f-a63f-5997ecc31295/") {
+@-moz-document url-prefix("moz-extension://34c05e0a-c55e-4bab-aa09-4122b7fc5131/") {
   button.custom {
     background-color: var(--in-content-page-background)!important;
     background-image: none!important;
@@ -2684,7 +2684,7 @@ url-prefix("moz-extension://{e4a8a97b-f2ed-450b-b12d-ee082ba24781}/src/content/e
 }
 /*! Alters the webextension uMatrix
   IMPORTANT: change the Internal UUID */
-@-moz-document url-prefix("moz-extension://fe8a6c3b-4ff3-41fe-a858-48909fd47ccd/") {
+@-moz-document url-prefix("moz-extension://15eb435e-2254-4546-9e1c-6c9675f1e226/") {
   .t81 {
     color: #fff;
     background-color: #db4c4c!important
@@ -3195,4 +3195,43 @@ url-prefix("moz-extension://{e4a8a97b-f2ed-450b-b12d-ee082ba24781}/src/content/e
   #externals {
     background-color: var(--tone-5)!important
   }
+}
+
+/* Make addons screen more compact */
+@-moz-document url(about:addons){
+   .addon.card { 
+
+    max-width: 950px !important;
+    padding: 4px !important;
+    padding-right: 6px !important;
+    padding-left: 11px !important;
+    margin: -1px !important;
+    margin-top: 4px !important; 
+    font-size: 11px !important;
+    font-family: Arial !important;
+    /*font-weight: bold !important;*/
+    border-radius: 7px !important;
+
+}
+
+#header-inner {
+
+    margin-left: -133px !important;
+    margin-bottom: -27px !important;
+
+}
+
+.heading-inner {
+    width: 1795px !important;
+    margin-left: -1185px !important;
+    margin-top: -28px !important;
+
+}
+
+.toolbarbutton-icon {
+    padding: 0px 2px !important;
+    margin-left: -8px !important;
+    margin-right: 0px !important;
+    margin-top: -2px !important;
+    padding-top: 2px !important;}
 }

@@ -7,17 +7,20 @@
 
 MUSIC_DIR="/home/valley/Music"
 COVER="/tmp/cover.png"
-COVER_SIZE=490
+COVER2="/srv/http/cover.png"
+COVER_SIZE=125
 
 BORDERS=true
-BORDER_WIDTH=5
-BORDER_COLOR="black"
+BORDER_WIDTH=6
+BORDER_COLOR="#54ff3f"
 
 function ffmpeg_cover {
     if $BORDERS; then
         ffmpeg -loglevel 0 -y -i "$1" -vf "scale=$COVER_SIZE:-1,pad=$COVER_SIZE+$BORDER_WIDTH:ow:(ow-iw)/2:(oh-ih)/2:$BORDER_COLOR" "$COVER"
+		ffmpeg -loglevel 0 -y -i "$1" -vf "scale=$COVER_SIZE:-1,pad=$COVER_SIZE+$BORDER_WIDTH:ow:(ow-iw)/2:(oh-ih)/2:$BORDER_COLOR" "$COVER2"
     else
         ffmpeg -loglevel 0 -y -i "$1" -vf "scale=$COVER_SIZE:-1" "$COVER"
+        ffmpeg -loglevel 0 -y -i "$1" -vf "scale=$COVER_SIZE:-1" "$COVER2"
     fi
 }
 

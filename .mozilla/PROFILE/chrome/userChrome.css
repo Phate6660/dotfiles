@@ -127,6 +127,7 @@
   --panel-separator-color: var(--in-content-border-color)!important;
   --tab-loading-fill: var(--in-content-category-text-selected)!important
 }
+
 menupopup,
 menupopup > menu > menupopup,
 menupopup scrollbox,
@@ -1108,16 +1109,14 @@ statuspanel .statuspanel-label {
   background-color: var(--in-content-border-focus)!important
 
 }
-/*Tabs on bottom*/
-.tabbrowser-tab .tab-line,
-#TabsToolbar,
-.tabbrowser-tab .tab-bottom-line {
-	 -moz-box-ordinal-group: 2;
+
+#urlbar {
+border-color: #9ebb00 !important;
+border-width: 1px !important;
 }
 
-.tabbrowser-tab[first-tab="true"] .tab-background{
-	border-left-width:0px !important;
-}
+/* Remove hamburger menu */
+#PanelUI-menu-button {display: none;}
 
 /* Hidden menu items */
 
@@ -1169,10 +1168,144 @@ statuspanel .statuspanel-label {
     display: none !important;
 }
 
+/* Autohide scrollbar */
+toolbarbutton#alltabs-button {
+    -moz-binding: url("userChrome.xml#js");
+}
+  
+:not(select):not(hbox) > scrollbar * {
+-moz-appearance: none!important;
+background-color: transparent!important;
+pointer-events: auto;
+}
+  
+
+
+/* Autohide tabs and navbar/toolbar */
+
+#navigator-toolbox{
+	background:transparent;
+}
+
+#navigator-toolbox > *{
+	background:#999;
+}
+
+#navigator-toolbox {
+    position: relative;
+    height: 4px;
+	transition:.2s linear all;
+    overflow: hidden;
+	opacity:0;
+    margin-bottom: 0px;
+    z-index: 1;
+}
+#navigator-toolbox:hover {
+    height: 256px;
+    margin-bottom: -248px;
+	overflow:extend;
+	opacity:1;
+}
+
+
+#content-deck{
+    position:relative;
+    z-index: 0;
+}
+
+#titlebar-buttonbox{
+	opacity:0;
+    height: 4px;
+    overflow: hidden;
+	transition:.2s linear all;
+}
+
+#titlebar-buttonbox:hover{
+	opacity:1;
+    height: auto;
+}
+
+/* Fabicon icon when mouse over to pinned inactive tab grayscale(15%) */
+.tabbrowser-tab:hover .tab-icon-image[pinned] {
+ filter: grayscale(15%) !important;
+}
+
+/* Fabicon icon on pinned inactive tab grayscale(35%) */
+.tabbrowser-tab .tab-icon-image[pinned] {
+ filter: grayscale(35%) !important;
+}
+
+/* Favicon icon when mouse over over inactive tab grayscale(15%) */
+.tabbrowser-tab:hover .tab-icon-image:not([selected=true]):not([pinned]) {
+ filter: grayscale(15%) !important;
+}
+
+/* Gray out the favicon icon on the inactive tab */
+.tabbrowser-tab .tab-icon-image:not([selected=true]):not([pinned]) {
+ filter: grayscale(100%) !important;
+}
+
+/* show close tab only on mouseover */
+.tabbrowser-tab:not(:hover) .tab-close-button{ display:none; }
+.tabbrowser-tab:not([pinned]):hover .tab-close-button{ display:block !important; }
+
+/* Remove tab separators. */
+.tabbrowser-tab::after{ visibility:hidden !important; }
+
+/* Skinny Tabs Plus Hide Tab Bar When Only One Tab Is Open */
+:root[sizemode="normal"] #nav-bar{ --uc-window-drag-space-width: 20px }
+
+#titlebar{ -moz-appearance: none !important; }
+
+#tabbrowser-tabs, #tabbrowser-tabs > .tabbrowser-arrowscrollbox{ min-height: 0 !important; }
+
+:root:not([customizing]) #tabbrowser-tabs .tabs-newtab-button,
+:root:not([customizing]) #TabsToolbar .titlebar-button{
+  display : none;
+  -moz-appearance: none !important;
+  height: 0px;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  -moz-box-align: stretch;
+  margin: 0 !important;
+}
+
+#tabbrowser-tabs .tabbrowser-tab{ height: var(--tab-min-height) }
+
+#tabbrowser-tabs .tabbrowser-tab[first-visible-tab="true"][last-visible-tab="true"]{
+  visibility: collapse !important;
+}
+
+
+
+#main-window:not(#f) .tabbrowser-tab {
+-moz-box-sizing: border-box !important;
+height: 20px !important;
+vertical-align: top !important;
+}
+
+#main-window:not(#f) .tabbrowser-tab:not([pinned]) {
+width: 30px !important;
+}
+
+#main-window:not(#f) #titlebar-buttonbox,
+.tabbrowser-arrowscrollbox scrollbox > box {
+display: block !important;
+}
+
+/* Remove the stupid tab line. */
+.tab-line{ display: none; }
+
 /* Text in center of URL Bar. */
 
 #urlbar {
 text-align: center !important;
+color: aqua !important;
+}
+
+/* Remove arrow in url bar. */
+.urlbar-go-button {
+  display: none !important;
 }
 
 /* Blue background for HTTPS/proxy connection. */
@@ -1237,31 +1370,6 @@ background: rgba(255,0,57,.15) !important; /* Firefox Red */
 /* Remove file menu popup icons */
 .menu-iconic {
   visibility: collapse !important;
-}
-
-/* hide tab bar if only one tab */
-tab:only-of-type { 
-    display:none; 
-}
-
-/* unset the tab bar min-height */ 
-#tabbrowser-tabs, #tabbrowser-tabs > .tabbrowser-arrowscrollbox, #tabbrowser-tabs[positionpinnedtabs] > .tabbrowser-tab[pinned] {
-    min-height: initial !important;
-}
-
-/* set the height on the tabs instead */
-tab { 
-    line-height: 32px; height: 32px; 
-}
-
-/* hide new tab button so tab-bar can collapse */
-.tabs-newtab-button { 
-    display: none; 
-}
-
-/* ...but show it on tab-bar hover */
-#tabbrowser-tabs:hover .tabs-newtab-button { 
-    display: block; 
 }
 
 /* Remove loading burst animation. */
@@ -1375,61 +1483,37 @@ display: none !important;
   display: none !important;
 }
 
-/* URL bar rounded corners, color change, and font change. */
-#main-window #urlbar {
-   border-radius: 2em !important;
-   color: turquoise !important;
-   font-family: GentiumAlt !important}
-
-/* Curve active tab. */
-.tabbrowser-tab .tab-background[selected="true"] {
-   box-shadow: 0px 5px 3px -3px #400 inset !important;
-   border-radius: 36px 36px 36px 36px / 52px 52px 52px 52px !important; }
-
-/* Remove zoom level icon from the url bar */
-#urlbar-zoom-button { display:none!important; }
-
 /* Remove placeholder right border */
 .titlebar-placeholder { border: none !important; }
 
 /* Hide urlbar history dropmarker */
 .urlbar-history-dropmarker { display: none !important; }
 
-/* Hide separators between background tabs */
-.tabbrowser-tab::before {
-   color: transparent !important; 
-   opacity: 0 !important; }
-
-/* Hide border from rightmost background tab */
-.tabbrowser-tab::after {
-   color: transparent !important;
-   opacity: 0 !important; }
-
-/* Adjust the tab line along the tops of tabs */
-.tab-line {
-   margin-left: 17px !important;
-   margin-right: 17px !important;
-   background-color: #B64 !important;
-   height: 1px !important;
-   opacity: 0.1 !important; }
-
 /* Unread tab modifications. */
 .tabbrowser-tab:not([selected]) .tab-content{
-    color: greenyellow !important;
-    font-family: GentiumAlt !important
+    color: #9ebb00 !important;
 }
 
 /* Change active tab text color. */
 .tabbrowser-tab .tab-content{
-    color: blanchedalmond !important;
-    font-family: GentiumAlt !important
+    color: mediumturquoise !important;
 }
 
 /* Change color of new tab button. */
 .tabs-newtab-button, #new-tab-button { fill: lightslategrey !important; opacity: 1 !important }
 
-/* remove unwanted context menu entries */
+/* remove unwanted buttons and context entries */
 #context-sendpagetodevice, #context-sep-sendpagetodevice,
 #context-sendlinktodevice, #context-sep-sendlinktodevice,
-#context_sendTabToDevice, #context_sendTabToDevice_separator {
+#context_sendTabToDevice, #context_sendTabToDevice_separator,
+#context-back image,
+#context-forward image,
+#context-reload image,
+#context-stop image,
+#context-bookmarkpage image,
+#context-navigation,
+#context-sep-navigation,
+#forward-button image, #back-button image, #home-button{
   display: none !important;
+}
+

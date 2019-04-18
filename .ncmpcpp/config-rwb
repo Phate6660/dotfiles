@@ -7,9 +7,9 @@ mpd_music_dir = "/home/valley/Music"
 mpd_connection_timeout = "5"
 mpd_crossfade_time = "5"
 
-execute_on_song_change = "~/.ncmpcpp/art.sh"
+execute_on_song_change = "~/.ncmpcpp/art.sh && notify-send.sh "♫ Now Playing ♫" "$(echo -e "Progress: $(mpc | grep "\[" | cut -c 18-29 | sed 's/ *//g')"\\n"Year: $(mpc -f "%date%" | head -n1)"\\n"Genre: $(mpc -f "%genre%" | head -n1 | cut -f1 -d";")"\\n"Song: $(mpc -f "%title%" | head -n1)"\\n"Album: $(mpc -f "%album%" | head -n1)"\\n"Artist: $(mpc -f "%artist%" | head -n1)"\\n"Track (Album): $(ncmpcpp --quiet --current-song "%N")/$(mpc ls "$(ncmpcpp --quiet --current-song "%D")" | sed 's@.*/@@' | sed "s/[^0-9]//g" | sed -r '/^\s*$/d' | sort -r | head -n1 | cut -c 1-2)"\\n"Track (Playlist): $(mpc | grep "\[" | cut -c 12-18)")" --icon=/tmp/cover.png"
 
-#mpd_communication_mode = "notifications" (polling/notifications)
+# mpd_communication_mode = "notifications" (polling/notifications)
 
 audio_output {
 type "fifo"
@@ -68,7 +68,6 @@ centered_cursor = "no"
 #progressbar_look = "___"
 #progressbar_look = "___"
 progressbar_look = "▉▉▉"
-progressbar_boldness = "no"
 #progressbar_elapsed_boldness = "no"
 default_place_to_search_in = "database" (database/playlist)
 user_interface = "alternative" (classic/alternative)
@@ -124,11 +123,9 @@ state_flags_color = "white"
 main_window_color = "blue"
 #color1 = "red"
 #color2 = "blue"
-main_window_highlight_color = "white"
 progressbar_color = "black"
 progressbar_elapsed_color = "cyan"
 statusbar_color = "red"
 alternative_ui_separator_color = "white"
-active_column_color = "white"
 #window_border_color = "green"
 active_window_border = "red"

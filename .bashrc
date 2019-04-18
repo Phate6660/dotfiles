@@ -13,11 +13,11 @@ PS1="\[$(tput bold)\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;99m\]\@\[$(tpu
 #############
 
 # Add extra directories to PATH.
-export PATH=$PATH:~/bin:~/Scripts:/home/valley/.cargo/bin
+export PATH=$PATH:~/bin:~/Scripts:/home/valley/.cargo/bin:/home/valley/.gem/ruby/2.6.0/bin
 
 # Set tar to use max compression
-export GZIP=-9
-export XZ_OPT=-9
+# export GZIP=-9
+# export XZ_OPT=-9
 
 # Allow filet top open files.
 export FILET_OPENER="xdg-open"
@@ -33,15 +33,12 @@ quotes () {
 	printf "\"I don't base my life upon fear about what might happen tomorrow. I live for the day. I seize the day.\"\n\n- Peter Steele" | tewisay -f blank
 }
 
-# Define alias for Neofetch.
-alias neofetch="clear; tewisay -f blank '$(neofetch --color_blocks off --backend off | sed '/^\s*$/d')'"
+# Define alias for ufetch.
+alias neofetch="ufetch-arch | tewisay -f blank"
 
 ##################################
 # Autostart at terminal startup. #
 ##################################
-
-# Fetch OS info
-paste -d " " <(echo "$(neofetch)") <(echo "$(quotes)")
 
 vpnstat () {
 	if systemctl is-active --quiet pvpn-fast-restart.timer
@@ -50,15 +47,15 @@ vpnstat () {
 	fi
 
 	if systemctl is-active --quiet pvpn-fast
-		then status="ProtonVPN is running ($(curl --silent http://ipecho.net/plain)), and will restart in ""$time""."
-		else status="ProtonVPN is off ($(curl --silent http://ipecho.net/plain)), you should really turn it on -_-."
+		then status="$(echo "ProtonVPN is running ($(curl --silent http://ipecho.net/plain)), and will restart in \"$time\"". | tewisay -f blank)"
+		else status="$(echo "ProtonVPN is off ($(curl --silent http://ipecho.net/plain)), you should really turn it on -_-." | tewisay -f blank)"
 	fi
 	
 	echo "$status"
 }
 
 # Display VPN status.
-vpnstat
+# vpnstat
 
 # Source some VTE bullshit.
 source /etc/profile.d/vte.sh
@@ -73,17 +70,11 @@ source /usr/share/doc/find-the-command/ftc.bash
 eval "$(thefuck --alias)"
 
 # For mcfly
-if [[ -f /home/valley/downloads/mcfly-v0.3.1-x86_64-unknown-linux-gnu.tar-1/mcfly.bash ]]; then
-  source /home/valley/downloads/mcfly-v0.3.1-x86_64-unknown-linux-gnu.tar-1/mcfly.bash
-fi
+source /usr/share/doc/mcfly/mcfly.bash
 
 #############
 # Functions #
 #############
-
-clearfetch () {
-	paste -d " " <(echo "$(neofetch)") <(echo "$(quotes)")
-}
 
 pipe () {
 	clear
@@ -161,16 +152,6 @@ spliturl () {
 	echo
 }
 
-... () {
-	local arg=${1:-1};
-	local dir=""
-	while [ "$arg" -gt 0 ]; do
-		dir="../$dir"
-		arg=$(($arg - 1));
-	done
-	cd $dir >&/dev/null || exit
-}
-
 cdate () {
 	echo ""
 	cal | sed "s/^/ /;s/$/ /;s/ $(date +%e) / $(date +%e | sed 's/./#/g') /"
@@ -192,21 +173,6 @@ who_am_i () {
 	echo ""
 	id=$(id -un)
 	echo "You are ""$id""."
-	echo ""
-}
-
-tor_check () {
-	echo ""
-	echo "This doesn't test if any of your programs are actually connected, it just tests to see if your Tor client is fuctional."
-	echo "Would you like me to clear your terminal before displaying results? (yes/no)"
-	read answer
-	if [ "$answer" = "yes" ]; then 
-		clear
-	else 
-		echo ""
-	fi
-	web=$(torsocks w3m -dump check.torproject.org)
-	echo "$web"
 	echo ""
 }
 
@@ -279,28 +245,6 @@ type_function () {
 	fi
 }
 
-speedtest () {
-	clear
-	{
-	echo -e "VPN OFF | Date: $(date)\n-------"
-	speedtest-cli --secure --no-upload
-	echo ""
-	} >> ~/speedtest.log
-	sed -r -i.bak 's/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/\[IP REDACTED\]/g' ~/speedtest.log
-	cat ~/speedtest.log
-}
-
-speedtestvpn () {
-	clear
-	{
-	echo -e "VPN ON | Date: $(date)\n------"
-	speedtest-cli --secure --no-upload
-	echo ""
-	} >> ~/speedtest.log
-	sed -r -i.bak 's/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/\[IP REDACTED\]/g' ~/speedtest.log
-	cat ~/speedtest.log
-}
-
 # Print files in directory with extra info. Requires 'exa' package.
 alias ls='clear; exa -lFha'
 
@@ -318,14 +262,14 @@ myinfo () {
 	curl ifconfig.co/city
 }
 
-display_center(){
+display_center (){
     columns="$(tput cols)"
     while IFS= read -r line; do
         printf "%*s\n" $(( (${#line} + columns) / 2)) "$line"
     done < "$1"
 }
 
-display_right(){
+display_right (){
     columns="$(tput cols)"
     while IFS= read -r line; do
         printf "%*s\n" $columns "$line"
@@ -337,15 +281,56 @@ muset () {
 	tmux new-session -s "Music" "bash"
 }
 
+speed_fs () {
+	fastest="$(\cat speedtest.log | grep Download | sed 's/.Download\:\ 24.96\ Mbit\/s//g' | sed '/^\s*$/d' | sort -Vr | head -n1 | sed 's/Download\:\ //g')"
+	slowest="$(\cat speedtest.log | grep Download | sed 's/.Download\:\ 24.96\ Mbit\/s//g' | sed '/^\s*$/d' | sort -Vr | tail -n1 | sed 's/Download\:\ //g')"
+	med1="$(\cat speedtest.log | grep Download | sed 's/.Download\:\ 24.96\ Mbit\/s//g' | sed '/^\s*$/d' | sort -Vr | sed 's/Download\:\ //g' | sed 's/Mbit\/s//g' | xargs | sed 's/ / \+ /g' | bc)"
+	med2="$(\cat speedtest.log | grep Download | sed 's/.Download\:\ 24.96\ Mbit\/s//g' | sed '/^\s*$/d' | sort -Vr | sed 's/Download\:\ //g' | sed 's/Mbit\/s//g' | wc -l)"
+	med3="$(echo "$med1 / $med2" | bc)"
+	echo -e "\nYour fastest speed test result is \"$fastest\".\n\nYour average speed test result is \"$med3 Mbit/s\".\n\nYour slowest speed test result is \"$slowest\".\n"
+}
+
+hmm () {
+	artists="$(echo "$(\cat ~/artists | wc -l) artists.")"
+	albums="$(echo "$(mpc list Album | sed '/^\s*$/d' | wc -l) albums.")"
+	songs="$(echo "$(mpc list Title | sed '/^\s*$/d' | wc -l) songs.")"
+	size="$(echo Which uses up "$(du -hs ~/Music | cut -c 1-4)"B of storage.)"
+	amount="$(echo "Also, you have played $(w3m -dump https://libre.fm/user/phate6660/stats | grep Total | sed "s/[^0-9]//g") complete songs.")"
+	tewisay -f blank "$(echo -e "You have:\n---------\n$artists\n$albums\n$songs\n\n$size\n$amount\n")"
+}
+
+list () {
+	shopt -s nullglob
+	for f in *; do
+		echo "$f"
+	done
+}
+
+calc () {
+	python -c "print("$1")"
+}
+
 ###########
 # Aliases #
 ###########
+
+# ...
+alias chtnan="w3m -dump https://www.nano-editor.org/dist/latest/cheatsheet.html"
+
+# Find class name of a running program
+alias wmclass="xprop | grep WM_CLASS"
+
+# oblivion
+alias oblivion="env WINEPREFIX='/home/valley/.wine' wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/valley/.wine/dosdevices/c:/ProgramData/Microsoft/Windows/Start\\ Menu/Programs/GOG.com/The\\ Elder\\ Scrolls\\ IV\\ -\\ Oblivion/The\\ Elder\\ Scrolls\\ IV\\ -\\ Oblivion.lnk"
 
 # ...
 alias smol="filet"
 
 # ...
 alias fucking="sudo"
+
+# Alias for scli.
+alias scli="scli -u +19894727282 --enable-notifications=true --save-history=true"
 
 # Make 'clear' actually clear the damn terminal. -_-
 alias clear='printf "\033c"'
@@ -418,11 +403,53 @@ alias alarm="tmux new-session -s \"School Alarm\" \"termdown -a -b -c 10 -f epic
 # Launch my alarm (general).
 alias alarm2="termdown -a -b -c 10 -f epic -q 10 -v en-us+f4 $2"
 
+# Cheat sheet for Linux commands.
+alias cheat='cd ~/Scripts; ./cheat'
+
+# Color testing for terminal.
+alias colortest='clear; bash ~/Scripts/colortest.sh'
+
+# Color testing for terminal... overkill python edition.
+alias colortest-overkill='clear; perl ~/Scripts/colortest-overkill'
+
+# Launch Youtube script with single command.
+alias youtube='cd ~/Scripts; ./youtube'
+
+# Make ping pretty.
+alias ping='bash /home/valley/Scripts/prettyping'
+
 # Kill tmux easier.
 alias texit='tmux kill-server'
 
 # List tmux sessions easier.
 alias tls='tmux ls'
+
+# Unified menu for all configs.
+alias confmenu='clear; bash ~/Scripts/confmenu'
+
+# Set title for BASH terminals.
+alias title='. /home/valley/bin/title'
+
+# ???
+alias 0w0='clear; cat ~/.trap'
+
+# ???
+alias 0s0='clear; cat ~/.haha'
+
+# ???
+alias 0x0='clear; cat ~/.dead'
+
+# ???
+alias 0m0='clear; cat ~/.mikasa'
+
+# ???
+alias 0i0='clear; cat ~/.mirror'
+
+# ???
+alias 0l0='clear; cat ~/.loli'
+
+# ???
+alias 0b0='clear; cat ~/.beserk'
 
 # Search DDG from terminal with Tor.
 alias ddgr-tor='torsocks --isolate ddgr --ducky --unsafe --noua'
@@ -432,10 +459,6 @@ alias tors='source torsocks on'
 
 # Disable Tor for the shell.
 alias tors-off='source torsocks off'
-
-# Speedtest with extra options.
-alias speed='speedtest'
-alias vpnspeed='speedtestvpn'
 
 # Whoami.
 alias whoami='who_am_i'
@@ -447,10 +470,12 @@ alias torcheck='tor_check'
 alias ss='echo ""; sudo netstat -plnt; echo ""'
 
 # Make using github easier.
-alias ready='git add .'
-alias commit='git commit -m "Add existing file."'
+alias add='git add .'
+alias commit='git commit -S -m \"Add existing file.\"'
 alias push='git push origin master'
-alias pull='git pull https://github.com/Phate6660/dotfiles'
+pull () {
+	git pull https://github.com/Phate6660/$(printf '%q\n' "${PWD##*/}")
+}
 
 # ...
 alias flife='clear; while :; do printf "%-10s\n" "fuck my life" | lolcat -a && printf "%115s\n" "fuck my life" | lolcat -a && printf "%226s\n" "fuck my life" | lolcat -a; done'
@@ -465,6 +490,7 @@ alias email='clear; display_center ~/.email | lolcat -a'
 alias umus="sudo mount --bind '/run/media/valley/Music and Pics/Music' ~/Music/Music"
 alias umus2="sudo mount --bind '/run/media/valley/music-2/Music' ~/Music/Music-2"
 alias umus3="sudo mount --bind '/run/media/valley/Anime and Music/Music' ~/Music/Music-3"
+alias umus4="sudo mount --bind '/run/media/valley/BD-Rips/Music' ~/Music/Music-4"
 
 # Required 'pwgen' package.
 alias mksec='mkpasswd'
@@ -503,6 +529,9 @@ alias lsmus='clear; cat ~/artists | tewisay'
 # Save list of artists.
 alias saveart="mpc list Artist | sed '/^\s*$/d' > ~/artists"
 
+# Run echo as root so that other commands (that require root) don't need to.
+alias secho="sudo echo -e '\nRoot commands will not require any passwords for a limited amount of time.\n'"
+
 # Display cheat sheet for fff.
 alias fcheat="echo -e '\n$(\cat ~/.fff-cheat)\n'"
 
@@ -512,7 +541,16 @@ alias gotop='gotop -c monokai -pas'
 # View clipboard contents. Requires 'xclip'.
 alias vclip="xclip -o"
 
+# ...
+alias mpvipc="python3 /home/valley/downloads/mpv-remote-app/server/server.py -p 20000 -s /tmp/mpvsocket password & mpv --input-ipc-server /tmp/mpvsocket"
+
+#...
+alias randjohn="mpv --no-resume-playback https://mityurl.com/y/iFwl/r"
+
 ### For /etc/hosts related stuff ###
+
+# Alias to view preview hosts file.
+alias vhosts='cat /etc/hosts > ~/hosts-preview; geany ~/hosts-preview'
 
 # Alias to show amount of domains being blocked with /etc/hosts.
 alias lshosts="echo ""$(\cat /etc/hosts | grep -v '^#' | wc -l) domains are being blocked with /etc/hosts."""
@@ -585,6 +623,9 @@ alias timers='systemctl list-timers --all'
 
 ### Requires protonvpn-cli. ###
 
+# Restart pvpn-fast, check status, and optionally check speed.
+alias pvre="sudo systemctl restart pvpn-fast; pvstat; read -p 'Press [ENTER] to commence the speed test.'; speed vpn"
+
 # Show status of VPN.
 alias pvstat='clear; sudo sudo pvpn --status'
 
@@ -633,6 +674,37 @@ alias upyay='clear; yay -Syu'
 
 # Refresh database.
 alias refresh="sudo pacman -Syyu"
+
+### emacs ###
+
+## Requires 'emacs' package. ##
+
+# Play Tetris
+alias tetris='emacs -q --no-splash -f tetris'
+
+# Play Pong
+alias pong='emacs -q --no-splash -f pong'
+
+# Zone Mode
+alias zone='emacs -q --no-splash -f zone'
+
+# Talk to a Psychotherapist.
+alias therapy='emacs -q --no-splash -f doctor'
+
+# Butterfly mode
+alias butterfly='emacs -q --no-splash -f butterfly'
+
+# Play 5x5
+alias 5x5='emacs -q --no-splash -f 5x5'
+
+# Play the game of Life
+alias life='emacs -q --no-splash -f life'
+
+# Play Blackbox
+alias blackbox='emacs -q --no-splash -f blackbox'
+
+# Play Snake
+alias snake='emacs -q --no-splash -f snake'
 
 ###########################
 # Environmental Variables #

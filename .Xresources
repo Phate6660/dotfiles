@@ -1,11 +1,12 @@
 URxvt.perl-lib:/usr/lib/urxvt/perl/
-URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select,matcher
+URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select,matcher,fullscreen
 URxvt.url-select.launcher: firefox-nightly
 URxvt.url-select.underline: true
 URxvt.matcher.button: 1
 URxvt.keysym.M-u: perl:url-select:select_next
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
 URxvt.keysym.M-s: perl:keyboard-select:search
+urxvt*keysym.F11: perl:fullscreen:switch
 
 !- Font Render
 Xft.dpi:96
