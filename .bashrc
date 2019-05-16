@@ -25,17 +25,6 @@ export FILET_OPENER="xdg-open"
 # Set Nano as the default editor.
 export EDITOR=nano
 
-quotes () {
-	printf "\"Arguing that you don't care about the right to privacy because you have nothing to hide is no different than saying you don't care about free speech because you have nothing to say.\"\n\n- Edward Snowden (on Reddit)\n" | tewisay -f blank
-	printf "\"We all need places where we can go to explore without the judgmental eyes of other people being cast upon us,\nonly in a realm where we're not being watched can we really test the limits of who we want to be.\nIt's really in the private realm where dissent, creativity and personal exploration lie.\"\n\n- Glenn Greenwald (in Huffington Post)\n" | tewisay -f blank
-	printf "\"The NSA has built an infrastructure that allows it to intercept almost everything.\nWith this capability, the vast majority of human communications are automatically ingested without targeting.\nIf I wanted to see your emails or your wife's phone, all I have to do is use intercepts.\nI can get your emails, passwords, phone records, credit cards.\nI don't want to live in a society that does these sort of things...\nI do not want to live in a world where everything I do and say is recorded.\nThat is not something I am willing to support or live under.\"\n\n- Edward Snowden (in The Guardian)\n" | tewisay -f blank
-	printf "\"He who is unable to live in society, or who has no need because he is sufficient for himself, must be either a beast or a god.\"\n\n- Aristotle" | tewisay -f blank
-	printf "\"I don't base my life upon fear about what might happen tomorrow. I live for the day. I seize the day.\"\n\n- Peter Steele" | tewisay -f blank
-}
-
-# Define alias for ufetch.
-alias neofetch="ufetch-arch | tewisay -f blank"
-
 ##################################
 # Autostart at terminal startup. #
 ##################################
@@ -184,10 +173,6 @@ randnum () {
 	echo -e "\nYour random number is $(shuf -i"$num1"-"$num2" -n1)."
 }
 
-# WIP img viewer.
-# Stuck this alias in Functions section due to one of the functions requiring it.
-alias img='clear; bash /home/valley/Scripts/img'
-
 neoscreen () {
 	if test -e '/tmp/cover.png'; then icon='/tmp/cover.png'; else icon='/home/valley/downloads/yenpinup_by_raikoart-dcqhflq-35.png'; fi
 	cd '/home/valley/Pictures/unixporn/' || exit
@@ -310,6 +295,47 @@ calc () {
 	python -c "print("$1")"
 }
 
+lsiso () {
+	echo -e "ISOs\n----\n$(echo "$HOME/downloads/ISOs/" | xargs du -bh | sort -d | head -n1)\n$(find "$HOME/downloads/ISOs/" -iname "*.iso" | xargs du -bh)"
+}
+
+which_term(){
+    term=$(perl -lpe 's/\0/ /g' \
+           /proc/$(xdotool getwindowpid $(xdotool getactivewindow))/cmdline)
+
+    ## Enable extended globbing patterns
+    shopt -s extglob
+    case $term in
+        ## If this terminal is a python or perl program,
+        ## then the emulator's name is likely the second 
+        ## part of it
+        */python*|*/perl*    )
+         term=$(basename "$(readlink -f $(echo "$term" | cut -d ' ' -f 2))")
+         ;;
+        ## The special case of gnome-terminal
+        *gnome-terminal-server* )
+          term="gnome-terminal"
+        ;;
+        ## For other cases, just take the 1st
+        ## field of $term
+        * )
+          term=${term/% */}
+        ;;
+     esac
+     echo "$term"
+}
+
+wttr() {
+    # change Paris to your default location
+    local request="wttr.in/${1-47.26.85.3?u}"
+    [ "$COLUMNS" -lt 125 ] && request+='?n'
+    curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
+}
+
+rand () {
+    shuf -i $1-$2 -n 1
+}
+
 ###########
 # Aliases #
 ###########
@@ -329,14 +355,11 @@ alias smol="filet"
 # ...
 alias fucking="sudo"
 
-# Alias for scli.
-alias scli="scli -u +19894727282 --enable-notifications=true --save-history=true"
-
 # Make 'clear' actually clear the damn terminal. -_-
 alias clear='printf "\033c"'
 
 # So I don't have to use 'clear' every time.
-alias cat='clear; cat'
+alias cat='bat'
 
 # BASH cheat sheet.
 alias bcheat="curl 'https://catonmat.net/ftp/readline-emacs-editing-mode-cheat-sheet.txt'"
@@ -345,7 +368,11 @@ alias bcheat="curl 'https://catonmat.net/ftp/readline-emacs-editing-mode-cheat-s
 alias sl='sl -ac | lolcat'
 
 # Process table in human readable format.
-alias ps='ps auxf'
+alias ps='procs'
+
+alias pst='procs -t'
+
+alias psu="procs valley"
 
 # Search for a specific running process. E.G. 'psg PROCESS'.
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
@@ -430,27 +457,6 @@ alias confmenu='clear; bash ~/Scripts/confmenu'
 # Set title for BASH terminals.
 alias title='. /home/valley/bin/title'
 
-# ???
-alias 0w0='clear; cat ~/.trap'
-
-# ???
-alias 0s0='clear; cat ~/.haha'
-
-# ???
-alias 0x0='clear; cat ~/.dead'
-
-# ???
-alias 0m0='clear; cat ~/.mikasa'
-
-# ???
-alias 0i0='clear; cat ~/.mirror'
-
-# ???
-alias 0l0='clear; cat ~/.loli'
-
-# ???
-alias 0b0='clear; cat ~/.beserk'
-
 # Search DDG from terminal with Tor.
 alias ddgr-tor='torsocks --isolate ddgr --ducky --unsafe --noua'
 
@@ -462,6 +468,9 @@ alias tors-off='source torsocks off'
 
 # Whoami.
 alias whoami='who_am_i'
+
+# Boi.
+alias boi='boi_function'
 
 # Tor check.
 alias torcheck='tor_check'
@@ -509,6 +518,9 @@ alias retor='systemctl restart tor'
 # Alias for youtube-dl.
 alias ytdl='youtube-dl'
 
+# youtube-viewer
+alias yt="youtube-viewer"
+
 # ...
 alias dbstat='while :; do clear && echo -e "Music Stats\n-----------\n" && mpc stats; sleep 60; done'
 
@@ -529,9 +541,6 @@ alias lsmus='clear; cat ~/artists | tewisay'
 # Save list of artists.
 alias saveart="mpc list Artist | sed '/^\s*$/d' > ~/artists"
 
-# Run echo as root so that other commands (that require root) don't need to.
-alias secho="sudo echo -e '\nRoot commands will not require any passwords for a limited amount of time.\n'"
-
 # Display cheat sheet for fff.
 alias fcheat="echo -e '\n$(\cat ~/.fff-cheat)\n'"
 
@@ -540,12 +549,6 @@ alias gotop='gotop -c monokai -pas'
 
 # View clipboard contents. Requires 'xclip'.
 alias vclip="xclip -o"
-
-# ...
-alias mpvipc="python3 /home/valley/downloads/mpv-remote-app/server/server.py -p 20000 -s /tmp/mpvsocket password & mpv --input-ipc-server /tmp/mpvsocket"
-
-#...
-alias randjohn="mpv --no-resume-playback https://mityurl.com/y/iFwl/r"
 
 ### For /etc/hosts related stuff ###
 
@@ -658,7 +661,7 @@ alias upgrade='clear; sudo pacman -Syu'
 alias install='sudo pacman -S'
 
 # Make installing packages easier (AUR Edition).
-alias aur='yay -S'
+alias aur='trizen -S'
 
 # Make removing packages easier.
 alias remove='sudo pacman -Rns'
@@ -667,13 +670,19 @@ alias remove='sudo pacman -Rns'
 alias searchfor='pacman -Ss'
 
 # Make searching AUR for packages easier.
-alias searchaur='yay -Ss'
+alias searchaur='trizen -Ss'
 
 # Update AUR packages (as well as the rest of the packages in your system.) Requires 'yay' package (from Github).
-alias upyay='clear; yay -Syu'
+alias upyay='clear; trizen -Syu'
 
 # Refresh database.
 alias refresh="sudo pacman -Syyu"
+
+# Check for orphans or un-needed packages.
+alias orphans="pacman -Qdt"
+
+# Remove orphans or un-needed packages.
+alias rmorph="sudo pacman -Rns $(pacman -Qdtq)"
 
 ### emacs ###
 
@@ -730,4 +739,3 @@ export RTV_EDITOR='nano'
 # Increase history size.
 export HISTSIZE=10000
 export HISTFILESIZE=120000
-
