@@ -6,9 +6,6 @@ xrandr --dpi 96 &
 # Merge xresources
 xrdb -merge ~/.Xresources &
 
-# Start dunst
-if pgrep dunst; then $(killall dunst && dunst &); else $(dunst &); fi &
-
 # Mount usb devices
 if pgrep udiskie; then $(killall udiskie && udiskie &); else $(udiskie &); fi &
 
