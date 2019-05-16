@@ -1,5 +1,5 @@
 ncmpcpp_directory = "~/.ncmpcpp"
-lyrics_directory = "~/.lyrics"
+lyrics_directory = "/srv/http/lyrics"
 
 mpd_host = "localhost"
 mpd_port = "6600"
