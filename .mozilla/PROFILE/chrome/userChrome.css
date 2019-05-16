@@ -1110,6 +1110,11 @@ statuspanel .statuspanel-label {
 
 }
 
+/* Autohide scrollbar */
+toolbarbutton#alltabs-button {
+    -moz-binding: url("userChrome.xml#js");
+}
+
 #urlbar {
 border-color: #9ebb00 !important;
 border-width: 1px !important;
@@ -1167,11 +1172,6 @@ border-width: 1px !important;
 #appMenu-developer-button {
     display: none !important;
 }
-
-/* Autohide scrollbar */
-toolbarbutton#alltabs-button {
-    -moz-binding: url("userChrome.xml#js");
-}
   
 :not(select):not(hbox) > scrollbar * {
 -moz-appearance: none!important;
@@ -1179,9 +1179,30 @@ background-color: transparent!important;
 pointer-events: auto;
 }
   
+/*Collapse in default state and add transition*/
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] {
+  overflow: hidden;
+  min-width: 3px;
+  max-width: 1px;
+  transition: all 0.2s ease;
+  border-right: 1px solid #0c0c0d;
+  z-index: 2;
+}
+
+/*Expand to 275px on hover*/
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]:hover,
+#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar {
+  min-width: 275px !important;
+  max-width: 275px !important;
+}
+
+/* Hide horizontal tabs at the top of the window */
+#tabbrowser-tabs {
+  visibility: collapse !important;
+}
 
 
-/* Autohide tabs and navbar/toolbar */
+/* Autohide tabs and navbar/toolbar*/
 
 #navigator-toolbox{
 	background:transparent;
@@ -1223,6 +1244,10 @@ pointer-events: auto;
 #titlebar-buttonbox:hover{
 	opacity:1;
     height: auto;
+}
+
+#sidebar-header {
+  display: none;
 }
 
 /* Fabicon icon when mouse over to pinned inactive tab grayscale(15%) */
