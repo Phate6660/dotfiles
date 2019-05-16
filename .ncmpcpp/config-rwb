@@ -7,7 +7,7 @@ mpd_music_dir = "/home/valley/Music"
 mpd_connection_timeout = "5"
 mpd_crossfade_time = "5"
 
-execute_on_song_change = "~/.ncmpcpp/art.sh && notify-send.sh "♫ Now Playing ♫" "$(echo -e "Progress: $(mpc | grep "\[" | cut -c 18-29 | sed 's/ *//g')"\\n"Year: $(mpc -f "%date%" | head -n1)"\\n"Genre: $(mpc -f "%genre%" | head -n1 | cut -f1 -d";")"\\n"Song: $(mpc -f "%title%" | head -n1)"\\n"Album: $(mpc -f "%album%" | head -n1)"\\n"Artist: $(mpc -f "%artist%" | head -n1)"\\n"Track (Album): $(ncmpcpp --quiet --current-song "%N")/$(mpc ls "$(ncmpcpp --quiet --current-song "%D")" | sed 's@.*/@@' | sed "s/[^0-9]//g" | sed -r '/^\s*$/d' | sort -r | head -n1 | cut -c 1-2)"\\n"Track (Playlist): $(mpc | grep "\[" | cut -c 12-18)")" --icon=/tmp/cover.png"
+execute_on_song_change = "~/.ncmpcpp/art.sh && $(mpc -f "%artist% - (%date%) %album% - %title%" | head -n1 | dzen2 -p 3 -fg "#FFFFFF" -bg "#0000d0" -h 14 -fn "Misc Termsynu")"
 
 # mpd_communication_mode = "notifications" (polling/notifications)
 
