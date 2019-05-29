@@ -326,8 +326,8 @@ which_term(){
 }
 
 wttr() {
-    # change Paris to your default location
-    local request="wttr.in/${1-47.26.85.3?u}"
+    # change [REDACTED] to your default location
+    local request="wttr.in/${1-[REDACTED]?u}"
     [ "$COLUMNS" -lt 125 ] && request+='?n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
