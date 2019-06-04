@@ -25,6 +25,7 @@ export HISTCONTROL="$HISTCONTROL erasedups:ignoreboth"
 
 ### Functions
 
+# Get local weather in your terminal.
 wttr() {
     # change [REDACTED] to your default location. 
     # It can be anything from an IP Address, to coordinates, to just the name of a city.
@@ -33,15 +34,19 @@ wttr() {
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
+# "How Much Music": This is useless if you don't use mpd/mpc for music.
+# Change directory in "size" to your music folder to know how much storage your music uses.
+# Remove "amount" if you don't use libre.fm for scrobbling. Else change "phate6660" to your libre.fm username.
 hmm () {
     artists="$(echo "$(mpc list Artist | sed '/^\s*$/d' | wc -l) artists.")"
     albums="$(echo "$(mpc list Album | sed '/^\s*$/d' | wc -l) albums.")"
     songs="$(echo "$(mpc list Title | sed '/^\s*$/d' | wc -l) songs.")"
     size="$(echo Which uses up "$(du -hs ~/Music | cut -c 1-4)"B of storage.)"
     amount="$(echo "Also, you have played $(w3m -dump https://libre.fm/user/phate6660/stats | grep Total | sed "s/[^0-9]//g") complete songs.")"
-    echo -e "You have:\n---------\n$artists\n$albums\n$songs\n\n$size\n$amount\n"
+    echo -e "\nYou have:\n---------\n$artists\n$albums\n$songs\n\n$size\n$amount\n"
 }
 
+# Update your Gentoo system.
 update () {
     # This if statement was added as it is gentoo-netiquette to sync with repos ONCE per day. 
     # Any more will result in a temp IP ban. (I have a bad habit of updating multiple times a day.)
@@ -56,6 +61,7 @@ update () {
     sudo revdep-rebuild -i
 }
 
+# cd on exit for "fff".
 f() {
     fff "$@"
     cd "$(cat "${XDG_CACHE_HOME:=${HOME}/.cache}/fff/.fff_d")"
