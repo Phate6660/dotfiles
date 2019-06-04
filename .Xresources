@@ -1,6 +1,5 @@
-URxvt.perl-lib:/usr/lib/urxvt/perl/
 URxvt.perl-ext-common: default,clipboard,url-select,keyboard-select,matcher,fullscreen
-URxvt.url-select.launcher: firefox-nightly
+URxvt.url-select.launcher: firefox-bin
 URxvt.url-select.underline: true
 URxvt.matcher.button: 1
 URxvt.keysym.M-u: perl:url-select:select_next
@@ -10,7 +9,6 @@ urxvt*keysym.F11: perl:fullscreen:switch
 
 !- Font Render
 Xft.dpi:96
-URxvt.font:xft:Misc Termsynu:size=10
 URxvt.letterSpace: 0
 URxvt.antialias: false
 URxvt.autohint:  false
@@ -68,6 +66,8 @@ URxvt.color13: #b194a6
 URxvt.color14: #8d8ea2
 URxvt.color15: #bfbfbf
 URxvt.cursorColor: #ebac54
+UXTerm*background: black
+UXTerm*foreground: green
 
 !- Underline/Highlights
 URxvt.underlineColor: #333333
