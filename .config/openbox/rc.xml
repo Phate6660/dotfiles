@@ -10,7 +10,7 @@
     <focusNew>yes</focusNew>
     <!-- always try to focus new windows when they appear. other rules do
        apply -->
-    <followMouse>yes</followMouse>
+    <followMouse>no</followMouse>
     <!-- move focus to a window when you move the mouse into it -->
     <focusLast>yes</focusLast>
     <!-- focus the last used window when changing desktops, instead of the one
@@ -42,7 +42,7 @@
                   'Active' - where the active window is -->
   </placement>
   <theme>
-    <name>M0nst4-sky</name>
+    <name>Syscrash</name>
     <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
@@ -57,7 +57,7 @@
     <keepBorder>yes</keepBorder>
     <animateIconify>yes</animateIconify>
     <font place="ActiveWindow">
-      <name>Misc Termsynu</name>
+      <name>Monospace</name>
       <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
@@ -66,7 +66,7 @@
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="InactiveWindow">
-      <name>Misc Termsynu</name>
+      <name>Monospace</name>
       <size>8</size>
       <!-- font size in points -->
       <weight>Normal</weight>
@@ -75,7 +75,7 @@
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="MenuHeader">
-      <name>Misc Termsynu</name>
+      <name>Monospace</name>
       <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
@@ -84,7 +84,7 @@
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="MenuItem">
-      <name>Misc Termsynu</name>
+      <name>Monospace</name>
       <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
@@ -93,16 +93,16 @@
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="ActiveOnScreenDisplay">
-      <name>Misc Termsynu</name>
+      <name>Monospace</name>
       <size>9</size>
       <!-- font size in points -->
-      <weight>Normal</weight>
+      <weight>Bold</weight>
       <!-- 'bold' or 'normal' -->
       <slant>Normal</slant>
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="InactiveOnScreenDisplay">
-      <name>Misc Termsynu</name>
+      <name>Monospace</name>
       <size>9</size>
       <!-- font size in points -->
       <weight>Normal</weight>
@@ -120,15 +120,20 @@
 
        use obconf if you want to change these without having to log out
        and back in -->
-    <number>4</number>
+    <number>9</number>
     <firstdesk>1</firstdesk>
     <names>
       <name>Music</name>
-      <name>Main</name>
-      <name>Alarm</name>
-      <name>School</name>
+      <name>Web</name>
+      <name>Programming</name>
+      <name>Messaging</name>
+      <name>Extra 1</name>
+      <name>Extra 2</name>
+      <name>Extra 3</name>
+      <name>Extra 4</name>
+      <name>Extra 5</name>
     </names>
-    <popupTime>875</popupTime>
+    <popupTime>0</popupTime>
     <!-- The number of milliseconds to show the popup for when switching
        desktops.  Set this to 0 to disable the popup. -->
   </desktops>
@@ -159,16 +164,16 @@
     <right>0</right>
   </margins>
   <dock>
-    <position>Top</position>
+    <position>TopLeft</position>
     <!-- (Top|Bottom)(Left|Right|)|Top|Bottom|Left|Right|Floating -->
     <floatingX>0</floatingX>
     <floatingY>0</floatingY>
     <noStrut>no</noStrut>
-    <stacking>Normal</stacking>
+    <stacking>Above</stacking>
     <!-- 'Above', 'Normal', or 'Below' -->
-    <direction>Horizontal</direction>
+    <direction>Vertical</direction>
     <!-- 'Vertical' or 'Horizontal' -->
-    <autoHide>yes</autoHide>
+    <autoHide>no</autoHide>
     <hideDelay>300</hideDelay>
     <!-- in milliseconds (1000 = 1 second) -->
     <showDelay>300</showDelay>
@@ -182,13 +187,13 @@
     <keybind key="C-A-Left">
       <action name="GoToDesktop">
         <to>left</to>
-        <wrap>no</wrap>
+        <wrap>yes</wrap>
       </action>
     </keybind>
     <keybind key="C-A-Right">
       <action name="GoToDesktop">
         <to>right</to>
-        <wrap>no</wrap>
+        <wrap>yes</wrap>
       </action>
     </keybind>
     <keybind key="C-A-Up">
@@ -206,13 +211,13 @@
     <keybind key="S-A-Left">
       <action name="SendToDesktop">
         <to>left</to>
-        <wrap>no</wrap>
+        <wrap>yes</wrap>
       </action>
     </keybind>
     <keybind key="S-A-Right">
       <action name="SendToDesktop">
         <to>right</to>
-        <wrap>no</wrap>
+        <wrap>yes</wrap>
       </action>
     </keybind>
     <keybind key="S-A-Up">
@@ -245,93 +250,6 @@
     <keybind key="W-F4">
       <action name="GoToDesktop">
         <to>4</to>
-      </action>
-    </keybind>
-    <keybind key="W-F9">
-      <action name="ToggleDecorations"/>
-    </keybind>
-    <keybind key="W-d">
-      <action name="ToggleShowDesktop"/>
-    </keybind>
-    <!-- Keybindings for resizing windows. -->
-    <keybind key="W-A-Right">
-      <action name="ResizeRelative">
-        <left>-15%</left>
-      </action>
-    </keybind>
-    <keybind key="W-A-Left">
-      <action name="ResizeRelative">
-        <left>15%</left>
-      </action>
-    </keybind>
-    <keybind key="W-A-Up">
-      <action name="ResizeRelative">
-        <up>15%</up>
-      </action>
-    </keybind>
-    <keybind key="W-A-Down">
-      <action name="ResizeRelative">
-        <up>-15%</up>
-      </action>
-    </keybind>
-    <keybind key="C-W-Left">
-      <action name="ResizeRelative">
-        <left>15%</left>
-      </action>
-      <action name="ResizeRelative">
-        <right>-14%</right>
-      </action>
-    </keybind>
-    <keybind key="C-W-Right">
-      <action name="ResizeRelative">
-        <left>-14%</left>
-      </action>
-      <action name="ResizeRelative">
-        <right>15%</right>
-      </action>
-    </keybind>
-    <keybind key="C-W-Up">
-      <action name="ResizeRelative">
-        <up>15%</up>
-      </action>
-      <action name="ResizeRelative">
-        <down>-14%</down>
-      </action>
-    </keybind>
-    <keybind key="C-W-Down">
-      <action name="ResizeRelative">
-        <up>-14%</up>
-      </action>
-      <action name="ResizeRelative">
-        <down>15%</down>
-      </action>
-    </keybind>
-    <keybind key="C-W-equal">
-      <action name="ResizeRelative">
-        <left>10%</left>
-      </action>
-      <action name="ResizeRelative">
-        <right>10%</right>
-      </action>
-      <action name="ResizeRelative">
-        <up>10%</up>
-      </action>
-      <action name="ResizeRelative">
-        <down>10%</down>
-      </action>
-    </keybind>
-    <keybind key="C-W-minus">
-      <action name="ResizeRelative">
-        <left>-10%</left>
-      </action>
-      <action name="ResizeRelative">
-        <right>-10%</right>
-      </action>
-      <action name="ResizeRelative">
-        <up>-10%</up>
-      </action>
-      <action name="ResizeRelative">
-        <down>-10%</down>
       </action>
     </keybind>
     <!-- Keybindings for windows -->
@@ -400,338 +318,101 @@
       </action>
     </keybind>
     <!-- Keybindings for running applications -->
-    <-- %%hotkey: Firefox Nightly %% -->
+    <keybind key="W-b">
+      <action name="Execute">
+        <command>blender</command>
+      </action>
+    </keybind>
     <keybind key="W-w">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>Web-Browser</name>
-        </startupnotify>
-        <command>firefox-nightly</command>
+        <command>sudo -u ff firefox</command>
       </action>
     </keybind>
-    <-- %%hotkey: Tor Browser %% -->
-    <keybind key="W-S-w">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>Tor Browser</name>
-        </startupnotify>
-        <command>torbrowser-launcher</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Thunar %% -->
     <keybind key="W-f">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>File-Manager</name>
-        </startupnotify>
-        <command>thunar</command>
+        <command>urxvt -e fff</command>
       </action>
     </keybind>
-    <-- %%hotkey: Filezilla %% -->
     <keybind key="W-S-f">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>FTP File Manager</name>
-        </startupnotify>
-        <command>filezilla</command>
+        <command>sudo -u ff urxvt -e fff</command>
       </action>
     </keybind>
-    <-- %%hotkey: URxvt %% -->
+    <keybind key="W-g">
+      <action name="Execute">
+        <command>geany</command>
+      </action>
+    </keybind>
     <keybind key="W-t">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>URxvt</name>
-        </startupnotify>
-        <command>urxvt</command>
+        <command>uxterm</command>
       </action>
     </keybind>
     <keybind key="W-S-t">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>wtf...</name>
-        </startupnotify>
-        <command>terminator</command>
+        <command>urxvt</command>
       </action>
     </keybind>
-    <keybind key="W-A-t">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>xterm [vt340]</name>
-        </startupnotify>
-        <command>xterm -ti vt340</command>
-      </action>
-    </keybind>
-    <keybind key="C-A-t">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>Sakura</name>
-        </startupnotify>
-        <command>sakura</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Reconfigure Openbox %% -->
-    <keybind key="W-r">
-      <action name="Reconfigure"/>
-    </keybind>
-    <-- %%hotkey: RocketLauncher2 %% -->
-    <keybind key="W-S-r">
-      <action name="Execute">
-        <command>/home/valley/bin/rld2-alt</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Blender %% -->
-    <keybind key="W-b">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>Blender</name>
-        </startupnotify>
-        <command>blender</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Bitwarden %% -->
-    <keybind key="W-S-b">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>Bitwarden</name>
-        </startupnotify>
-        <command>bitwarden-desktop</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: YouTube %% -->
-    <keybind key="W-y">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>Youtube</name>
-        </startupnotify>
-        <command>urxvt -e bash /home/valley/Scripts/youtube</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: VPN Status (Notification) %% -->
-    <keybind key="W-v">
-      <action name="Execute">
-        <command>/home/valley/Scripts/vpnstat</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Play DVD (mpv) %% -->
-    <keybind key="W-A-v">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>mpv (dvd)</name>
-        </startupnotify>
-        <command>mpv dvd://</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Geany %% -->
-    <keybind key="W-g">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>Geany</name>
-        </startupnotify>
-        <command>geany</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: GNUs Not Unix Image Manipulation Program %% -->
-    <keybind key="W-S-g">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>GIMP 2.99.1</name>
-        </startupnotify>
-        <command>gimp</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Unified Conf Menu %% -->
     <keybind key="W-c">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>UCM</name>
-        </startupnotify>
-        <command>urxvt -e bash /home/valley/Scripts/confmenu</command>
+        <command>rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'</command>
       </action>
     </keybind>
-    <-- %%hotkey: Unified Script Menu %% -->
-    <keybind key="W-a">
+    <keybind key="W-S-c">
       <action name="Execute">
-        <startupnotify>
-          <enabled>true</enabled>
-          <name>USM</name>
-        </startupnotify>
-        <command>urxvt -e bash /home/valley/Scripts/scriptmenu</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Gnome Screenshot (-i) %% -->
-    <keybind key="Print">
-      <action name="Execute">
-        <command>gnome-screenshot -i</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Minecraft %% -->
-    <keybind key="W-S-m">
-      <action name="Execute">
-        <command>/home/valley/Scripts/mc</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Application Quit Warning (Notification) %% -->
-    <keybind key="C-q">
-      <action name="Execute">
-        <command>notify-send.sh "Oops." "You almost quit your program."</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Lunduke Show RSS Feed %% -->
-    <keybind key="W-l">
-      <action name="Execute">
-        <command>/home/valley/Scripts/lundukeshow</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: pkill mpv %% -->
-    <keybind key="W-S-l">
-      <action name="Execute">
-        <command>pkill mpv</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Tales of Androgyny %% -->
-    <keybind key="W-p">
-      <action name="Execute">
-        <command>java -jar "/home/valley/Games/Tales of Androgyny Linux v0.2.08.0/TalesOfAndrogyny.jar"</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Rofi %% -->
-    <keybind key="C-A-space">
-	  <action name="Execute">
-        <command>rofi -show</command>
-      </action>
-	</keybind>
-	<-- %%hotkey: Openbox Shortcuts %% -->
-	<keybind key="W-m">
-      <action name="Execute">
-        <command>dmenu_hotkeys --menu rofi --app openbox</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Systray Icon %% -->
-    <keybind key="W-s">
-      <action name="Execute">
-        <command>/home/valley/Scripts/systray-indicator</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: kill Systray Icon %% -->
-    <keybind key="W-S-s">
-      <action name="Execute">
-        <command>/home/valley/Scripts/killsystray</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Toggle xcompmgr %% -->
-    <keybind key="W-S-x">
-      <action name="Execute">
-        <command>/home/valley/Scripts/xcomp</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: oblogout %% -->
-    <keybind key="W-x">
-	  <action name="Execute">
-	    <startupnotify>
-	      <enabled>true</enabled>
-		  <name>oblogut</name>
-		</startupnotify>
-		<command>~/Scripts/obl</command>
-	</action>
-	</keybind>
-	<-- %%hotkey: Dunst %% -->
-	<keybind key="W-S-d">
-      <action name="Execute">
-        <command>dunst</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Xorg froze and I need to restart it! %% -->
-    <keybind key="C-A-Delete">
-      <action name="Execute">
-        <command>openbox --exit</command>
-      </action>
-    </keybind>
-    <!-- Music stuff. -->
-    <-- %%hotkey: Music Lyrics (Notification) %% -->
-    <keybind key="W-S-l">
-      <action name="Execute">
-        <command>/home/valley/Scripts/notify-lyrics</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Next Song %% -->
-    <keybind key="W-Right">
-      <action name="Execute">
-        <command>mpc next</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Previous Song %% -->
-    <keybind key="W-Left">
-      <action name="Execute">
-        <command>mpc prev</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Play/Pause Music %% -->
-    <keybind key="W-space">
-      <action name="Execute">
-        <command>mpc toggle</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: What am I listening to right now? %% -->
-    <keybind key="W-n">
-      <action name="Execute">
-        <command>/home/valley/Scripts/music-notify</command>
-      </action>
-    </keybind>
-    <-- %%hotkey: Clear Music Queue %% -->
-    <keybind key="W-A-c">
-      <action name="Execute">
-        <command>mpc clear</command>
+        <command>greenclip daemon</command>
       </action>
     </keybind>
     <keybind key="XF86AudioPlay">
       <action name="Execute">
-        <execute>mpc toggle</execute>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioStop">
-      <action name="Execute">
-        <execute>mpc stop</execute>
+        <command>mpc toggle</command>
       </action>
     </keybind>
     <keybind key="XF86AudioNext">
       <action name="Execute">
-        <execute>mpc next</execute>
+        <command>mpc next</command>
       </action>
     </keybind>
     <keybind key="XF86AudioPrev">
       <action name="Execute">
-        <execute>mpc prev</execute>
+        <command>mpc prev</command>
       </action>
     </keybind>
-    <keybind key="XF86AudioMute">
+    <keybind key="W-d">
       <action name="Execute">
-        <execute>pactl set-sink-mute @DEFAULT_SINK@ toggle</execute>
+        <command>bash /home/valley/scripts/general date</command>
       </action>
     </keybind>
-    <keybind key="XF86AudioLowerVolume">
+    <keybind key="C-A-space">
       <action name="Execute">
-        <execute>sh -c "pactl set-sink-mute @DEFAULT_SINK@ false ; pactl set-sink-volume @DEFAULT_SINK@ -5%"</execute>
+        <command>rofi -show run</command>
       </action>
     </keybind>
-    <keybind key="XF86AudioRaiseVolume">
+    <keybind key="W-n">
       <action name="Execute">
-        <execute>sh -c "pactl set-sink-mute @DEFAULT_SINK@ false ; pactl set-sink-volume @DEFAULT_SINK@ +5%"</execute>
+        <command>musinfo</command>
       </action>
+    </keybind>
+    <keybind key="W-m">
+      <action name="Execute">
+        <command>mpDris2</command>
+      </action>
+    </keybind>
+    <keybind key="C-A-f">
+      <action name="ToggleMaximize"/>
+    </keybind>
+    <keybind key="Print">
+      <action name="Execute">
+        <command>scrot -bz -e 'mv $f ~/pictures/scrot/'</command>
+      </action>
+    </keybind>
+    <keybind key="S-Print">
+      <action name="Execute">
+        <command>scrot -bz -e 'mv $f ~/pictures/scrot/unixporn/'</command>
+      </action>
+    </keybind>
+    <keybind key="W-r">
+      <action name="Reconfigure"/>
     </keybind>
   </keyboard>
   <mouse>
@@ -746,11 +427,6 @@
     <screenEdgeWarpMouse>false</screenEdgeWarpMouse>
     <!-- Set this to TRUE to move the mouse pointer across the desktop when
        switching due to hitting the edge of the screen -->
-    <context name="Frame">
-      <mousebind button="0x21ff73" action="Click">
-        <action name="Iconify"/>
-      </mousebind>
-    </context>
     <context name="Frame">
       <mousebind button="A-Left" action="Press">
         <action name="Focus"/>
@@ -811,7 +487,7 @@
         <action name="Move"/>
       </mousebind>
       <mousebind button="Left" action="DoubleClick">
-        <action xmlns="http://openbox.org/3.4/rc" name="ToggleMaximize"/>
+        <action name="ToggleMaximize"/>
       </mousebind>
       <mousebind button="Up" action="Click">
         <action name="if">
@@ -1097,9 +773,9 @@
     <!-- controls if icons appear in the client-list-(combined-)menu -->
     <manageDesktops>yes</manageDesktops>
     <!-- show the manage desktops section in the client-list-(combined-)menu -->
-    <applicationIcons>yes</applicationIcons>
   </menu>
-  <!--
+  <applications>
+    <!--
   # this is an example with comments through out. use these to make your
   # own rules, but without the comments of course.
   # you may use one or more of the name/class/role/title/type rules to specify
@@ -1193,18 +869,12 @@
 
   # end of the example
 -->
-  <applications>
-    <application class="Termite">
-      <decor>no</decor>
-    </application>
-    <application class="Termite">
-      <maximized>yes</maximized>
-    </application>
     <application class="URxvt">
       <decor>no</decor>
-    </application>
-    <application class="URxvt">
       <maximized>yes</maximized>
+    </application>
+    <application class="UXTerm">
+      <decor>no</decor>
     </application>
   </applications>
 </openbox_config>
