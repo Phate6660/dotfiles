@@ -1,32 +1,32 @@
-## Programs that will run after Openbox has started ##
+# Sets the DESKTOP_ENV variable to "OPENBOX"
+DESKTOP_ENV="OPENBOX"
+
+# Start udiskie and set it to automount devices
+udiskie -a &
 
 # Set dpi to 96
 xrandr --dpi 96 &
 
-# Merge xresources
-xrdb -merge ~/.Xresources
+# Merge .Xresources
+xrdb -merge ~/.Xresources &
 
-# Start dunst
-dunst &
-
-# Mount usb devices
-udiskie &
-
-# Set the wallpaper
-hsetroot -full ~/wallpaper2.png &
+# Start a lightweight image viewer to display the wallpaper.
+hsetroot -full ~/downloads/Wallpapers/wall.png &
 
 # Start xscreensaver
 xscreensaver &
 
-# Launch Xcomppmgr and tint2 with openbox
-if which tint2 >/dev/null 2>&1; then
-  (sleep 2 && xcompmgr) &
-  (sleep 2 && tint2 -c ~/.config/tint2/tint2rc) &
-  (sleep 2 && tint2 -c ~/.config/tint2/tint2rc-apps) &
-fi
+# Start a program that turns on numlock in X (after the X server starts).
+numlockx &
 
-# Start rclone-browser
-rclone-browser &
+# Start unclutter
+unclutter -idle 3 &
 
-# Start my systray icon
-systray-indicator &
+# Start greenclip
+greenclip daemon &
+
+# Start mpDris2
+mpDris2 &
+
+# Start python3 web server
+/home/valley/scripts/server &
