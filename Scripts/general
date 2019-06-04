@@ -1,0 +1,19 @@
+#!/bin/bash
+
+tad() {
+	date +"%I:%M %p | %A %d, %B of %Y" | dzen2 -p 3 -fg "#FFFFFF" -bg "#0000d0" -h 16
+}
+
+err() {
+	echo "Bad arguments, or bad script." | dzen2 -p 3 -fg "#FFFFFF" -bg "#0000d0" -h 16
+}
+
+main() {
+	if [ "$1" = "date" ]; then
+		tad
+	else
+		err
+	fi
+}
+
+main "$@"
