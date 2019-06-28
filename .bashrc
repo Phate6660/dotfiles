@@ -15,71 +15,81 @@ if [[ $- != *i* ]] ; then
 fi
 
 ### Autostart
+# Enable mcfly, a history viewer/editor/executor written in Rust.
 source /home/valley/bin/mcfly.bash
 
+# Enable completition
+source /etc/bash/bashrc.d/bash_completion.sh
+
+# Alias thefuck to fuck
+eval $(thefuck --alias)
+
 ### Environmental Variables
-export PS1="[\W]-> "
-export PATH=$PATH:/home/valley/.cargo/bin:/home/valley/scripts:$HOME/bin
-export EDITOR="nano"
+# General
+export PS1='[$(tput setaf 2)\u$(tput sgr0):$(tput setaf 3)\w$(tput sgr0)]-> '
+export PATH="$HOME/.cargo/bin:$HOME/scripts:$HOME/bin:$PATH"
+export EDITOR=nano
 export HISTCONTROL="$HISTCONTROL erasedups:ignoreboth"
+export LFS=/mnt/lfs
+
+# fff
+export FFF_FAV1=/run/media/valley
+export FFF_FAV2=/home/ff
+export FFF_FAV3=~/downloads
+export FFF_FAV4=~/downloads/github
+export FFF_FAV5=~/projects
+export FFF_FAV6=
+export FFF_FAV7=
+export FFF_FAV8=
+export FFF_FAV9=
 
 ### Functions
-
-# Get local weather in your terminal.
 wttr() {
-    # change [REDACTED] to your default location. 
-    # It can be anything from an IP Address, to coordinates, to just the name of a city.
+    # Replace [REDACTED] with your location (ip, city, etc.)
     local request="wttr.in/${1-[REDACTED]?u}"
     [ "$COLUMNS" -lt 125 ] && request+='?n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
-# "How Much Music": This is useless if you don't use mpd/mpc for music.
-# Change directory in "size" to your music folder to know how much storage your music uses.
-# Remove "amount" if you don't use libre.fm for scrobbling. Else change "phate6660" to your libre.fm username.
 hmm () {
     artists="$(echo "$(mpc list Artist | sed '/^\s*$/d' | wc -l) artists.")"
     albums="$(echo "$(mpc list Album | sed '/^\s*$/d' | wc -l) albums.")"
     songs="$(echo "$(mpc list Title | sed '/^\s*$/d' | wc -l) songs.")"
-    size="$(echo Which uses up "$(du -hs ~/Music | cut -c 1-4)"B of storage.)"
+    size="$(echo Which uses up "$(\du -hs ~/Music | cut -c 1-4)"B of storage.)"
     amount="$(echo "Also, you have played $(w3m -dump https://libre.fm/user/phate6660/stats | grep Total | sed "s/[^0-9]//g") complete songs.")"
     echo -e "\nYou have:\n---------\n$artists\n$albums\n$songs\n\n$size\n$amount\n"
 }
 
-# Update your Gentoo system.
-update () {
-    # This if statement was added as it is gentoo-netiquette to sync with repos ONCE per day. 
-    # Any more will result in a temp IP ban. (I have a bad habit of updating multiple times a day.)
-    # (I blame Arch for that.)
-    if [ "$1" = "full" ]; then
-	sudo emerge --sync
-    else
-	echo "Will not sync with repos."
-    fi
-    sudo emerge -avuDN world
-    sudo emerge -Da --exclude=rust --exclude=cargo --depclean
-    sudo revdep-rebuild -i
-}
-
-# cd on exit for "fff".
 f() {
     fff "$@"
     cd "$(cat "${XDG_CACHE_HOME:=${HOME}/.cache}/fff/.fff_d")"
 }
 
-### Aliases
+title() { echo -e '\033]2;'$1'\007'; }
 
+### Aliases
 # General
-alias ls="exa -lFha"
-alias cat="bat"
-alias fetch="rsfetch --no-wm-de -huMp portage"
-alias mkdir='mkdir -pv'
+alias rsfetch="rsfetch --no-wm-de -huMp portage"
 alias myip="curl --silent https://ipecho.net/plain; echo"
 alias ss="ss -ntlp"
+alias du="diskus"
+alias emacs="emacs -nw"
+alias lfs="sudo mount -v -t ext4 /dev/sda5 \$LFS"
+
+# core/bin utils-related.
+alias grep="grep --color=auto"
+alias ls="ls -a --color=auto"
+alias cat="bat"
+alias mkdir='mkdir -pv'
+alias mv="mv -iv"
+alias cp="cp -iv"
+alias rm="rm -iv"
 
 # Process-related.
 alias ps="ps auxf"
-alias psg='ps aux | grep -v grep | grep -i -e VSZ -e'
+alias psg="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias htop="htop -t"
+alias vtop="htop -u valley"
 
 # Mount music directories.
 alias umus="sudo mount --bind '/run/media/valley/Music and Pics/Music' ~/Music/Music"
@@ -96,11 +106,14 @@ alias scriblog='clear; tail -f ~/.mpdscribble/mpdscribble.log'
 alias ytdl='youtube-dl'
 alias yt="youtube-viewer"
 
+# ProtonVPN
+alias pvre="sudo pvpn -d; sudo pvpn -f; sudo pvpn --status; read -p 'Press [ENTER] to continue.'; speedtest --secure --no-upload"
+alias pvstat="sudo pvpn --status"
+alias speed="speedtest --secure --no-upload"
+
 # Gentoo
-alias portup="sudo emerge --ask --oneshot sys-apps/portage"
-alias install="sudo emerge -atv"
-alias searchfor="emerge --searchdesc"
-alias remove="sudo emerge --ask --verbose --depclean"
-alias remove-force="sudo emerge --ask --verbose --unmerge"
-alias changed="sudo emerge --ask --changed-use --deep @world"
-alias pkglist="qlist -I > ~/.pkglist"
+alias merge="sudo emerge -atv"
+alias searchfor="emerge --search"
+alias rem="sudo emerge -av --depclean"
+alias frem="sudo emerge -av --unmerge"
+alias clean="sudo emerge -Da --depclean; sudo revdep-rebuild -i"

@@ -7,32 +7,12 @@ mpd_music_dir = "/home/valley/Music"
 mpd_connection_timeout = "5"
 mpd_crossfade_time = "5"
 
-execute_on_song_change = "~/.ncmpcpp/art.sh && $(mpc -f "%artist% - (%date%) %album% - %title%" | head -n1 | dzen2 -p 3 -fg "#FFFFFF" -bg "#0000d0" -h 14 -fn "Misc Termsynu")"
-
-# mpd_communication_mode = "notifications" (polling/notifications)
-
-audio_output {
-type "fifo"
- name "My FIFO"
- path "/tmp/mpd.fifo"
- format "44100:16:2"
- }
-
-visualizer_in_stereo = "yes"
-visualizer_fifo_path = "/tmp/mpd.fifo"
-visualizer_output_name = "fifo"
-visualizer_sync_interval = "30"
-visualizer_type = "spectrum" (spectrum/wave)
-#visualizer_look = "●│"
-visualizer_look = "●▉"
-visualizer_color = red,blue,cyan,green,yellow,magenta,white
-
 playlist_disable_highlight_delay = "5"
 
 message_delay_time = "3"
 
-song_list_format = "{$5%a} $2»$8»$5» {$8%t}|{$8%f}$R{$2%b}"
-song_status_format = "{$8%a} $2»$8»$5» $b{$1%b}$/b"
+song_list_format = "{$3%a} $2»$8»$3» {$8%t}|{$8%f}$R{$2%b}"
+song_status_format = "{$8%a} $2»$8»$3» $b{$1%b}$/b"
 song_library_format = "{%n - }{%t}|{%f}"
 #tag_editor_album_format = "{%a} - {%b}"
 
@@ -117,12 +97,12 @@ use_console_editor = "yes" #(set to yes, if your editor is console app)
 colors_enabled = "yes"
 empty_tag_color = "white"
 header_window_color = "white"
-volume_color = "blue"
+volume_color = "green"
 state_line_color = "white"
 state_flags_color = "white"
-main_window_color = "blue"
+main_window_color = "green"
 #color1 = "red"
-#color2 = "blue"
+#color2 = "green"
 progressbar_color = "black"
 progressbar_elapsed_color = "cyan"
 statusbar_color = "red"
