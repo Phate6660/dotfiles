@@ -1,0 +1,19 @@
+{
+	"engines": {
+		"_all": false,
+		"Ask": false,
+		"Bing": false,
+		"DogPile": false,
+		"DuckDuckGo": false,
+		"Google": false,
+		"GoogleScholar": false,
+		"Quora": false,
+		"Qwant": false,
+		"UrbanDictionary": false,
+		"Searx": true,
+		"WolframAlpha": false,
+		"Yandex": false,
+		"Yahoo": false,
+		"YouTube": false
+	}
+}

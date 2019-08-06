@@ -1,0 +1,11 @@
+{
+	"changelog": {
+		"currentversion": "1.4.9"
+	},
+	"settings": {
+		"addClearButton": true,
+		"includeGuilds": true,
+		"includeMuted": false,
+		"includeDMs": false
+	}
+}

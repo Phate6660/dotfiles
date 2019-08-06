@@ -18,9 +18,7 @@ There are two things you can do about this warning:
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
   (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
   ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
+  (when (< emacs-major-version 24)))
 (package-initialize)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -29,7 +27,7 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flycheck highlight-parentheses link treemacs rust-playground shell-pop mpv vterm company racer simple-mpc selectric-mode zone-nyan pacmacs 2048-game))))
+    (elcord impatient-mode moz-controller cheat-sh centaur-tabs flycheck highlight-parentheses link treemacs rust-playground shell-pop mpv vterm company racer simple-mpc selectric-mode zone-nyan pacmacs 2048-game))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -105,5 +103,61 @@ There are two things you can do about this warning:
     (highlight-parentheses-mode t)))
 (global-highlight-parentheses-mode t)
 
+;; Show/Hide treemacs
+(global-set-key (kbd "C-x C-t") 'treemacs)
+
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; tabs
+(require 'centaur-tabs)
+(centaur-tabs-mode t)
+(global-set-key (kbd "C-<next>")  'centaur-tabs-backward)
+(global-set-key (kbd "C-<prior>") 'centaur-tabs-forward)
+(global-set-key (kbd "C-c t") 'centaur-tabs-counsel-switch-group)
+(centaur-tabs-headline-match)
+(centaur-tabs-mode t)
+(defun centaur-tabs-buffer-groups ()
+     "`centaur-tabs-buffer-groups' control buffers' group rules.
+
+ Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+ All buffer name start with * will group to \"Emacs\".
+ Other buffer group by `centaur-tabs-get-group-name' with project name."
+     (list
+      (cond
+ ((or (string-equal "*" (substring (buffer-name) 0 1))
+      (memq major-mode '(magit-process-mode
+    magit-status-mode
+    magit-diff-mode
+    magit-log-mode
+    magit-file-mode
+    magit-blob-mode
+    magit-blame-mode
+    )))
+  "Emacs")
+ ((derived-mode-p 'prog-mode)
+  "Editing")
+ ((derived-mode-p 'dired-mode)
+  "Dired")
+ ((memq major-mode '(helpful-mode
+       help-mode))
+  "Help")
+ ((memq major-mode '(org-mode
+       org-agenda-clockreport-mode
+       org-src-mode
+       org-agenda-mode
+       org-beamer-mode
+       org-indent-mode
+       org-bullets-mode
+       org-cdlatex-mode
+       org-agenda-log-mode
+       diary-mode))
+  "OrgMode")
+ (t
+  (centaur-tabs-get-group-name (current-buffer))))))
+
+(global-set-key (kbd "C-c r") (lambda ()
+                                (interactive)
+                                (revert-buffer t t t)
+                                (message "buffer is reverted")))
+

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# this is a simple config for herbstluftwm
-
 hc() {
     herbstclient "$@"
 }
@@ -12,74 +10,50 @@ hc emit_hook reload
 hc keyunbind --all
 
 ### keybindings ###
-Mod=Mod4   # Use the super key as the main modifier
+Mod=Mod4                                                    # Use the super key as the main modifier
 
-hc keybind Ctrl-Mod1-Delete quit
-hc keybind Mod1-Shift-r reload
-hc keybind Ctrl-Shift-c close
-hc keybind $Mod-t spawn uxterm
-hc keybind $Mod-Shift-t spawn term-dmenu
-hc keybind $Mod-g spawn gimp
-hc keybind $Mod-w spawn qutebrowser
-hc keybind XF86AudioPlay spawn mpc toggle
-hc keybind XF86AudioNext spawn mpc next
-hc keybind XF86AudioPrev spawn mpc prev
-hc keybind $Mod-Mod1-g spawn rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
-hc keybind $Mod-f spawn uxterm -e "FFF_FAV1=/run/media/valley FFF_FAV2=/home/ff FFF_FAV3=~/downloads FFF_FAV4=~/downloads/github FFF_FAV5=~/projects fff"
-hc keybind Ctrl-Mod1-space spawn rofi -show run
-hc keybind $Mod-n spawn musinfo
-hc keybind $Mod-d spawn mpv dvd://
-hc keybind $Mod-Shift-d spawn mpv dvdread://
-hc keybind Print spawn scrot -bz -e 'mv $f ~/pictures/scrot/'
-hc keybind $Mod-b spawn blender
-hc keybind $Mod-Shift-b spawn bwmenu
-hc keybind $Mod-Shift-u spawn udiskie -a -N
-hc keybind $Mod-x spawn xscreensaver-command -lock
-hc keybind $Mod-r spawn RocketLauncher2
-hc keybind $Mod-a spawn script-dmenu
-hc keybind $Mod-v spawn vncviewer -passwordfile=.vncpasswd 192.168.1.152:5901
-hc keybind Mod1-Tab spawn xwinmosaic -C
+hc keybind Ctrl-Mod1-Delete  quit                            # Quit herbstluftwm
+hc keybind Mod1-Shift-r      reload                          # Reload the configuration
+hc keybind Mod1-Shift-c      close                           # Close currently focused window
+hc keybind Mod1-Return       spawn /home/valley/scripts/term-trans # Spawn uxterm (transparent)
+hc keybind Mod1-Shift-Return spawn uxterm                    # Spawn uxterm
+hc keybind $Mod-t            spawn /home/valley/scripts/general tag # Display currently focused tag through notification
+hc keybind $Mod-w            spawn sudo -u ff firefox        # Spawn Firefox
+hc keybind XF86AudioPlay     spawn mpc toggle                # Play/Pause song (MPD)
+hc keybind XF86AudioNext     spawn mpc next                  # Play next song (MPD)
+hc keybind XF86AudioPrev     spawn mpc prev                  # Play previous song (MPD)
+hc keybind $Mod-Mod1-g       spawn rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}' # Spawn clipbord menu in Rofi
+hc keybind $Mod-f            spawn pcmanfm                   # Spawn file manager
+hc keybind $Mod-Shift-f      spawn filezilla                 # Spawn filezilla
+hc keybind Ctrl-Mod1-space   spawn rofi -show run            # Spawn Rofi (-run)
+hc keybind $Mod-m            spawn /home/valley/scripts/general mus # Spawn notification with music info
+hc keybind $Mod-n            spawn /home/valley/scripts/general date # Spawn notification with current time and date (in 12 hr format)
+hc keybind $Mod-d            spawn mpv dvd://                # Play DVD using mpv and dvdnav (slow but most compatible)
+hc keybind $Mod-Shift-d      spawn mpv dvdread://            # Play DVD using mpv and dvdread (fast yet least compatible)
+hc keybind Print             spawn scrot -uz -e 'mv $f ~/pictures/scrot/' # Take a screenshot, then move the screenshot to ~/pictures/scrot
+hc keybind $Mod-Shift-b      spawn /home/valley/downloads/blender-2.80-163996b68129-linux-glibc217-x86_64/blender # Spawn Blender 2.80
+hc keybind $Mod-b            spawn /home/valley/bin/bwmenu   # Spawn Bitwarden Rofi menu
+hc keybind $Mod-Shift-u      spawn udiskie -a -N             # Spawn udiskie (only needed for if udiskie fails to autostart for some reason)
+hc keybind $Mod-x            spawn slock                     # Lock the screen
+hc keybind $Mod-a            spawn /home/valley/scripts/script-dmenu # Rofi (-dmenu) for launching and editing scripts.
+hc keybind Ctrl-q            spawn sh -c "echo 'You almost quit your program' | rofi -dmenu -p 'You fucked up'" # Give warning for almost quitting application
+hc keybind $Mod-i            spawn /home/valley/scripts/general ip # Show IP Address in notification
+hc keybind $Mod-k            spawn /home/valley/scripts/keybinds # Display keybindings
 
-# basic movement
+### basic movement ###
 # focusing clients
 hc keybind Mod1-Left  focus left
 hc keybind Mod1-Down  focus down
 hc keybind Mod1-Up    focus up
 hc keybind Mod1-Right focus right
-hc keybind $Mod-h     focus left
-hc keybind $Mod-j     focus down
-hc keybind $Mod-k     focus up
-hc keybind $Mod-l     focus right
 
 # moving clients
 hc keybind Mod1-Shift-Left  shift left
 hc keybind Mod1-Shift-Down  shift down
 hc keybind Mod1-Shift-Up    shift up
 hc keybind Mod1-Shift-Right shift right
-hc keybind $Mod-Shift-h     shift left
-hc keybind $Mod-Shift-j     shift down
-hc keybind $Mod-Shift-k     shift up
-hc keybind $Mod-Shift-l     shift right
 
-# splitting frames
-# create an empty frame at the specified direction
-hc keybind $Mod-u       split   bottom  0.5
-hc keybind $Mod-o       split   right   0.5
-# let the current frame explode into subframes
-hc keybind $Mod-Control-space split explode
-
-# resizing frames
-resizestep=0.05
-hc keybind $Mod-Control-h       resize left +$resizestep
-hc keybind $Mod-Control-j       resize down +$resizestep
-hc keybind $Mod-Control-k       resize up +$resizestep
-hc keybind $Mod-Control-l       resize right +$resizestep
-hc keybind $Mod-Control-Left    resize left +$resizestep
-hc keybind $Mod-Control-Down    resize down +$resizestep
-hc keybind $Mod-Control-Up      resize up +$resizestep
-hc keybind $Mod-Control-Right   resize right +$resizestep
-
-# tags
+### tags ###
 tag_names=( {1..9} )
 tag_keys=( {1..9} 0 )
 
@@ -102,7 +76,6 @@ hc keybind Ctrl-Mod1-r remove
 hc keybind Ctrl-Mod1-s floating toggle
 hc keybind Ctrl-Mod1-f fullscreen toggle
 hc keybind Ctrl-Mod1-p pseudotile toggle
-herbstclient set default_frame_layout 3
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
@@ -111,20 +84,13 @@ hc keybind $Mod-space                                                           
                      . cycle_layout +1 vertical horizontal max vertical grid    \
                , cycle_layout +1
 
-# mouse
+### mouse ###
 hc mouseunbind --all
-hc mousebind Mod1-Button1 move
-hc mousebind Mod1-Button2 zoom
-hc mousebind Mod1-Button3 resize
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Button2 zoom
+hc mousebind $Mod-Button3 resize
 
-# focus
-hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
-hc keybind $Mod-c cycle
-hc keybind $Mod-i jumpto urgent
-
-# theme
+### theme ###
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
 hc set frame_border_active_color '#222222'
@@ -156,13 +122,21 @@ hc set smart_window_surroundings 0
 hc set smart_frame_surroundings 1
 hc set mouse_recenter_gap 0
 
-# rules
+### misc settings ###
+hc set gapless_grid 1
+hc set_layout grid
+hc set smart_frame_surroundings 1
+hc set smart_window_surroundings 1
+hc set focus_follows_mouse 1
+
+### rules ###
 hc unrule -F
 hc rule focus=on # normally focus new clients
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-hc rule class~'[Xx]winmosaic' manage=off
+hc rule class="Firefox" floating=on
+hc rule class="Navigator" floating=on
 
 # unlock, just to be sure
 hc unlock
@@ -172,16 +146,9 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 # do multi monitor setup here, e.g.:
 # hc set_monitors 1280x1024+0+0 1280x1024+1280+0
 # or simply:
-# hc detect_monitors
+hc set_monitors 1366x768 1438x900+1366+0
 
-# find the panel
-panel=~/.config/herbstluftwm/panel.sh
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-    # start it on each monitor
-    "$panel" $monitor &
-done
-
+### autostart once  ###
 if hc silent new_attr bool my_not_first_autostart ; then
     udiskie -a -N &
     uxterm -e /home/valley/scripts/auto &

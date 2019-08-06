@@ -1,282 +1,73 @@
-/* Autohide scrollbar */
-toolbarbutton#alltabs-button {
-    -moz-binding: url("userChrome.xml#js");
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+/*
+ * Place the navigation bar in the front of the tab bar (Linux)
+ *
+ * Contributor(s): Madis0
+ */
+
+:root[uidensity=compact] {
+  --tabs-margin-left: 5.5em; /* Keep margin for button background */
+  --space-before-tabs: 34.5em; /* Left margin for nav bar */
+  --space-after-tabs: 2em; /* Right margin for caption button, menu */
 }
 
-#urlbar {
-border-color: #9ebb00 !important;
-border-width: 1px !important;
+:root[uidensity=compact] {
+  --nav-margin-top: -1.9em;
+  --menu-margin-top: 0.05em;
 }
 
-#widget-overflow-mainView > .panel-subview-body > toolbarseparator, .PanelUI-subView menuseparator, .PanelUI-subView toolbarseparator, .cui-widget-panelview menuseparator, .cui-widget-panel toolbarseparator {
-    -moz-appearance: none;
-    min-height: 0;
-    border-top: 0px solid var(--panel-separator-color)!important;
-    border-bottom: none;
-    margin: 0px 0!important;
-    padding: 0;
+/* Adjust tab bar to get space first */
+#TabsToolbar {
+  margin-left: var(--tabs-margin-left) !important;
+  padding-left: var(--space-before-tabs) !important;
+  margin-right: var(--space-after-tabs) !important;
+  margin-bottom: -0.1em; !important; /* Remove bottom border */
 }
 
-:not(select):not(hbox) > scrollbar * {
--moz-appearance: none!important;
-background-color: transparent!important;
-pointer-events: auto;
-}
-  
-/*Collapse in default state and add transition*/
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] {
-  overflow: hidden;
-  min-width: 1px;
-  max-width: 1px;
-  transition: all 0.2s ease;
-  border-right: 1px solid #0c0c0d;
-  z-index: 2;
+/* Move nav bar to top left */
+#nav-bar {
+  margin-top: -29px !important; /* Move nav bar up */
+  margin-right: 61vw !important; /* Cut it off with defined width */
+  margin-bottom: -0.1em !important; /* Remove bottom border */
+  background-color: transparent !important; /* Make it use tab bar colors */
 }
 
-/*Expand to 275px on hover*/
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"]:hover,
-#sidebar-box[sidebarcommand="treestyletab_piro_sakura_ne_jp-sidebar-action"] #sidebar {
-  min-width: 275px !important;
-  max-width: 275px !important;
+/* hide these */
+#back-button, #forward-button, #PanelUI-menu-button, .tab-line, .tab-bottom-line, .tab-text {
+    display: none !important;
 }
 
-/* Hide horizontal tabs at the top of the window */
+/* fuck the scrollbar */
+.browserContainer>.browserStack>browser{
+     overflow-y: scroll;
+     overflow-x: hidden;
+     margin-right: -16px;
+}
+
+/* remove tab borders */
+.tabbrowser-tab::after, .tabbrowser-tab::before {
+   border-left: none !important; /* Remove borders from inactive tabs */
+}
+
+/* Remove borders from active tab and below tabs */
+:root {
+  --tabs-border: transparent !important;
+}
+
+/* grey tab bar background */
 #tabbrowser-tabs {
-  visibility: collapse !important;
+  background: #474749 !important;
 }
 
-
-/* Autohide tabs and navbar/toolbar*/
-
-#navigator-toolbox{
-	background:transparent;
+/* tab width */
+.tabbrowser-tab {
+max-width: 50px !important;
+min-width: 40px !important;
 }
 
-#navigator-toolbox > *{
-	background:#999;
-}
-
-#navigator-toolbox {
-    position: relative;
-    height: 4px;
-	transition:.2s linear all;
-    overflow: hidden;
-	opacity:0;
-    margin-bottom: 0px;
-    z-index: 1;
-}
-#navigator-toolbox:hover {
-    height: 256px;
-    margin-bottom: -248px;
-	overflow:extend;
-	opacity:1;
-}
-
-
-#content-deck{
-    position:relative;
-    z-index: 0;
-}
-
-#titlebar-buttonbox{
-	opacity:0;
-    height: 4px;
-    overflow: hidden;
-	transition:.2s linear all;
-}
-
-#titlebar-buttonbox:hover{
-	opacity:1;
-    height: auto;
-}
-
-#sidebar-header {
-  display: none;
-}
-
-/* Text in center of URL Bar. */
-#urlbar {
-text-align: center !important;
-color: aqua !important;
-}
-
-/* Remove arrow in url bar. */
-.urlbar-go-button {
-  display: none !important;
-}
-
-/* Blue background for HTTPS/proxy connection. */
-
-#identity-box {
-border-right: 1px solid rgba(0, 0, 0, 0.2) !important;
-padding-inline-end: 6px !important;
-}
-#urlbar[pageproxystate="valid"] > #identity-box.notSecureText, #urlbar[pageproxystate="valid"] > #identity-box.verifiedIdentity, #urlbar[pageproxystate="valid"] > #identity-box.chromeUI, #urlbar[pageproxystate="valid"] > #identity-box.extensionPage, #urlbar-display-box {
-border-image: none !important;
-margin-inline-end: 4px !important;
-}
-#urlbar[pageproxystate='valid'] #identity-box.unknownIdentity {
-background: rgba(255,0,57,.15) !important; /* Firefox Red */
-}
-#urlbar[pageproxystate='valid'] #identity-box.chromeUI {
-background: rgba(255,165,0,.15) !important; /* Firefox Orange */
-}
-#urlbar[pageproxystate='valid'] #identity-box.extensionPage {
-background: rgba(255,165,0,.15) !important; /* Firefox Orange */
-}
-#urlbar[pageproxystate='valid'] #identity-box.verifiedIdentity {
-background: rgba(5,0,139,.15) !important; /* Firefox Green */
-}
-#urlbar[pageproxystate='valid'] #identity-box.verifiedDomain {
-background: rgba(18,0,188,.15) !important; /* Firefox Green */
-}
-#urlbar[pageproxystate='valid'] #identity-box.mixedActiveBlocked {
-background: rgba(48,11,230,.15) !important; /* Firefox Green */
-}
-#urlbar[pageproxystate='valid'] #identity-box.mixedDisplayContent {
-background: rgba(215,182,0,.15) !important; /* Firefox Yellow */
-}
-#urlbar[pageproxystate='valid'] #identity-box.mixedDisplayContentLoadedActiveBlocked {
-background: rgba(215,182,0,.15) !important; /* Firefox Yellow */
-}
-#urlbar[pageproxystate='valid'] #identity-box.certUserOverridden {
-background: rgba(255,233,0,.15) !important; /* Firefox Yellow */
-}
-#urlbar[pageproxystate='valid'] #identity-box.weakCipher {
-background: rgba(164,127,0,.15) !important; /* Firefox Yellow */
-}
-#urlbar[pageproxystate='valid'] #identity-box.mixedActiveContent {
-background: rgba(255,0,57,.15) !important; /* Firefox Red */
-}
-#urlbar[pageproxystate='valid'] #identity-box.insecureLoginForms {
-background: rgba(255,0,57,.15) !important; /* Firefox Red */
-}
-
-/* Remove space from left of file menu items popups */
-#menu_FilePopup .arrowscrollbox-scrollbox,
-#menu_EditPopup .arrowscrollbox-scrollbox,
-#menu_viewPopup .arrowscrollbox-scrollbox,
-#goPopup .arrowscrollbox-scrollbox,
-#bookmarksMenuPopup .arrowscrollbox-scrollbox,
-#menu_ToolsPopup .arrowscrollbox-scrollbox,
-#menu_HelpPopup .arrowscrollbox-scrollbox {
-  margin-inline-start: -20px !important; /* Adjust here if needed */
-  overflow: hidden !important;
-}
-
-/* Remove file menu popup icons */
-.menu-iconic {
-  visibility: collapse !important;
-}
-
-:root[uidensity=compact] #urlbar,
-:root[uidensity=compact] .searchbar-textbox {
-  font-size: unset !important;
-  min-height: 24px !important;
-}
-
-:root[uidensity=compact] #identity-box {
-  max-height: 22px;
-}
-
-:root[uidensity=compact] #nav-bar .toolbarbutton-1 {
-  padding: 0px !important;
-}
-
-/* Compatibility with auto-hide.css */
-:root[uidensity=compact] #navigator-toolbox {
-  --nav-bar-height: 31px !important;
-}
-
-/* If the bookmarks bar is turned on, auto-hide that too */
-:root:not([customizing]) #PersonalToolbar {
-  max-height: 0 !important;
-  min-height: 0.1px !important;
-  opacity: 0;
-  transition: opacity 0.15s ease-in !important;
-}
-
-:root:not([customizing]) :hover > #PersonalToolbar,
-:root:not([customizing]) #navigator-toolbox:focus-within #PersonalToolbar {
-  max-height: 4em !important;
-  opacity: 1;
-}
-
-/* Lightweight Theme Support */
-:root:-moz-lwtheme #nav-bar, 
-:root:-moz-lwtheme #PersonalToolbar {
-  background-color: var(--lwt-accent-color) !important;
-  background-image: var(--lwt-header-image), var(--lwt-additional-images) !important;
-  background-position: var(--lwt-background-alignment) !important;
-  background-repeat: var(--lwt-background-tiling) !important;
-}
-
-#main-window[sizemode="normal"]:-moz-lwtheme #nav-bar {
-    background-position-y: calc(-2px - var(--tabbar-height)) !important;
-}
-#main-window[sizemode="normal"]:-moz-lwtheme #PersonalToolbar {
-    background-position-y: calc(-2px - var(--tabbar-height) - var(--nav-bar-height)) !important;
-}
-
-#main-window[sizemode="maximized"]:-moz-lwtheme #nav-bar {
-    background-position-y: calc(-8px - var(--tabbar-height)) !important;
-}
-#main-window[sizemode="maximized"]:-moz-lwtheme #PersonalToolbar {
-    background-position-y: calc(-8px - var(--tabbar-height) - var(--nav-bar-height)) !important;
-}
-
-.browserContainer > findbar {
-  -moz-box-ordinal-group: 0;
-  position: fixed !important;
-  right: 1em;
-  border: 1px solid threedshadow !important;
-
-  /* Hide the "border" at the top by removing the box-shadow and background-image */
-  border-top: none !important;
-  box-shadow: none !important;
-  background-image: none !important;
-
-  /* Uncomment to add a transition from the top */
-  transition: 400ms !important;
-  z-index: 0 !important;
-}
-
-/* Margin from top when hidden (necessary for the transition to work) */
-  findbar[hidden]{ margin-top: -2em !important; }
-
-/* Aligns the close button to the center */
-.findbar-closebutton {
-  margin-inline-start: 0.5em !important;
-  vertical-align: middle !important;
-  margin-bottom: 0.25em !important;
-  height: inherit !important;
-}
-
-/* Remove placeholder right border */
-.titlebar-placeholder { border: none !important; }
-
-/* Hide urlbar history dropmarker */
- { display: none !important; }
-
-/* remove unwanted stuff */
-#context-sendpagetodevice, #context-sep-sendpagetodevice,
-#context-sendlinktodevice, #context-sep-sendlinktodevice,
-#context_sendTabToDevice, #context_sendTabToDevice_separator,
-#context-back image, #context-forward image, 
-#context-reload image, #context-stop image,
-#context-bookmarkpage image, #context-navigation, #context-sep-navigation,
-#forward-button image, #back-button image, #home-button, 
-#reload-button image, #appMenu-new-window-button,
-#appMenu-private-window-button, #appMenuRestoreLastSession,
-#appMenu-open-file-button, #appMenu-save-file-button,
-#appMenu-find-button, #appMenu-edit-controls,
-#appMenu-library-button, #appMenu-zoom-controls,
-#appMenu-developer-button, #appMenuViewHistorySidebar,
-#appMenuClearRecentHistory, #appMenuRecentlyClosedTabs,
-#appMenuRecentlyClosedWindows, .subview-subheader, 
-.urlbar-history-dropmarker, .tab-loading-burst,
-#appMenu-fxa-container, #appMenu-fxa-label, 
-#appMenu-edit-controls, #appMenu-print-button, #appMenu-more-button,
-#PanelUI-menu-button {
-  display: none !important;
+/* ocd changes to overflow menu position */
+.overflow-button{
+  margin-left: -5px !important;
+  margin-right:-2px !important;
 }

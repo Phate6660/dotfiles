@@ -1,0 +1,13 @@
+{
+    "settings": {
+        "doubleClick": true,
+        "dldir": "/home/valley/downloads/discord",
+        "autoopen": false,
+        "showinstead": false,
+        "overwrite": true,
+        "prompt": false,
+        "imagemodals": true,
+        "copyimages": false,
+        "itp": true
+    }
+}

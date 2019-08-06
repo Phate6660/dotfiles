@@ -10,4 +10,4 @@ gen="$(mpc -f %genre% | head -n1)"
 fil="$(playerctl metadata xesam:url)"
 cod="${fil##*.}"
 
-echo -e "[$sta] $tit [$dur]\n[$dat] $alb\n$art\n$gen\n$cod" | dzen2 -l 4 -p 7 -fg "#FFFFFF" -bg "#0000d0" -h 16 -sa c
+echo -e "[$sta] $tit [$dur]\n[$dat] $alb\n$art\n$gen\n$cod" | dzen2 -l 4 -p 7 -fg "#FFFFFF" -bg "#0000d0" -h 16 -sa c -xs 2

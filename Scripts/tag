@@ -1,0 +1,3 @@
+#!/bin/bash
+
+notify-send "Currently Focused Tag" "$(herbstclient tag_status | sed -e 's#.*\#\(\)#\1#' | cut -c 1)"

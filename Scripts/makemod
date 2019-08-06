@@ -1,3 +1,0 @@
-#!/bin/bash
-
-sudo emacs -nw /etc/portage/make.conf
