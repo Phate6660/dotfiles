@@ -28,9 +28,6 @@ export SUDO_EDITOR="emacsclient"                                                
 # ntfy
 export AUTO_NTFY_DONE_IGNORE="yt mpv f fff pvre pvstat emacsclient e top"                          # Make ntfy ignore these commands/aliases
 
-# Github
-export CHANGELOG_GITHUB_TOKEN="a336ed6f46bee5d95d264df2cd4b0c5333752927"                           # Token for CHANGELOG
-
 # Rust
 export RUST_SRC_PATH="/home/valley/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/" # Set Rust src path to make Racer work
 
