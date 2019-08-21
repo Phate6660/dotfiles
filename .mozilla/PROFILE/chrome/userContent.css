@@ -1,0 +1,51 @@
+:root {
+  --equilux: #373737;
+  --arc-dark: #29303a;
+  --adapta-nokto: #263238;
+  --pop: #574e4a;
+  --dark:  #121212;
+
+  /* Main Color */
+  --main-color: var(--equilux);
+}
+
+@-moz-document url-prefix(about:blank), url-prefix(about:newtab), url-prefix(about:home) {
+  html:not(#ublock0-epicker), html:not(#ublock0-epicker) body, #newtab-customize-overlay {
+    background: var(--main-color) !important;
+  }
+}
+
+
+@-moz-document url(about:newtab), url(about:home), url(about:blank) {
+  
+  .outer-wrapper {
+    background-color: var(--main-color) !important;
+  }
+  
+   .card, .prefs-pane .sidebar {
+      background-color:#202020!important;
+   }
+  
+   #snippets, .section-title, .snippetContainer, .card-title, .card-description {
+      color: #AEAEAE!important;
+   }
+  
+   .contentSearchSuggestionTable, .contentSearchSuggestionsList{
+      color:black!important;
+   }
+  
+   .display-item {color: #D1D1D1!important;}
+  
+   #aboutMozilla::before {filter:invert(100%)!important;}
+   
+  #searchText {
+      background:#474749!important;
+      border-radius: 4px;
+      border: 1px solid #262627;
+      box-shadow: none;
+   }
+  
+   #searchSubmit, #launcher {display:none!important;}
+  
+   .top-sites-list .top-site-outer .title span { color:#D1D1D1; }
+}
