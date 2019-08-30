@@ -1,3 +1,4 @@
+wal -R                                                                                             # wal colorscheme
 numlockx &                                                                                         # Turn on numlock
 xrandr --dpi 96 &                                                                                  # Set dpi to 96
 xrdb -merge ~/.Xresources &                                                                        # Merge .Xresources
@@ -12,4 +13,7 @@ xset -dpms s off s noblank &                                                    
 xhost si:localuser:ff                                                                              # Allow ff to run firefox through localuser
 pcmanfm -d &                                                                                       # pcmanfm in daemon mode
 /usr/libexec/polkit-gnome-authentication-agent-1 &                                                 # fucking polkit bullshit -_-
-exec ck-launch-session dbus-launch --sh-syntax --exit-with-session herbstluftwm --locked           # Start herbstluftwm
+nitrogen --restore &                                                                               # wallpapers
+udiskie -aNT &                                                                                     # automount external storage devices
+uxterm -e /home/valley/scripts/auto &                                                              # run auto script
+exec ck-launch-session dbus-launch --exit-with-session dwm                                         # dwm

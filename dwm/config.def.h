@@ -80,7 +80,6 @@ static const char *lock[] = { "slock", NULL };
 static const char *script[] = { "/home/valley/scripts/script-dmenu", NULL };
 
 #include "mpdcontrol.c"
-#include "selfrestart.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ WINKEY,                       XK_w,      spawn,          {.v = web } },
@@ -127,11 +126,11 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-        { MODKEY|ShiftMask,             XK_r,      self_restart,   {0} },
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY,                       XK_F1,     mpdchange,      {.i = -1} },
-	{ MODKEY,                       XK_F2,     mpdchange,      {.i = +1} },
-	{ MODKEY,                       XK_Escape, mpdcontrol,     {0} },
+        { MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ShiftMask,             XK_r,      quit,           {1} },
+	{ 0,                            0x1008ff16, mpdchange,      {.i = -1} },
+	{ 0,                            0x1008ff17, mpdchange,      {.i = +1} },
+	{ 0,                            0x1008ff14, mpdcontrol,     {0} },
 };
 
 /* button definitions */

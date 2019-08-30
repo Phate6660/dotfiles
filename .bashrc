@@ -16,17 +16,23 @@ source /etc/bash/bashrc.d/bash_completion.sh
 # Send notifications for finished commands (that take a long time)
 eval "$(ntfy shell-integration)"
 
+# Import colorscheme from 'wal' asynchronously
+# &   # Run the process in the background.
+# ( ) # Hide shell job control messages.
+(cat ~/.cache/wal/sequences &)
+
 ### Environmental Variables
 # General
 export PS1="[\@] \u \w \$ "                                                                        # Set prompt to "USER CWD $"
-export PATH="/bedrock/cross/pin/bin:/bedrock/bin/:/usr/lib/ccache/bin:/home/valley/.local/bin:$HOME/.cargo/bin:$HOME/scripts:$HOME/bin:$HOME/.gem/ruby/2.4.0/bin:/bedrock/cross/bin:${PATH:+:}$PATH"
-export EDITOR=emacsclient                                                                          # Set (text) editor to emacs daemon (through emacsclient)
+export PATH="/bedrock/cross/pin/bin:/bedrock/bin/:/usr/lib/ccache/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/scripts:$HOME/bin:$HOME/.gem/ruby/2.4.0/bin:$HOME/go/bin:/bedrock/cross/bin:${PATH:+:}$PATH"
+export CCACHE_DIR="/var/cache/ccache"
+export EDITOR=vim                                                                                  # Set (text) editor to vim
 export HISTCONTROL="$HISTCONTROL erasedups:ignoreboth"                                             # Set history settings to remove duplicates
-export ALPINE=/mnt/alpine                                                                          # Set void path
-export SUDO_EDITOR="emacsclient"                                                                   # Set sudo editor to emacs daemon (through emacsclient)
+export SUDO_EDITOR="vim"                                                                           # Set sudo editor to emacs
+export BROWSER="w3m"
 
 # ntfy
-export AUTO_NTFY_DONE_IGNORE="yt mpv f fff pvre pvstat emacsclient e top"                          # Make ntfy ignore these commands/aliases
+export AUTO_NTFY_DONE_IGNORE="yt mpv f fff pvre pvstat emacsclient e top vim emacs"                # Make ntfy ignore these commands/aliases
 
 # Rust
 export RUST_SRC_PATH="/home/valley/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/" # Set Rust src path to make Racer work
@@ -90,13 +96,13 @@ dict() {
     curl "dict://dict.org/d:$search"
 }
 
+# Use python to calculate.
 calc() { python -c print\("$1"\); }
 
-timeof() { \ps -eo pid,comm,lstart,etimes,time,args | grep "$1" | sed 1d; }
-
+## Herbstluft
 hc() { herbstclient "$@"; }
 
-# OpenRC functions
+## OpenRC functions
 start() { su -c "rc-service $1 start"; }
 stop() { su -c "rc-service $1 stop"; }
 restart() { su -c "rc-service $1 restart"; }
@@ -104,12 +110,19 @@ add() { su -c "rc-update add $1 $2" ;}
 del() { su -c "rc-update del $1 $2"; }
 rclist() { rc-update show -v; }
 
-# BASH
+## BASH
+# echo the path
 lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
+
+# ls alternative
+list(){ for file in *; do printf '%s\n' "$file"; done; }
+
+# Obtain time of when process started
+timeof() { \ps -eo pid,comm,lstart,etimes,time,args | grep "$1" | sed 1d; }
 
 ### Aliases
 # General
-alias fetch="fetch -d -k none -p -s -u"
+alias fetch="fetch -d -k -m -p -s -u"
 alias rsfetch="rsfetch --no-wm-de -hulp portage"
 alias myip="curl --silent https://ipecho.net/plain; echo"
 alias ss="ss -ntlp"
@@ -117,6 +130,7 @@ alias du="diskus"
 alias alpine="sudo mount -v -t ext4 /dev/sda5 \$ALPINE"
 alias e="emacsclient"
 alias ff="sudo -u ff"
+alias aria="aria2c -c -j5 -x5 -s5 -k 1M"
 
 # Entertainment
 alias matrix="unimatrix -n -s 96 -l knnSSssu"
@@ -125,7 +139,7 @@ alias parrot="curl parrot.live && sleep 1 && tput sgr0"
 alias joke="echo -e \"\$(curl --silent https://icanhazdadjoke.com)\""
 
 # {core,bin}-utils related.
-alias grep="grep --color=auto"
+alias grep="grep -i --color=auto"
 alias ls="ls -Fa --color=auto"
 alias cat="cat -n"
 alias mkdir='mkdir -pv'
@@ -141,10 +155,7 @@ alias psr="\ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head"
 alias pst="\ps -eo pid,comm,lstart,etimes,time,args"
 
 # Mount music directories.
-alias umus="sudo mount --bind '/run/media/valley/Music and Pics/Music' ~/Music/Music"
-alias umus2="sudo mount --bind '/run/media/valley/music-2/Music' ~/Music/Music-2"
-alias umus3="sudo mount --bind '/run/media/valley/Anime and Music/Music' ~/Music/Music-3"
-alias umus4="sudo mount --bind '/run/media/valley/BD-Rips/Music' ~/Music/Music-4"
+alias umus="sudo mount --bind '/run/media/valley/Seagate Portable/Music' ~/Music"
 
 # Player, lyrics, and scrobbler log.
 alias mus='ncmpcpp -c ~/.ncmpcpp/config-rwb'
@@ -161,8 +172,9 @@ alias pvstat="sudo pvpn --status"
 alias speed="speedtest-cli --secure --no-upload"
 
 # Gentoo
-alias changed="sudo emerge --ask --changed-use --deep @world"
 alias merge="sudo emerge -atv"
+alias changed="sudo emerge --ask --changed-use --deep @world"
+alias emake="sudo -e /etc/portage/make.conf"
 alias searchfor="emerge -s"
 alias rem="sudo emerge -avc"
 alias frem="sudo emerge -avC"
@@ -171,8 +183,10 @@ alias portup="sudo emerge -a1 sys-apps/portage"
 alias genlop="sudo genlop -it"
 alias lsuse="portageq envvar USE | xargs -n 1"
 alias lsfeat="portageq envvar FEATURES | xargs -n 1"
+alias lspkg="ls -d /var/db/pkg/*/* | cut -f5- -d/ | sed 's/\/$//'"
 
 # Rust
 alias cargo="/home/valley/.cargo/bin/cargo"
 alias rustfmt="/home/valley/.cargo/bin/rustfmt"
 alias rustc="/home/valley/.cargo/bin/rustc"
+
