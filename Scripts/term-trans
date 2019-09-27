@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-
-# Launch xterm in the background
-/usr/bin/uxterm &
-
-# Sleep long enough to get the window open, and set transparency
-sleep .4s
-transset -a 0.8

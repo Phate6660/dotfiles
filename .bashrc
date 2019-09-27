@@ -1,51 +1,29 @@
-# ██╗   ██╗ █████╗ ██╗     ██╗     ███████╗██╗   ██╗
-# ██║   ██║██╔══██╗██║     ██║     ██╔════╝╚██╗ ██╔╝
-# ██║   ██║███████║██║     ██║     █████╗   ╚████╔╝ 
-# ╚██╗ ██╔╝██╔══██║██║     ██║     ██╔══╝    ╚██╔╝  
-#  ╚████╔╝ ██║  ██║███████╗███████╗███████╗   ██║   
-#   ╚═══╝  ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝   ╚═╝   
-
+## Check if interactive.
 if [[ $- != *i* ]] ; then
 	return
 fi
 
-### Autostart
-# Enable completition
-source /etc/bash/bashrc.d/bash_completion.sh
+## Autostart
 
-# Send notifications for finished commands (that take a long time)
-eval "$(ntfy shell-integration)"
-
-# Import colorscheme from 'wal' asynchronously
-# &   # Run the process in the background.
-# ( ) # Hide shell job control messages.
-(cat ~/.cache/wal/sequences &)
-
-### Environmental Variables
+## Environmental Variables
 # General
-export PS1="[\@] \u \w \$ "                                                                        # Set prompt to "USER CWD $"
-export PATH="/bedrock/cross/pin/bin:/bedrock/bin/:/usr/lib/ccache/bin:$HOME/.local/bin:$HOME/.cargo/bin:$HOME/scripts:$HOME/bin:$HOME/.gem/ruby/2.4.0/bin:$HOME/go/bin:/bedrock/cross/bin:${PATH:+:}$PATH"
+export PATH="$PATH:$HOME/.cargo/bin:$HOME/scripts:$HOME/.local/bin"
+export PS1="[\@] \u \w \$ "
+export LS_COLORS="$(vivid generate molokai)"
 export CCACHE_DIR="/var/cache/ccache"
-export EDITOR=vim                                                                                  # Set (text) editor to vim
-export HISTCONTROL="$HISTCONTROL erasedups:ignoreboth"                                             # Set history settings to remove duplicates
-export SUDO_EDITOR="vim"                                                                           # Set sudo editor to emacs
-export BROWSER="w3m"
+export EDITOR="/usr/bin/vim"
+export SUDO_EDITOR="/usr/bin/vim"
+export HISTCONTROL="$HISTCONTROL erasedups:ignoreboth" 
+# Pastel
+export PASTEL_COLOR_MODE=24bit
 
-# ntfy
-export AUTO_NTFY_DONE_IGNORE="yt mpv f fff pvre pvstat emacsclient e top vim emacs"                # Make ntfy ignore these commands/aliases
-
-# Rust
-export RUST_SRC_PATH="/home/valley/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/" # Set Rust src path to make Racer work
-
-### Functions
-# Display the current weather.
+## Functions
 wttr() {
-    local request="wttr.in/${1-IP ADDRESS?u}"
+    local request="wttr.in/${1-owosso?u}"
     [ "$COLUMNS" -lt 125 ] && request+='?n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
-# How Much Music -- Uses mpc and du to find amount of music, then w3m to scrape libre.fm for amount of songs played.
 hmm () {
     artists="$(mpc list Artist | sed '/^\s*$/d' | wc -l) artists."
     albums="$(mpc list Album | sed '/^\s*$/d' | wc -l) albums."
@@ -56,10 +34,6 @@ hmm () {
     echo -e "\nYou have:\n---------\n$artists\n$albums\n$songs\n\n$size\n$amount\n\n$status\n"
 }
 
-# Set the title of the xterm-based/compatible terminal.
-title() { echo -e '\033]2;'$1'\007'; }
-
-# Update all packages.
 update() {
     sudo emerge -avuDN world
     sudo emerge -Dac
@@ -68,11 +42,12 @@ update() {
 }
 
 updatefull() {
-    sudo emerge --sync
-    sudo layman -S
-    sudo emerge -avuDN world
-    sudo emerge -Dac
-    sudo revdep-rebuild -i
+    sudo emerge --sync        # Sync repositories
+	# sudo layman -S          # Sync layman repositories (gentoo overlays)
+    sudo emerge -avuDN world  # Update packages
+    sudo emerge -Dac          # Remove un-needed packages
+    sudo revdep-rebuild -i    # Rebuild any required dependencies
+	# sudo brl update         # Update Bedrock
     read -p "Your system has been updated. Press [ENTER] to continue."
 }
 
@@ -82,96 +57,42 @@ play() {
     mpv ytdl://ytsearch:"$search" --ytdl-format bestaudio
 }
 
-# Get news based on keyword(s).
-newson() {
-    search=$@
-    search=${search// /+}
-    curl getnews.tech/"$search"
-}
-
-# Dictionary
-dict() {
-    search=$@
-    search=${search// /+}
-    curl "dict://dict.org/d:$search"
-}
-
-# Use python to calculate.
-calc() { python -c print\("$1"\); }
-
-## Herbstluft
-hc() { herbstclient "$@"; }
-
-## OpenRC functions
-start() { su -c "rc-service $1 start"; }
-stop() { su -c "rc-service $1 stop"; }
-restart() { su -c "rc-service $1 restart"; }
-add() { su -c "rc-update add $1 $2" ;}
-del() { su -c "rc-update del $1 $2"; }
-rclist() { rc-update show -v; }
-
-## BASH
-# echo the path
 lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
 
-# ls alternative
 list(){ for file in *; do printf '%s\n' "$file"; done; }
 
-# Obtain time of when process started
-timeof() { \ps -eo pid,comm,lstart,etimes,time,args | grep "$1" | sed 1d; }
+yt() { if [ -z ${1+x} ]; then firefox-bin --new-tab invidio.us; else mpv "$1"; fi; }
 
-### Aliases
-# General
-alias fetch="fetch -d -k -m -p -s -u"
-alias rsfetch="rsfetch --no-wm-de -hulp portage"
+## Aliases
+alias rsfetch="rsfetch --no-wm-de -hup portage -L /mnt/ehdd/Pictures/ascii/leaf"
 alias myip="curl --silent https://ipecho.net/plain; echo"
 alias ss="ss -ntlp"
-alias du="diskus"
-alias alpine="sudo mount -v -t ext4 /dev/sda5 \$ALPINE"
-alias e="emacsclient"
-alias ff="sudo -u ff"
-alias aria="aria2c -c -j5 -x5 -s5 -k 1M"
+alias aria="aria2c -c -j16 -x16 -s16 -k 1M"
+alias fucking="sudo"
 
-# Entertainment
-alias matrix="unimatrix -n -s 96 -l knnSSssu"
-alias rr="/home/valley/downloads/github/rickrollrc/roll.sh"
-alias parrot="curl parrot.live && sleep 1 && tput sgr0"
-alias joke="echo -e \"\$(curl --silent https://icanhazdadjoke.com)\""
-
-# {core,bin}-utils related.
-alias grep="grep -i --color=auto"
+alias grep="rg -i --color=auto"
 alias ls="ls -Fa --color=auto"
 alias cat="cat -n"
 alias mkdir='mkdir -pv'
 alias mv="mv -iv"
 alias cp="cp -iv"
 alias rm="rm -iv"
-
-# Process-related.
 alias ps="ps auxf"
 alias pse="\ps -e --forest"
 alias psg="\ps aux | grep -v grep | grep -i -e VSZ -e"
 alias psr="\ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head"
 alias pst="\ps -eo pid,comm,lstart,etimes,time,args"
 
-# Mount music directories.
-alias umus="sudo mount --bind '/run/media/valley/Seagate Portable/Music' ~/Music"
-
-# Player, lyrics, and scrobbler log.
 alias mus='ncmpcpp -c ~/.ncmpcpp/config-rwb'
 alias lyrics='ncmpcpp -c ~/.ncmpcpp/config-lyrics'
 alias scriblog='clear; tail -f ~/.mpdscribble/mpdscribble.log'
 
-# YouTube
 alias ytdl='youtube-dl'
-alias yt="youtube-viewer"
 
-# ProtonVPN
 alias pvre="sudo pvpn -d; sudo pvpn -f; sudo pvpn --status; read -p 'Press [ENTER] to continue.'; speedtest-cli --secure --no-upload"
 alias pvstat="sudo pvpn --status"
 alias speed="speedtest-cli --secure --no-upload"
 
-# Gentoo
 alias merge="sudo emerge -atv"
 alias changed="sudo emerge --ask --changed-use --deep @world"
 alias emake="sudo -e /etc/portage/make.conf"
@@ -183,10 +104,6 @@ alias portup="sudo emerge -a1 sys-apps/portage"
 alias genlop="sudo genlop -it"
 alias lsuse="portageq envvar USE | xargs -n 1"
 alias lsfeat="portageq envvar FEATURES | xargs -n 1"
-alias lspkg="ls -d /var/db/pkg/*/* | cut -f5- -d/ | sed 's/\/$//'"
-
-# Rust
-alias cargo="/home/valley/.cargo/bin/cargo"
-alias rustfmt="/home/valley/.cargo/bin/rustfmt"
-alias rustc="/home/valley/.cargo/bin/rustc"
-
+alias lspkg="printf '%s\n' /var/db/pkg/*/*/"
+alias lspkg2="printf '%s\n' /var/db/pkg/*/*/ | wc -l"
+alias pkgsum="sudo qlop -c | grep total"

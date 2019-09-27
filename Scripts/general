@@ -1,0 +1,22 @@
+#!/bin/bash
+
+info_fetch() {
+	kernel="$(\cat /proc/sys/kernel/osrelease)"
+	pkgs="$(printf '%s\n' /var/db/pkg/*/*/ | wc -l)"
+	echo -e "
+          user : $USER
+        distro : Gentoo Base System release 2.6
+        kernel : $kernel
+         shell : $SHELL $BASH_VERSION
+      packages : $pkgs (emerge)
+window manager : bspwm
+"
+}
+
+case $1 in
+    date) notify-send "<u>date:</u>" "$(date +"%I:%M %p | %a %d, %b of %Y")";;
+    ip) notify-send "<u>ip address:</u>" "$(curl -s ifconfig.co)";;
+    mus) dunstify "$(mpc -f "%title%\n%album% (%date%)\n%artist%\n%genre%" | head -n4)" -I /tmp/cover.png;;
+    scr) ( FILE="$(head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9_-' | fold -w 10 | head -n 1)" && export FILE && imlib2_grab "$FILE.png" && mv "$FILE.png" "/home/valley/pictures/screenshots/" );;
+	fetch) info_fetch;;
+esac

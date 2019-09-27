@@ -1,0 +1,21 @@
+set $wallpaper /mnt/ehdd/Pictures/wallpapers/8md6RX.png
+
+set $background #060605
+set $foreground #dedede
+
+set $color0 #060605
+set $color1 #A72C13
+set $color2 #7D825F
+set $color3 #919563
+set $color4 #9DA08F
+set $color5 #C3BD90
+set $color6 #CFC896
+set $color7 #dedede
+set $color8 #9b9b9b
+set $color9 #A72C13
+set $color10 #7D825F
+set $color11 #919563
+set $color12 #9DA08F
+set $color13 #C3BD90
+set $color14 #CFC896
+set $color15 #dedede
