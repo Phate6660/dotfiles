@@ -19,7 +19,7 @@ export PASTEL_COLOR_MODE=24bit
 
 ## Functions
 wttr() {
-    local request="wttr.in/${1-owosso?u}"
+    local request="wttr.in/${1-[REDACTED]?u}"
     [ "$COLUMNS" -lt 125 ] && request+='?n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
@@ -43,11 +43,9 @@ update() {
 
 updatefull() {
     sudo emerge --sync        # Sync repositories
-	# sudo layman -S          # Sync layman repositories (gentoo overlays)
     sudo emerge -avuDN world  # Update packages
     sudo emerge -Dac          # Remove un-needed packages
     sudo revdep-rebuild -i    # Rebuild any required dependencies
-	# sudo brl update         # Update Bedrock
     read -p "Your system has been updated. Press [ENTER] to continue."
 }
 
@@ -105,5 +103,4 @@ alias genlop="sudo genlop -it"
 alias lsuse="portageq envvar USE | xargs -n 1"
 alias lsfeat="portageq envvar FEATURES | xargs -n 1"
 alias lspkg="printf '%s\n' /var/db/pkg/*/*/"
-alias lspkg2="printf '%s\n' /var/db/pkg/*/*/ | wc -l"
 alias pkgsum="sudo qlop -c | grep total"
