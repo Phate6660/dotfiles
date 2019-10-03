@@ -4,11 +4,17 @@
 
 # terminal emulator
 alt + Return
+    uxterm & sleep 0.25 && transset -a 0.8
+
+alt + shift + Return
     uxterm
 
 # program launcher
 ctrl + alt + @space
     rofi -show run
+
+ctrl + alt + shift + @space
+    rofi -show drun
 
 # file editor
 super + e
@@ -21,6 +27,9 @@ super + f
 # internet
 super + {d,w}
     {discord,firefox-bin}
+
+super + shift + w
+    sh -c '"/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" --detach || ([ !  -x "/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" ] && "$(dirname "$*")"/Browser/start-tor-browser --detach)'
 
 # general script
 super + {i,n,m}
@@ -56,9 +65,9 @@ alt + Escape
 alt + shift + {q,r}
     bspc {quit,wm -r}
 
-# close 
-alt + shift + c
-    bspc node -c
+# close and kill
+alt + shift + {c,x}
+    bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
 super + m
