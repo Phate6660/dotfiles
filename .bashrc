@@ -1,9 +1,25 @@
+#  ██▒   █▓ ▄▄▄       ██▓     ██▓    ▓█████▓██   ██▓
+# ▓██░   █▒▒████▄    ▓██▒    ▓██▒    ▓█   ▀ ▒██  ██▒
+#  ▓██  █▒░▒██  ▀█▄  ▒██░    ▒██░    ▒███    ▒██ ██░
+#   ▒██ █░░░██▄▄▄▄██ ▒██░    ▒██░    ▒▓█  ▄  ░ ▐██▓░
+#    ▒▀█░   ▓█   ▓██▒░██████▒░██████▒░▒████▒ ░ ██▒▓░
+#    ░ ▐░   ▒▒   ▓▒█░░ ▒░▓  ░░ ▒░▓  ░░░ ▒░ ░  ██▒▒▒ 
+#    ░ ░░    ▒   ▒▒ ░░ ░ ▒  ░░ ░ ▒  ░ ░ ░  ░▓██ ░▒░ 
+#      ░░    ░   ▒     ░ ░     ░ ░      ░   ▒ ▒ ░░  
+#       ░        ░  ░    ░  ░    ░  ░   ░  ░░ ░     
+#      ░                                    ░ ░     
+
 ## Check if interactive.
 if [[ $- != *i* ]] ; then
 	return
 fi
 
 ## Autostart
+# Enable completition
+source /etc/bash/bashrc.d/bash_completion.sh
+
+# bash settings
+shopt -s checkwinsize
 
 ## Environmental Variables
 # General
