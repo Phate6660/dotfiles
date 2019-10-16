@@ -26,7 +26,6 @@ shopt -s checkwinsize
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/scripts:$HOME/.local/bin"
 export PS1="[\@] \u \w \$ "
 export LS_COLORS="$(vivid generate molokai)"
-export CCACHE_DIR="/var/cache/ccache"
 export EDITOR="/usr/bin/vim"
 export SUDO_EDITOR="/usr/bin/vim"
 export HISTCONTROL="$HISTCONTROL erasedups:ignoreboth" 
