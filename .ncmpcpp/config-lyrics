@@ -54,11 +54,12 @@ regular_expressions = "basic" (basic/extended)
 ignore_leading_the = "yes"
 mouse_support = "yes"
 mouse_list_scroll_whole_page = "yes"
-empty_tag_marker = "<empty>"
+empty_tag_marker = ""
 enable_window_title = "no"
 search_engine_default_search_mode = "1"
 external_editor = "nano"
 use_console_editor = "yes" #(set to yes, if your editor is console app)
+lyrics_fetchers = genius, lyricwiki, azlyrics, sing365, lyricsmania, metrolyrics, justsomelyrics, jahlyrics, plyrics, tekstowo
 
 ##### colors definitions #####
 colors_enabled = "yes"
