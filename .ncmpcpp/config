@@ -30,7 +30,7 @@
 #
 ## Needed for tag editor and file operations to work.
 ##
-#mpd_music_dir = ~/music
+mpd_music_dir = /mnt/ehdd/Music
 #
 #mpd_crossfade_time = 5
 #
@@ -270,7 +270,7 @@ song_status_format = {{%a - }{%b - }{$b%t$/b}{ -- %g}}
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-#execute_on_song_change = ""
+execute_on_song_change = "/home/valley/scripts/art.sh"
 #
 ##
 ## Note: Custom command that will be executed each time player state
@@ -446,7 +446,7 @@ song_status_format = {{%a - }{%b - }{$b%t$/b}{ -- %g}}
 #
 #mouse_list_scroll_whole_page = yes
 #
-#empty_tag_marker = <empty>
+#empty_tag_marker = 
 #
 #tags_separator = " | "
 #
@@ -481,7 +481,7 @@ song_status_format = {{%a - }{%b - }{$b%t$/b}{ -- %g}}
 ##### colors definitions #####
 ##
 ## It is possible to set a background color by setting a color value
-## "<foreground>_<background>", e.g. red_black will set foregound color to red
+## "_", e.g. red_black will set foregound color to red
 ## and background color to black.
 ##
 ## In addition, for terminals that support 256 colors it is possible to set one
