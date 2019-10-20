@@ -2,158 +2,158 @@
 # wm independent hotkeys
 #
 
-# ;; transparent uxterm: 
-alt + Return # ::
+# transparent uxterm
+alt + Return
     uxterm & sleep 0.25 && transset -a 0.8
 
-# ;; uxterm: 
-alt + shift + Return # ::
+# uxterm
+alt + shift + Return
     uxterm
 
-# ;; program launcher: 
-ctrl + alt + @space # ::
+# program launcher
+ctrl + alt + @space
     rofi -show run
 
-# ;; file manager: 
-super + f # ::
+# file manager
+super + f
     pcmanfm
 
-# ;; discord and firefox: 
-super + {d,w} # ::
+# discord and firefox
+super + {d,w}
     {discord,firefox}
 
-# ;; tor browser: 
-super + shift + w # ::
+# tor browser
+super + shift + w
     sh -c '"/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" --detach || ([ !  -x "/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" ] && "$(dirname "$*")"/Browser/start-tor-browser --detach)'
 
-# ;; display ip, date, and music: 
-super + {i,n,m} # ::
+# display ip, date, and music
+super + {i,n,m}
     general {ip,date,mus}
 
-# ;; take screenshot: 
-Print # ::
+# take screenshot
+Print
     general scr
 
-# ;; info fetch: 
-super + o # ::
+# info fetch
+super + o
     dunstify "$(general fetch)" -I ~/downloads/c44accc6409f418178eaddd7e481956e.jpg
 
-# ;; next song, play/pause, previous song: 
-{XF86AudioNext,XF86AudioPlay,XF86AudioPrev} # ::
+# next song, play/pause, previous song
+{XF86AudioNext,XF86AudioPlay,XF86AudioPrev}
     mpc {next,toggle,prev}
 
-# ;; lock screen: 
-super + x # ::
+# lock screen
+super + x
     slock
 
-# ;; warning message for C-q: 
-ctrl + q # ::
+# warning message for C-q
+ctrl + q
     notify-send "<u>oops</u>" "You almost quit your program.\nPlease use A-S-c next time."
 
-# ;; xonotic: 
-super + g # ::
+# xonotic
+super + g
     rm -f "$HOME/.xonotic/lock" && xonotic-glx && killall xonotic-glx
 
-# ;; make sxhkd reload its configuration files: 
-alt + Escape # ::
+# make sxhkd reload its configuration files
+alt + Escape
     pkill -USR1 -x sxhkd
 
-# ;; emacs: 
-super + e # ::
+# emacs
+super + e
     emacs --no-splash
 
-# ;; vim: 
-super + v # ::
+# vim
+super + v
     uxterm -e vim
 
 #
 # bspwm hotkeys
 #
 
-# ;; quit/restart bspwm: 
-alt + shift + {q,r} # ::
+# quit/restart bspwm
+alt + shift + {q,r}
     bspc {quit,wm -r}
 
-# ;; close and kill: 
-alt + shift + {c,x} # ::
+# close and kill 
+alt + shift + {c,x}
     bspc node -{c,k}
 
-# ;; send the newest marked node to the newest preselected node: 
-super + y # ::
+# send the newest marked node to the newest preselected node
+super + y
     bspc node newest.marked.local -n newest.!automatic.local
 
 #
 # state/flags
 #
 
-# ;; tiling, pseudo tiling, floating: 
-super + {t,shift + t,s} # ::
+# tiling, pseudo tiling, floating
+super + {t,shift + t,s}
     bspc node -t {tiled,pseudo_tiled,floating}
 
-# ;; fullscreen: 
-ctrl + alt + f # ::
+# fullscreen
+ctrl + alt + f
     bspc node -t fullscreen
 
-# ;; marked, locked, sticky, private node: 
-super + ctrl + {m,x,y,z} # ::
+# marked, locked, sticky, private node
+super + ctrl + {m,x,y,z}
     bspc node -g {marked,locked,sticky,private}
 
 #
 # focus/swap
 #
 
-# ;; focus the node in the given direction: 
-alt + {_,shift + }{Left,Down,Up,Right} # ::
+# focus the node in the given direction
+alt + {_,shift + }{Left,Down,Up,Right}
 	bspc node -{f,s} {west,south,north,east}
 
-# ;; focus the node for parent, brother, first, second: 
-super + {p,b,comma,period} # ::
+# focus the node for parent, brother, first, second
+super + {p,b,comma,period}
 	bspc node -f @{parent,brother,first,second}
 
-# ;; focus the next/previous desktop in the current monitor: 
-ctrl + alt + {Left,Right} # ::
+# focus the next/previous desktop in the current monitor
+ctrl + alt + {Left,Right}
 	bspc desktop -f {prev,next}.local
 
-# ;; focus the last node/desktop: 
-super + {grave,Tab} # ::
+# focus the last node/desktop
+super + {grave,Tab}
 	bspc {node,desktop} -f last
 
-# ;; focus or send to the given desktop: 
-alt + {_,shift + }{1-9,0} # ::
+# focus or send to the given desktop
+alt + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} '^{1-9,10}'
 
 #
 # preselect
 #
 
-# ;; preselect the direction: 
-super + ctrl + {Left,Down,Up,Right} # ::
+# preselect the direction
+super + ctrl + {Left,Down,Up,Right}
 	bspc node -p {west,south,north,east}
 
-# ;; preselect the ratio: 
-super + ctrl + {1-9} # ::
+# preselect the ratio
+super + ctrl + {1-9}
 	bspc node -o 0.{1-9}
 
-# ;; cancel the preselection for the focused node: 
-super + ctrl + space # ::
+# cancel the preselection for the focused node
+super + ctrl + space
 	bspc node -p cancel
 
-# ;; cancel the preselection for the focused desktop: 
-super + ctrl + shift + space # ::
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
 	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
 # move/resize
 #
 
-# ;; expand a window by moving one of its side outward: 
-super + alt + {h,j,k,l} # ::
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
 	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
 
-# ;; contract a window by moving one of its side inward: 
-super + alt + shift + {h,j,k,l} # ::
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
 	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
 
-# ;; move a floating window: 
-super + {Left,Down,Up,Right} # ::
+# move a floating window
+super + {Left,Down,Up,Right}
 	bspc node -v {-20 0,0 20,0 -20,20 0}
