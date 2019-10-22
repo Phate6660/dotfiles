@@ -19,7 +19,7 @@ colorscheme delek           " set colorscheme to delek
 set splitbelow
 set splitright
 
-" set tab width to 4 spaces
+" set tab width and indentation to 4 spaces
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
