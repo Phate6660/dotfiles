@@ -60,6 +60,7 @@ nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <C-A> ^
 nnoremap <C-E> $
 nnoremap <S-E> A
+imap <S-A> ^Ai
 
 " keybindings to disable
 nnoremap ^ <nop>
