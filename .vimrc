@@ -59,10 +59,7 @@ nnoremap <leader><space> :nohlsearch<CR>
 " keybindings to change
 nnoremap <C-A> ^
 nnoremap <C-E> $
-nnoremap <S-E> A
-imap <S-A> ^Ai
 
 " keybindings to disable
 nnoremap ^ <nop>
 nnoremap $ <nop>
-nnoremap A <nop>
