@@ -74,7 +74,7 @@ lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
 
 list(){ for file in *; do printf '%s\n' "$file"; done; }
 
-yt() { if [ -z ${1+x} ]; then firefox-bin --new-tab invidio.us; else mpv "$1"; fi; }
+yt() { if [ -z ${1+x} ]; then firefox --new-tab invidio.us; else mpv "$1"; fi; }
 
 ## Aliases
 alias rsfetch="rsfetch --no-wm-de -hup portage -L /mnt/ehdd/Pictures/ascii/leaf"
