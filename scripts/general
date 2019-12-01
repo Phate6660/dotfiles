@@ -1,10 +1,12 @@
 #!/bin/bash
+# Usage: general ARGs
+# Example: general scr 
+# Result: The script will take a screenshot with imlib2_grab, place the screenshot in /home/valley/pictures/screenshots, and name the file with 10 random characters from /dev/urandom.
 
 info_fetch() {
-    kernel="$(\cat /proc/sys/kernel/osrelease)"
-    pkgs="$(printf '%s\n' /var/db/pkg/*/*/ | wc -l)"
-    echo -e "
-$USER
+	kernel="$(\cat /proc/sys/kernel/osrelease)"
+	pkgs="$(printf '%s\n' /var/db/pkg/*/*/ | wc -l)"
+	echo -e "
 Gentoo Base System release 2.6
 $kernel
 $SHELL $BASH_VERSION
@@ -14,9 +16,11 @@ bspwm
 }
 
 case $1 in
-    date) notify-send "<u>date:</u>" "$(date +"%I:%M %p | %a %d, %b of %Y")";;
-    ip) notify-send "<u>ip address:</u>" "$(curl -s ifconfig.co)";;
+    date) notify-send "date:" "$(date +"%I:%M %p | %a %d, %b of %Y")";;
+    ip) notify-send "ip address:" "$(curl -s ifconfig.co)";;
     mus) dunstify "$(mpc -f "%title%\n%album% (%date%)\n%artist%\n%genre%" | head -n4)" -I /tmp/cover.png;;
     scr) ( FILE="$(head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9_-' | fold -w 10 | head -n 1)" && export FILE && imlib2_grab "$FILE.png" && mv "$FILE.png" "/home/valley/pictures/screenshots/" );;
-    fetch) info_fetch;;
+	fetch) info_fetch;;
+    term) uxterm & sleep 0.25 && transset -a 0.8;;
+    warn) dunstify "oops" "You almost quit your program.\nPlease use A-S-c next time.";;
 esac
