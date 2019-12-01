@@ -12,6 +12,9 @@ alt + shift + Return
 
 # program launcher
 ctrl + alt + @space
+    rofi -show drun -show-icons
+
+ctrl + alt + shift + @space
     rofi -show run
 
 # file manager
@@ -20,7 +23,7 @@ super + f
 
 # discord and firefox
 super + {d,w}
-    {discord,firefox}
+    {/home/valley/downloads/Ripcord-0.4.21-x86_64.AppImage,firefox}
 
 # tor browser
 super + shift + w
@@ -39,8 +42,11 @@ super + o
     dunstify "$(general fetch)" -I ~/downloads/c44accc6409f418178eaddd7e481956e.jpg
 
 # next song, play/pause, previous song
-{XF86AudioNext,XF86AudioPlay,XF86AudioPrev}
-    mpc {next,toggle,prev}
+{XF86AudioNext,XF86AudioPlay,XF86AudioPrev,XF86AudioStop}
+    mpc {next,toggle,prev,cdprev}
+
+shift + XF86AudioPlay
+    playerctl play-pause
 
 # lock screen
 super + x
@@ -48,11 +54,11 @@ super + x
 
 # warning message for C-q
 ctrl + q
-    notify-send "<u>oops</u>" "You almost quit your program.\nPlease use A-S-c next time."
+    notify-send "oops" "You almost quit your program.\nPlease use A-S-c next time."
 
-# xonotic
+# gzdoom: doom{1,2} + project brutality + cheats
 super + g
-    rm -f "$HOME/.xonotic/lock" && xonotic-glx && killall xonotic-glx
+    gzdoom -file .config/gzdoom/*.pk3
 
 # make sxhkd reload its configuration files
 alt + Escape
@@ -65,6 +71,21 @@ super + e
 # vim
 super + v
     uxterm -e vim
+
+# record 1st display
+super + 1
+    bash -c "ffmpeg -y -video_size 1366x768 -framerate 60 -f x11grab -i :0.0 -f pulse -ac 2 -i default /tmp/display.mp4 &> /tmp/display1.log"
+
+# record 2nd display
+super + 2
+    bash -c "ffmpeg -y -video_size 1440x900 -framerate 60 -f x11grab -i :0.0+1366,0 -f pulse -ac 2 -i default /tmp/display2.mp4 &> /tmp/display2.log"
+
+# killall ffmpeg
+super + k
+    killall ffmpeg
+
+super + y
+    $HOME/downloads/FreeTube-0.7.1.AppImage
 
 #
 # bspwm hotkeys
@@ -79,9 +100,9 @@ alt + shift + {c,x}
     bspc node -{c,k}
 
 # send the newest marked node to the newest preselected node
-super + y
-    bspc node newest.marked.local -n newest.!automatic.local
-
+# super + y
+#     bspc node newest.marked.local -n newest.!automatic.local
+#
 #
 # state/flags
 #
