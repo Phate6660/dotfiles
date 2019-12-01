@@ -91,12 +91,16 @@ play() {
     mpv ytdl://ytsearch:"$search" --ytdl-format bestaudio
 }
 
+# Neatly output contents of $PATH.
 lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
 
+# Function to list all files in $PWD.
 list(){ for file in *; do printf '%s\n' "$file"; done; }
 
+# With arguments, play video with mpv. Without arguments, open invido.us in firefox.
 yt() { if [ -z ${1+x} ]; then firefox --new-tab invidio.us; else mpv "$1"; fi; }
 
+# Use python as a calculator. Example: calc 2*3+4/5-6
 calc() { python -c "print($@)"; }
 
 pvre() {
@@ -113,11 +117,13 @@ pvp2p() {
     sudo protonvpn s
 }
 
+# Compare 2 directories for differences. There will be no output if both directories are identical. Includes subdirectories too.
+# Example: atts $HOME/example $HOME/example2
 atts() { diff -r -q "$@"; }
 
 ## Aliases
-alias rsfetch="rsfetch --no-wm-de -hup portage -L /mnt/ehdd/Pictures/ascii/leaf"
-alias myip="curl --silent https://ipecho.net/plain; echo"
+alias rsfetch="rsfetch --no-wm-de -hup portage -L /mnt/ehdd/Pictures/ascii/leaf" # Shameless self-advertizing: https://github.com/rsfetch/rsfetch
+alias myip="curl --silent https://ipecho.net/plain; echo" # Display public IP Address.
 alias ss="ss -ntlp"
 alias aria="aria2c -c -j16 -x16 -s16 -k 1M"
 
@@ -141,19 +147,19 @@ alias scriblog='clear; tail -f ~/.mpdscribble/mpdscribble.log'
 alias ytdl='youtube-dl'
 
 alias pvpn="sudo protonvpn"
-alias pvstat="sudo pvpn --status"
-alias speed="speedtest-cli --secure --no-upload"
+alias pvstat="sudo pvpn --status" # Check ProtonVPN's status.
+alias speed="speedtest-cli --secure --no-upload" # Speed test. Uses only https and only tests download speed.
 
-alias merge="sudo emerge -atv"
-alias changed="sudo emerge --ask --changed-use --deep @world"
-alias emake="sudo -e /etc/portage/make.conf"
-alias searchfor="emerge -s"
-alias rem="sudo emerge -avc"
-alias frem="sudo emerge -avC"
-alias clean="sudo emerge -Dac; sudo revdep-rebuild -i"
-alias portup="sudo emerge -a1 sys-apps/portage"
-alias genlop="sudo genlop -it"
-alias lsuse="portageq envvar USE | xargs -n 1"
-alias lsfeat="portageq envvar FEATURES | xargs -n 1"
-alias lspkg="printf '%s\n' /var/db/pkg/*/*/"
-alias pkgsum="sudo qlop -c | grep total"
+alias merge="sudo emerge -atv" # Install package(s). a = ask, t = tree, v = verbose.
+alias changed="sudo emerge --ask --changed-use --deep @world" # Use after changing USE flags.
+alias emake="sudo -e /etc/portage/make.conf" # Edit make.conf with $SUDO_EDITOR.
+alias searchfor="emerge -s" # Search for a package.
+alias rem="sudo emerge -avc" # Remove package(s). c = depclean.
+alias frem="sudo emerge -avC" # Force remove package(s). C = unmerge.
+alias clean="sudo emerge -Dac; sudo revdep-rebuild -i" # Remove any un-needed packages, rebuild anything necessary. D = deep.
+alias portup="sudo emerge -a1 sys-apps/portage" # One-shot merge portage, only used when portage needs to update (usually).
+alias genlop="sudo genlop -it" # Display info for emerged ebuild(s). i = info, t = calculate merge time.
+alias lsuse="portageq envvar USE | xargs -n 1" # Neatly output the set USE flags for portage.
+alias lsfeat="portageq envvar FEATURES | xargs -n 1" # Neatly output the set features for portage.
+alias lspkg="printf '%s\n' /var/db/pkg/*/*/" # List installed packages.
+alias pkgsum="sudo qlop -c | grep total" # Total time, along with total merges, unmerges, and syncs for portage.
