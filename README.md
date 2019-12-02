@@ -3,7 +3,7 @@
 .
 ├── .bashrc
 ├── .cache
-│   └── wal
+│   └── wal -- these are for colorschemes for various things
 │       ├── colors
 │       ├── colors.css
 │       ├── colors.hs
@@ -33,25 +33,25 @@
 │       └── wal
 ├── .config
 │   ├── bspwm
-│   │   └── bspwmrc
+│   │   └── bspwmrc -- bspwm configuration, basically a shell script and it needs to executable
 │   ├── cava
 │   │   └── config
 │   ├── dunst
 │   │   └── dunstrc
 │   ├── greenclip.cfg
 │   ├── gtk-3.0
-│   │   └── gtk.css
+│   │   └── gtk.css -- custom css for gtk3 programs
 │   ├── herbstluftwm
-│   │   └── autostart
+│   │   └── autostart -- herbstluftwm configuration, if I recall correctly it's also pretty much a shell script
 │   ├── mpv
-│   │   ├── input.conf
-│   │   └── mpv.conf
+│   │   ├── input.conf -- mpv configuration: controls
+│   │   └── mpv.conf -- mpv configuration: main/general options
 │   ├── neofetch
 │   │   └── config.conf
 │   ├── openbox
 │   │   ├── autostart
 │   │   ├── environment
-│   │   └── rc.xml
+│   │   └── rc.xml -- openbox configuration
 │   ├── qutebrowser
 │   │   └── config.py
 │   ├── rofi
@@ -59,20 +59,20 @@
 │   ├── rtv
 │   │   └── rtv.cfg
 │   ├── sxhkd
-│   │   └── sxhkdrc
+│   │   └── sxhkdrc -- hotkey (keybinding) daemon, required for bspwm, but also a nice program to have in general
 │   ├── vis
-│   │   ├── colors
+│   │   ├── colors -- vis colorschemes
 │   │   │   ├── index
 │   │   │   ├── rainbow
 │   │   │   └── rgb
-│   │   └── config
+│   │   └── config -- vis config
 │   ├── youtube-dl
 │   │   └── config
 │   └── youtube-viewer
 │       └── youtube-viewer.conf
 ├── dwm
-│   ├── config.def.h
-│   └── patches
+│   ├── config.def.h -- dwm config
+│   └── patches -- patches to expand dwm
 │       ├── dwm-gaplessgrid-20160731-56a31dc.diff
 │       ├── dwm-gridmode-5.8.2.diff
 │       ├── dwm-noborder-6.2.diff
@@ -80,23 +80,23 @@
 │       ├── dwm-r1615-selfrestart.diff
 │       ├── dwm-restartsig-20180523-6.2.diff
 │       └── dwm-warp-git-20160626-7af4d43.diff
-├── .emacs
+├── .emacs -- emacs config
 ├── etc
 │   ├── dnscrypt-proxy
-│   │   └── dnscrypt-proxy.toml
+│   │   └── dnscrypt-proxy.toml -- dnscrypt-proxy config
 │   └── portage
 │       ├── make.conf
 │       ├── make.conf (lto)
 │       └── package.use
 │           └── 00cpuflags
-├── .inputrc
+├── .inputrc -- bash config: controls
 ├── kernel
 │   └── 4.19.72-gentoo-VALLEY-config
 ├── .mozilla
 │   └── PROFILE
 │       └── chrome
-│           ├── userChrome.css
-│           └── userContent.css
+│           ├── userChrome.css -- sexify yo browser
+│           └── userContent.css -- sexify yo web pages
 ├── .mpd
 │   └── mpd.conf
 ├── .mpdscribble
@@ -106,14 +106,14 @@
 │   └── config-lyrics
 ├── README.md
 ├── scripts
-│   ├── art.sh
-│   └── general
+│   ├── art.sh -- used in ncmpcpp config for extracting/copying album art to /tmp/cover.png
+│   └── general -- a script I use for general keybindings
 ├── .tmux.conf
-├── .vimrc
-├── .xinitrc
+├── .vimrc -- vim config
+├── .xinitrc -- xinit config, used for startx
 ├── .xmonad
-│   └── xmonad.hs
-└── .Xresources
+│   └── xmonad.hs -- xmonad config
+└── .Xresources -- sexify yo Xresource-compatible apps
 
 35 directories, 78 files
 ```
