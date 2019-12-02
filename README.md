@@ -33,7 +33,7 @@
 │       └── wal
 ├── .config
 │   ├── bspwm
-│   │   └── bspwmrc -- bspwm configuration, basically a shell script and it needs to executable
+│   │   └── bspwmrc -- bspwm configuration, basically a shell script and it needs to be executable
 │   ├── cava
 │   │   └── config
 │   ├── dunst
