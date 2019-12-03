@@ -10,9 +10,10 @@
 #      ░                                    ░ ░     
 # This file was made and edited with:
 # - Emacs
-# - Vim
-# - Nano
+# - Geany
 # - GNU Sed
+# - Nano
+# - Vim
 # Created by: https://github.com/Phate6660
 
 ## Check if interactive.
@@ -69,6 +70,7 @@ hmm () {
 }
 
 # Update without syncing. Useful for when something goes wrong and you need to update again, but don't wanna sync again.
+# Note: update and updatefull are Gentoo-specific functions.
 update() {
     sudo emerge -avuDN --with-bdeps y @world
     sudo emerge -Dac
@@ -125,31 +127,31 @@ atts() { diff -r -q "$@"; }
 alias rsfetch="rsfetch --no-wm-de -hup portage -L /mnt/ehdd/Pictures/ascii/leaf" # Shameless self-advertizing: https://github.com/rsfetch/rsfetch
 alias myip="curl --silent https://ipecho.net/plain; echo" # Display public IP Address.
 alias ss="ss -ntlp"
-alias aria="aria2c -c -j16 -x16 -s16 -k 1M"
+alias aria="aria2c -c -j16 -x16 -s16 -k 1M" # aria > wget/curl | fite me
 
-alias grep="rg -i --color=auto"
-alias ls="ls -Fa --color=auto"
-alias cat="cat -n"
-alias mkdir='mkdir -pv'
-alias mv="mv -iv"
-alias cp="cp -iv"
-alias rm="rm -iv"
-alias ps="ps auxf"
-alias pse="\ps -e --forest"
-alias psg="\ps aux | grep -v grep | grep -i -e VSZ -e"
-alias psr="\ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head"
+alias grep="rg -i --color=auto" # use ripgrep instead of grep, ignore case differences and automatically use color
+alias ls="ls -Fa --color=auto" # append indicators to filenames, show all files, automatically use color
+alias cat="cat -n" # show line numbers
+alias mkdir='mkdir -pv' # make any necessary parent directories, show verbose output
+alias mv="mv -iv" # interactive and verbose
+alias cp="cp -iv" # interactive and verbose
+alias rm="rm -iv" # interactive and verbose
+alias ps="ps auxf" # # show all processes, display user-oriented format, show processes that aren't attached to ttys, use full-format listing
+alias pse="\ps -e --forest" # list processes as a tree
+alias psg="\ps aux | grep -v grep | grep -i -e VSZ -e" # search for a running process. example: psg firefox
+alias psr="\ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head" # list top 10 cpu-intensive processes
 alias pst="\ps -eo pid,comm,lstart,etimes,time,args"
 
-alias mus='ncmpcpp -c ~/.ncmpcpp/config-rwb'
-alias lyrics='ncmpcpp -c ~/.ncmpcpp/config-lyrics'
-alias scriblog='clear; tail -f ~/.mpdscribble/mpdscribble.log'
+alias lyrics='ncmpcpp -c ~/.ncmpcpp/config-lyrics' # launch my ncmpcpp config for lyric viewing
+alias scriblog='clear; tail -f ~/.mpdscribble/mpdscribble.log' # tail my music-scrobbling log
 
-alias ytdl='youtube-dl'
+alias ytdl='youtube-dl' # I'm lazy.
 
-alias pvpn="sudo protonvpn"
+alias pvpn="sudo protonvpn" # Another case of me being lazy.
 alias pvstat="sudo pvpn --status" # Check ProtonVPN's status.
 alias speed="speedtest-cli --secure --no-upload" # Speed test. Uses only https and only tests download speed.
 
+# Everything below this comment is Gentoo-specific.
 alias merge="sudo emerge -atv" # Install package(s). a = ask, t = tree, v = verbose.
 alias changed="sudo emerge --ask --changed-use --deep @world" # Use after changing USE flags.
 alias emake="sudo -e /etc/portage/make.conf" # Edit make.conf with $SUDO_EDITOR.
