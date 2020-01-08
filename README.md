@@ -113,7 +113,8 @@
 ├── .xinitrc -- xinit config, used for startx
 ├── .xmonad
 │   └── xmonad.hs -- xmonad config
-└── .Xresources -- sexify yo Xresource-compatible apps
-
-35 directories, 78 files
+├── .Xresources -- sexify yo Xresource-compatible apps
+└── Windows
+    └── keybindings.ahk -- autohotkey script to set up global keybindings on Windows
+36 directories, 79 files
 ```
