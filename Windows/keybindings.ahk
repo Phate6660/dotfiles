@@ -23,6 +23,11 @@ Return
     Run, "C:\Windows\system32\cmd.exe"
 Return
 
+;; A-S-Return -- Fluent Terminal
+!+Enter::
+	Run, "C:\Users\valley\Desktop\Fluent Terminal"
+Return
+
 ;; W-f -- File Explorer
 #f::
 	Run, Explorer
@@ -47,7 +52,12 @@ Return
 !f2::
 	Run, ssh pi@192.168.1.178 -p 22 "mpc next"
 Return
-		
+
+;; W-n -- ncmpcpp via ssh
+#n::
+	Run, ssh -t pi@192.168.1.178 -p 22 "ncmpcpp"
+Return
+
 ;; A-S-r -- restart script if changed
 !+r::
 	Reload
@@ -67,7 +77,7 @@ Return
 }
 Return
 
-;; A-S-c -- close active window
+;; A-S-c -- kill active window
 !+c::
 {
 	WinGetActiveTitle, OutputVar
@@ -75,12 +85,34 @@ Return
 }
 Return
 
-;; W-g -- DOOM
-#g::
+;; C-A-f -- maximize/restore active window
+^!f::
+{
+	WinGetPos, winWidth, winHeight, , , A  ; "A" to get the active window's pos.
+    if ( winWidth == -8 and winHeight == -8) {
+    WinRestore, A
+    } else {
+    WinMaximize, A
+    }
+}
+Return
+
+;; W-d -- Discord
+#d::
+	Run, "C:\Users\valley\AppData\Local\Discord\app-0.0.305\Discord.exe"
+Return
+	
+;; W-S-d -- DOOM
+#+d::
     Run, "C:\Users\valley\Desktop\gzdoom\gzdoom.exe" -file C:\Users\valley\Desktop\gzdoom\wads\*
 Return
 
 ;; W-b -- Blender
 #b::
 	Run, "C:\Users\valley\Desktop\blender-2.82-56ef761381ec-windows64\blender.exe"
+Return
+
+;; W-g -- GIMP (to those offended by the name: who cares?)
+#g::
+	Run, "C:\Program Files\GIMP 2\bin\gimp-2.10.exe"
 Return
