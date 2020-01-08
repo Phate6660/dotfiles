@@ -116,3 +116,14 @@ Return
 #g::
 	Run, "C:\Program Files\GIMP 2\bin\gimp-2.10.exe"
 Return
+
+;; W-t -- Task Manager
+#t::
+	Run, taskmgr.exe
+Return
+
+;; G6 -- Start Menu
+;; Note: Remap G6 -> Pause Break in iCUE
+Pause::
+    Run, "C:\Program Files\Open-Shell\Start Screen.lnk"
+Return
