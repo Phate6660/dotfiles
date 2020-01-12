@@ -40,7 +40,7 @@
   border-right: 1px solid red !important; /* Added border here */
 }
 
-:root { --thin-tab-width: 20px; }
+:root { --thin-tab-width: 1px; }
 :root { --wide-tab-width: 200px; }
 
 #PanelUI-button, #forward-button, #back-button, #downloads-button, .tab-line {
