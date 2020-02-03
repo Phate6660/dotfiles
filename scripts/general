@@ -18,7 +18,7 @@ bspwm
 case $1 in
     date) notify-send "date:" "$(date +"%I:%M %p | %a %d, %b of %Y")";;
     ip) notify-send "ip address:" "$(curl -s ifconfig.co)";;
-    mus) dunstify "$(mpc -f "%title%\n%album% (%date%)\n%artist%\n%genre%" | head -n4)" -I /tmp/cover.png;;
+    mus) dunstify -I /tmp/cover.png -- "$(mpc | sed -n 2p | tr -s ' ' | awk -F\  '{ print $3 }')" "$(mpc -f "%title%\n%album% (%date%)\n%artist%\n%genre%" | head -n4)";;
     scr) ( FILE="$(head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9_-' | fold -w 10 | head -n 1)" && export FILE && imlib2_grab "$FILE.png" && mv "$FILE.png" "/home/valley/pictures/screenshots/" );;
     fetch) info_fetch;;
     term) uxterm & sleep 0.25 && transset -a 0.8;;
