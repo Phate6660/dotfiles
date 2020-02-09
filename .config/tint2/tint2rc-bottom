@@ -30,14 +30,14 @@ panel_dock = 0
 wm_menu = 0
 panel_layer = top
 panel_background_id = 1
-panel_items = FEEEF
+panel_items = FEEEEEF
 disable_transparency = 0
 
 # Panel Autohide
 autohide = 1
 autohide_show_timeout = 0
 autohide_hide_timeout = 0
-autohide_height = 1
+autohide_height = 0
 strut_policy = minimum
 
 # Taskbar
@@ -63,7 +63,7 @@ mouse_right = close
 mouse_scroll_up = toggle
 mouse_scroll_down = iconify
 
-# Executor
+# Executor 1 - state
 execp = new
 execp_command = mpc | sed -n 2p | awk -F\  '{ print $1 }'
 execp_tooltip =
@@ -76,7 +76,20 @@ execp_font_color = #aaffaa 100
 execp_background_id = 0
 execp_padding = 3 0 0
 
-# Executor
+# Executor 2 - separator
+execp = new
+execp_command = echo "|"
+execp_tooltip =
+execp_has_icon = 0
+execp_interval = 1
+execp_centered = 1
+execp_font = Misc Fixed 9
+execp_markup = 0
+execp_font_color = #aaffaa 100
+execp_background_id = 0
+execp_padding = 3 0 0
+
+# Executor 3 - elapsed/total
 execp = new
 execp_command = mpc | sed -n 2p | tr -s ' ' | awk -F\  '{ print $3 }'
 execp_tooltip =
@@ -89,7 +102,21 @@ execp_font_color = #aaffaa 100
 execp_background_id = 0
 execp_padding = 3 0 0
 
-# Executor
+# Executor 4 - separator
+execp = new
+execp_command = echo "|"
+execp_tooltip =
+execp_has_icon = 0
+execp_interval = 1
+execp_centered = 1
+execp_font = Misc Fixed 9
+execp_markup = 0
+execp_font_color = #aaffaa 100
+execp_background_id = 0
+execp_padding = 3 0 0
+
+
+# Executor 5 - music info
 execp = new
 execp_command = mpc -f "%genre% -- %title% - (%date%) %album% - %artist%" | head -n1
 execp_tooltip =

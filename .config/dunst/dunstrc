@@ -8,7 +8,7 @@
     monitor = 0
     follow = mouse
 
-    geometry = "540x5-10+32"
+    geometry = "0x5-10+32"
     indicate_hidden = yes
     shrink = yes
     transparency = 0
@@ -60,7 +60,7 @@
 
     ### Misc/Advanced ###
     dmenu = /usr/bin/rofi -show run -p dunst:
-    browser = /usr/bin/google-chrome-stable
+    browser = /usr/bin/firefox
     always_run_script = true
     title = Dunst
     class = Dunst

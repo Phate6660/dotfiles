@@ -26,7 +26,7 @@ panel_size = 100% 25
 panel_margin = 0 0
 panel_padding = 7 0 7
 panel_dock = 0
-wm_menu = 0
+wm_menu = 1
 panel_layer = top
 panel_background_id = 1
 panel_items = TSC
@@ -36,7 +36,7 @@ disable_transparency = 0
 autohide = 1
 autohide_show_timeout = 0
 autohide_hide_timeout = 0
-autohide_height = 1
+autohide_height = 0
 strut_policy = minimum
 
 # Taskbar
@@ -44,6 +44,8 @@ taskbar_mode = single_desktop
 taskbar_padding = 2 3 2
 taskbar_background_id = 0
 taskbar_active_background_id = 0
+taskbar_hide_different_monitor = 1
+taskbar_hide_different_desktop = 1
 
 # Tasks
 urgent_nb_of_blink = 8
@@ -101,7 +103,7 @@ tooltip_font = Misc Fixed 9
 tooltip_font_color = #aaffaa 80
 
 # Mouse
-mouse_middle = none
-mouse_right = close
+mouse_middle = close
+mouse_right = none
 mouse_scroll_up = toggle
 mouse_scroll_down = iconify
