@@ -5,23 +5,23 @@
 rounded = 0
 border_width = 1
 background_color = #000000 60
-border_color = #FFFFFF 16
+border_color = #aaffaa 16
 
 # ID 2
 rounded = 0
 border_width = 0
-background_color = #FFFFFF 40
-border_color = #FFFFFF 48
+background_color = #aaffaa 40
+border_color = #aaffaa 48
 
 # ID 3
 rounded = 0
 border_width = 0
-background_color = #FFFFFF 16
-border_color = #FFFFFF 68
+background_color = #aaffaa 16
+border_color = #aaffaa 68
 
 # Panel
 panel_monitor = all
-panel_position = bottom center horizontal
+panel_position = top center horizontal
 panel_size = 100% 25
 panel_margin = 0 0
 panel_padding = 7 0 7
@@ -29,15 +29,15 @@ panel_dock = 0
 wm_menu = 0
 panel_layer = top
 panel_background_id = 1
-panel_items = TESC
+panel_items = TSC
 disable_transparency = 0
 
 # Panel Autohide
 autohide = 1
-autohide_show_timeout = 0.1
+autohide_show_timeout = 0
 autohide_hide_timeout = 0
 autohide_height = 1
-strut_policy = follow_size
+strut_policy = minimum
 
 # Taskbar
 taskbar_mode = single_desktop
@@ -65,10 +65,10 @@ task_iconified_icon_asb = 70 0 0
 
 # Fonts
 task_font = Misc Fixed 9
-task_font_color = #FFFFFF 68
-task_active_font_color = #FFFFFF 83
-task_urgent_font_color = #FFFFFF 83
-task_iconified_font_color = #FFFFFF 68
+task_font_color = #aaffaa 68
+task_active_font_color = #aaffaa 83
+task_urgent_font_color = #aaffaa 83
+task_iconified_font_color = #aaffaa 68
 font_shadow = 0
 
 
@@ -79,13 +79,14 @@ systray_sort = ascending
 systray_background_id = 0
 systray_icon_size = 16
 systray_icon_asb = 70 0 0
+systray_monitor = 2
 
 # Clock
 time1_format = %I:%M %p
 time1_font = Misc Fixed 9
 time2_format = %a %d, %b of %Y
 time2_font = Misc Fixed 9
-clock_font_color = #FFFFFF 74
+clock_font_color = #aaffaa 74
 clock_padding = 1 0
 clock_background_id = 0
 clock_rclick_command = orage
@@ -97,30 +98,10 @@ tooltip_show_timeout = 0.7
 tooltip_hide_timeout = 0.3
 tooltip_background_id = 1
 tooltip_font = Misc Fixed 9
-tooltip_font_color = #FFFFFF 80
+tooltip_font_color = #aaffaa 80
 
 # Mouse
 mouse_middle = none
 mouse_right = close
 mouse_scroll_up = toggle
 mouse_scroll_down = iconify
-
-# Executor
-execp = new
-execp_command = mpc -f "%genre% -- %title% - (%date%) %album% - %artist%"
-execp_has_icon = 0
-execp_interval = 1
-execp_centered = 1
-execp_font = Misc Fixed 9
-execp_markup = 0
-execp_font_color = #aaffaa 100
-execp_padding = 2 0
-execp_tooltip = {lclick,rclick,uwheel,dwheel} = {toggle,stop,next,prev}
-execp_lclick_command = mpc toggle
-execp_rclick_command = mpc stop
-execp_mclick_command = /home/valley/scripts/general mus
-execp_uwheel_command = mpc next
-execp_dwheel_command = mpc prev
-execp_background_id = 0
-
-# End of config
