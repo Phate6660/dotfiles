@@ -118,7 +118,7 @@ execp_padding = 3 0 0
 
 # Executor 5 - music info
 execp = new
-execp_command = mpc -f "[%genre% -- ][%title% - ][[(%date%)[ ]%album%]][ - %artist%]" | head -n1
+execp_command = mpc -f "%genre% -- %title% - (%date%) %album% - %artist%" | head -n1
 execp_tooltip =
 execp_has_icon = 0
 execp_interval = 1
