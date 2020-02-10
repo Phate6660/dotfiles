@@ -1,0 +1,32 @@
+# Sets the DESKTOP_ENV variable to "OPENBOX"
+DESKTOP_ENV="OPENBOX"
+
+# Start udiskie and set it to automount devices
+udiskie -a &
+
+# Set dpi to 96
+xrandr --dpi 96 &
+
+# Merge .Xresources
+xrdb -merge ~/.Xresources &
+
+# Start a lightweight image viewer to display the wallpaper.
+hsetroot -full ~/downloads/Wallpapers/wall.png &
+
+# Start xscreensaver
+xscreensaver &
+
+# Start a program that turns on numlock in X (after the X server starts).
+numlockx &
+
+# Start unclutter
+unclutter -idle 3 &
+
+# Start greenclip
+greenclip daemon &
+
+# Start mpDris2
+mpDris2 &
+
+# Start python3 web server
+/home/valley/scripts/server &

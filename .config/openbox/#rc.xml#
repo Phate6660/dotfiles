@@ -417,7 +417,7 @@
       <keybind key="f">
         <action name="ToggleMaximizeFull"/>
       </keybind>
-      <keybind key="S-f">
+      <keybind key="S-FFf">
         <action name="Iconify"/>
       </keybind>
     </keybind>

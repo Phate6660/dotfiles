@@ -414,10 +414,10 @@
       </action>
     </keybind>
 	<keybind key="W-f">
-      <keybind key="f">
+      <keybind key="S-f">
         <action name="ToggleMaximizeFull"/>
       </keybind>
-      <keybind key="S-f">
+      <keybind key="f">
         <action name="Iconify"/>
       </keybind>
     </keybind>
