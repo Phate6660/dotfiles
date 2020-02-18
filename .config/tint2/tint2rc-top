@@ -29,7 +29,7 @@ panel_dock = 0
 wm_menu = 1
 panel_layer = top
 panel_background_id = 1
-panel_items = TSC
+panel_items = TESC
 disable_transparency = 0
 
 # Panel Autohide
@@ -107,3 +107,16 @@ mouse_middle = close
 mouse_right = none
 mouse_scroll_up = toggle
 mouse_scroll_down = iconify
+
+# Executor 1 - IP Address
+execp = new
+execp_command = ips.sh
+execp_tooltip =
+execp_has_icon = 0
+execp_interval = 1
+execp_centered = 1
+execp_font = Misc Fixed 9
+execp_markup = 0
+execp_font_color = #aaffaa 100
+execp_background_id = 0
+execp_padding = 3 0 0
