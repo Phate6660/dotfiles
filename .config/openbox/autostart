@@ -1,6 +1,7 @@
 # Sets the DESKTOP_ENV variable to "OPENBOX"
 DESKTOP_ENV="OPENBOX" &
 
-# Start python3 web server
+# Start tint2 panels
 tint2 -c "$HOME/.config/tint2/tint2rc-top" &
 tint2 -c "$HOME/.config/tint2/tint2rc-bottom" &
+tint2 -c "$HOME/.config/tint2/tint2rc-side" &
