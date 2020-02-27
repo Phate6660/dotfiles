@@ -1,0 +1,49 @@
+#  ██▒   █▓ ▄▄▄       ██▓     ██▓    ▓█████▓██   ██▓
+# ▓██░   █▒▒████▄    ▓██▒    ▓██▒    ▓█   ▀ ▒██  ██▒
+#  ▓██  █▒░▒██  ▀█▄  ▒██░    ▒██░    ▒███    ▒██ ██░
+#   ▒██ █░░░██▄▄▄▄██ ▒██░    ▒██░    ▒▓█  ▄  ░ ▐██▓░
+#    ▒▀█░   ▓█   ▓██▒░██████▒░██████▒░▒████▒ ░ ██▒▓░
+#    ░ ▐░   ▒▒   ▓▒█░░ ▒░▓  ░░ ▒░▓  ░░░ ▒░ ░  ██▒▒▒
+#    ░ ░░    ▒   ▒▒ ░░ ░ ▒  ░░ ░ ▒  ░ ░ ░  ░▓██ ░▒░
+#      ░░    ░   ▒     ░ ░     ░ ░      ░   ▒ ▒ ░░
+#       ░        ░  ░    ░  ░    ░  ░   ░  ░░ ░
+#      ░                                    ░ ░
+# This file was made and edited with:
+# - Emacs
+# - Geany
+# - GNU Sed
+# - Nano
+# - Vim
+# Created by: https://github.com/Phate6660
+
+## Functions
+# Update without syncing. Useful for when something goes wrong and you need to update again, but don't wanna sync again.
+update() {
+    sudo emerge -avuDN --with-bdeps y @world
+    sudo emerge -Dac
+    sudo revdep-rebuild -i
+    read -p "Your system has been updated. Press [ENTER] to continue."
+}
+
+updatefull() {
+    sudo emerge --sync                        # Sync repositories
+    sudo emerge -avuDN --with-bdeps y @world  # Update packages
+    sudo emerge -Dac                          # Remove un-needed packages
+    sudo revdep-rebuild -i                    # Rebuild any required dependencies
+    read -p "Your system has been updated. Press [ENTER] to continue."
+}
+
+## Aliases
+alias merge="sudo emerge -atv" # Install package(s). a = ask, t = tree, v = verbose.
+alias changed="sudo emerge --ask --changed-use --deep @world" # Use after changing USE flags.
+alias emake="sudo -e /etc/portage/make.conf" # Edit make.conf with $SUDO_EDITOR.
+alias searchfor="qsearch" # Search for a package.
+alias rem="sudo emerge -avc" # Remove package(s). c = depclean.
+alias frem="sudo emerge -avC" # Force remove package(s). C = unmerge.
+alias clean="sudo emerge -Dac; sudo revdep-rebuild -i" # Remove any un-needed packages, rebuild anything necessary. D = deep.
+alias portup="sudo emerge -a1 sys-apps/portage" # One-shot merge portage, only used when portage needs to update (usually).
+alias genlop="sudo genlop -it" # Display info for emerged ebuild(s). i = info, t = calculate merge time.
+alias lsuse="portageq envvar USE | xargs -n 1" # Neatly output the set USE flags for portage.
+alias lsfeat="portageq envvar FEATURES | xargs -n 1" # Neatly output the set features for portage.
+alias lspkg="printf '%s\n' /var/db/pkg/*/*/" # List installed packages.
+alias pkgsum="sudo qlop -c | grep total" # Total time, along with total merges, unmerges, and syncs for portage.
