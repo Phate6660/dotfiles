@@ -7,7 +7,7 @@ case $1 in
     date) notify-send "date:" "$(date +"%I:%M %p | %a %d, %b of %Y")";;
     ip) notify-send "ip address:" "$(curl -s ifconfig.co)";;
     mus) dunstify -I /tmp/cover.png -- "$(mpc | sed -n 2p | tr -s ' ' | awk -F\  '{ print $3 }')" "$(mpc -f "%title% ($(mpc | sed -n 2p | awk -F\  '{ print $2 }' | sed s/#//g))\n%album% (%date%)\n%artist%\n%genre%" | head -n4)";;
-    fetch) notify-send "$(rsfetch -Mdkuw)";;
+    fetch) dunstify "$ rsfetch -PbcdehkrstuU@w -C 0 -m mpd -p portage" "$(rsfetch -PbcdehkrstuU@w -C 0 -m mpd -p portage | sed /0m/d)";;
 	warn) dunstify "oops" "You almost quit your program.\nPlease use A-S-c next time.";;
 	term) uxterm -ti 340 & sleep 0.25 && transset -a 0.8;;
 	scr) ( FILE="$(head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9_-' | fold -w 10 | head -n 1)" && export FILE && imlib2_grab "$FILE.png" && mv "$FILE.png" "/home/valley/pictures/screenshots/" );;
