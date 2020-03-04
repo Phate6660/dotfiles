@@ -10,7 +10,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(powershell xahk-mode dashboard auto-package-update use-package speed-type nyan-mode)))
+	(cargo rust-mode auto-package-update use-package speed-type)))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
@@ -33,7 +33,7 @@
  )
 
 ;; settings
-;; (global-display-line-numbers-mode) ;; line numbers
+(global-display-line-numbers-mode) ;; line numbers
 (setq-default inhibit-splash-screen t) ;; no startup stuff
 (setq x-select-enable-clipboard t) ;; enable clipboard
 (setq-default tab-width 4) ;; start 4 space tab
@@ -43,11 +43,8 @@
 (setq-default indent-tabs-mode t)
 (setq backward-delete-char-untabify-method 'nil) ;; end 4 space tab
 (defalias 'yes-or-no-p 'y-or-n-p) ;; yes/no -> y/n
-(global-hl-line-mode t)
+;; (global-hl-line-mode t) ;; highlights line with cursor
 (setq use-package-always-defer t)
-(load-theme 'Witchmacs t) ;; witchmacs theme
-(add-to-list 'auto-mode-alist '("\\.ahk\\'" . xahk-mode)) ;; autohotkey mode upon loading *.ahk* file
-(add-to-list 'auto-mode-alist '("\\.ps1\\'" . powershell-mode)) ;; powershell mode upon loading *.ps1* file
 
 ;; packages
 (require 'package)
@@ -77,31 +74,12 @@ There are two things you can do about this warning:
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
-;; dashboard -- witchmacs
-(use-package dashboard
-  :ensure t
-  :defer nil
-  :preface
-  (defun create-scratch-buffer ()
-    "Create a scratch buffer"
-    (interactive)
-    (switch-to-buffer (get-buffer-create "*scratch*"))
-    (lisp-interaction-mode))
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-items '((recents . 5)))
-  (setq dashboard-banner-logo-title "vallEyMACS - The cutest ripoff of an Emacs distribution!")
-  (setq dashboard-startup-banner "~/.emacs.d/marivector.png")
-  (setq dashboard-center-content t)
-  (setq dashboard-show-shortcuts nil)
-  (setq dashboard-set-init-info t)
-  (setq dashboard-init-info (format "%d packages loaded in %s"
-                                    (length package-activated-list) (emacs-init-time)))
-  (setq dashboard-set-footer nil)
-  (setq dashboard-set-navigator t)
-  (setq dashboard-navigator-buttons
-        `(((,nil
-            "Open scratch buffer"
-            "Switch to the scratch buffer"
-            (lambda (&rest _) (create-scratch-buffer))
-            'default)))))
+;; Keybindings
+(global-set-key (kbd "<home>") 'beginning-of-buffer)
+(global-set-key (kbd "<end>") 'end-of-buffer)
+
+;; Required stuff
+(require 'rust-mode) ;; Rust Mode
+
+;; Hooks
+(add-hook 'rust-mode-hook 'cargo-minor-mode)
