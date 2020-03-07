@@ -1,7 +1,6 @@
 # For setting alternate/extra controls (I think?)
 $include /etc/inputrc
-“\e[5~”: history-search-backward
-“\e[6~”: history-search-forward
+"\C-?": backward-kill-word
 
 set colored-stats On
 set completion-ignore-case On
