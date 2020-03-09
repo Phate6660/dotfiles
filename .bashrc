@@ -154,6 +154,7 @@ alias glog="git log --graph --pretty=\"%Cred%h%Creset -%C(auto)%d%Creset %s %Cgr
 alias tokei="tokei --files --sort code"
 alias remacs="RUST_BACKTRACE=1 remacs -q"
 alias gb="gameboy -x 4 -a"
+alias netris="ssh netris.rocketnine.space"
 
 alias top="btm -af"
 alias find="fd -a -j5"
