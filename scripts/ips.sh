@@ -16,13 +16,6 @@ if protonvpn s | grep Disconnected; then
 else
     s="$(protonvpn s | sed -n 4p | awk -F\  '{ print $2 }')"
     f="$(protonvpn s | sed -n 5p | awk -F\  '{ print $2 }')"
-    case $f in
-        "Normal") f="Norm";;
-        "P2P");;
-        "Tor");;
-        "Secure-Core") f="Sec";;
-        *) f="?";;
-    esac
     output="VPN: ON ($s - $f) | $i"
 fi
 echo "$output"
