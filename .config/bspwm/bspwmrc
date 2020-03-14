@@ -17,4 +17,6 @@ bspc rule -a Emacs state=tiled
 bspc rule -a FreeTube state=floating
 bspc rule -a Ripcord state=floating
 bspc rule -a Gimp state=floating
-bspc rule -a bite state=floating
+bspc rule -a Gameboy state=floating
+bspc rule -a scratchpad sticky=on state=floating hidden=on
+uxterm -class scratchpad -e /bin/bash &

@@ -54,7 +54,7 @@ ctrl + q
 
 # {gzdoom: doom{1,2} + project brutality + cheats,minecraft (am i a memer yet guys?),morrowind}
 super + g ; {d,t,m}
-    {gzdoom -file .config/gzdoom/*.pk3,java -jar games/minecraft/TLauncher-2.69.jar,openmw-launcher-nightly}
+    {gzdoom -file .config/gzdoom/*.pk3 +sv_cheats 1 +vid_fps true +cl_capfps false +vid_maxfps 60,java -jar games/minecraft/TLauncher-2.69.jar,openmw-launcher-nightly}
 
 # emacs
 super + {_,shift}  + e
@@ -66,11 +66,11 @@ super + v
 
 # record 1st display
 super + 1
-    bash -c "ffmpeg -y -video_size 1366x768 -framerate 60 -f x11grab -i :0.0 -f pulse -ac 2 -i default /tmp/display.mp4 &> /tmp/display1.log"
+    bash -c "ffmpeg -y -video_size 1366x768 -framerate 60 -f x11grab -i :1.0 -f pulse -ac 2 -i default /tmp/display.mp4 &> /tmp/display1.log"
 
 # record 2nd display
 super + 2
-    bash -c "ffmpeg -y -video_size 1440x900 -framerate 60 -f x11grab -i :0.0+1366,0 -f pulse -ac 2 -i default /tmp/display2.mp4 &> /tmp/display2.log"
+    bash -c "ffmpeg -y -video_size 1440x900 -framerate 60 -f x11grab -i :1.0+1366,0 -f pulse -ac 2 -i default /tmp/display2.mp4 &> /tmp/display2.log"
 
 # killall ffmpeg
 super + k
@@ -80,6 +80,10 @@ super + k
 super + b
     ~/downloads/blender-2.83-04e318de3a40-linux-glibc217-x86_64/blender
 
+# scratchpad
+super + s
+    $HOME/scripts/scratch scratchpad
+	
 # make sxhkd reload its configuration files
 alt + shift + r
     pkill -USR1 -x sxhkd
@@ -94,7 +98,7 @@ alt + shift + q
 
 # restart bspwm
 ctrl + alt + shift + r
-    bspc wm -r
+    killall sxhkd && bspc wm -r
 
 # close and kill 
 alt + shift + {c,x}
@@ -109,12 +113,12 @@ alt + shift + {c,x}
 #
 
 # tiling, pseudo tiling, floating
-super + {t,shift + t,s}
-    bspc node -t {tiled,pseudo_tiled,floating}
+super + shift + t
+    bspc node -t pseudo_tiled
 
 # fullscreen
-ctrl + alt + f
-    bspc node -t fullscreen
+ctrl + alt + {f,t, shift + f}
+    bspc node -t {fullscreen,tiled,floating}
 
 # marked, locked, sticky, private node
 super + ctrl + {m,x,y,z}
