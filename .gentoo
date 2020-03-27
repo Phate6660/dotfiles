@@ -16,12 +16,17 @@
 # - Vim
 # Created by: https://github.com/Phate6660
 
+## Environmental Variables
+export LIBAACS_PATH=libmmbd
+export LIBBDPLUS_PATH=libmmbd
+
 ## Functions
 # Update without syncing. Useful for when something goes wrong and you need to update again, but don't wanna sync again.
 update() {
     sudo emerge -avuDN --with-bdeps y @world
     sudo emerge -Dac
     sudo revdep-rebuild -i
+	sudo prelink -amR
     read -p "Your system has been updated. Press [ENTER] to continue."
 }
 
@@ -30,6 +35,7 @@ updatefull() {
     sudo emerge -avuDN --with-bdeps y @world  # Update packages
     sudo emerge -Dac                          # Remove un-needed packages
     sudo revdep-rebuild -i                    # Rebuild any required dependencies
+	sudo prelink -amR                         # Prelink libs for faster startup times
     read -p "Your system has been updated. Press [ENTER] to continue."
 }
 
