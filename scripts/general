@@ -14,4 +14,6 @@ case $1 in
 	tbb) sh -c '"/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" --detach || ([ !  -x "/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" ] && "$(dirname "$*")"/Browser/start-tor-browser --detach)';;
 	color) uxterm -ti 340 -e "grabc | pastel color && read -p \"Press [ENTER] to continue.\"";;
 	cd) dunstify "current desktop:" "$(bspc query -T -d | jq -r .name)";;
+	stat) dunstify "audio stats:" -- "------------\n$(cat /proc/asound/card0/pcm0p/sub0/hw_params)";;
+	dev) dunstify "processes using alsa:" -- "---------------------\n$(fuser -v /dev/snd/* /dev/dsp* &> $HOME/.adev && sed 1d $HOME/.adev)";;
 esac

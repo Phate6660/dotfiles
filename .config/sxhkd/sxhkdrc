@@ -22,19 +22,20 @@ super + {_,shift} + f
     {emacs ~,filezilla}
 
 # discord and firefox
-super + {d,w}
-    {discord,firefox}
-
-super + shift + d
-    /home/valley/downloads/Ripcord-0.4.22-x86_64.AppImage
+super + {d,shift + d,w}
+    {/home/valley/downloads/Ripcord-0.4.24-x86_64.AppImage,discord,firefox}
 
 # tor browser
 super + shift + w
     general tbb
 
-# display ip, date, and music
-super + {c,i,n,m,o}
-    general {cd,ip,date,mus,fetch}
+# display current workspace, ip, date, info fetch, and music
+super + {c,i,n,o,m}
+    general {cd,ip,date,fetch,mus}
+
+# display processes using alsa and audio stats
+super + a ; {d,s}
+    general {dev,stat}
 
 # take screenshot
 Print
@@ -53,24 +54,20 @@ ctrl + q
     notify-send "oops" "You almost quit your program.\nPlease use A-S-c next time."
 
 # {gzdoom: doom{1,2} + project brutality + cheats,minecraft (am i a memer yet guys?),morrowind}
-super + g ; {d,t,m}
-    {gzdoom -file .config/gzdoom/*.pk3 +sv_cheats 1 +vid_fps true +cl_capfps false +vid_maxfps 60,java -jar games/minecraft/TLauncher-2.69.jar,openmw-launcher-nightly}
+super + g ; {d,t,m,n}
+    {gzdoom -file .config/gzdoom/*.pk3 +sv_cheats 1 +vid_fps true +cl_capfps false +vid_maxfps 60,java -jar games/minecraft/TLauncher-2.69.jar,openmw-launcher-nightly,nx}
 
 # emacs
 super + {_,shift}  + e
     {emacs,uxterm -e "RUST_BACKTRACE=1 remacs -q"}
 
-# vim
-super + v
-    uxterm -e vim
-
 # record 1st display
 super + 1
-    bash -c "ffmpeg -y -video_size 1366x768 -framerate 60 -f x11grab -i :1.0 -f pulse -ac 2 -i default /tmp/display.mp4 &> /tmp/display1.log"
+    bash -c "ffmpeg -y -video_size 1366x768 -framerate 60 -f x11grab -i $DISPLAY.0 /tmp/display.mp4 &> /tmp/display1.log"
 
 # record 2nd display
 super + 2
-    bash -c "ffmpeg -y -video_size 1440x900 -framerate 60 -f x11grab -i :1.0+1366,0 -f pulse -ac 2 -i default /tmp/display2.mp4 &> /tmp/display2.log"
+    bash -c "ffmpeg -y -video_size 1440x900 -framerate 60 -f x11grab -i $DISPLAY.0+1366,0 /tmp/display2.mp4 &> /tmp/display2.log"
 
 # killall ffmpeg
 super + k
@@ -83,7 +80,7 @@ super + b
 # scratchpad
 super + s
     $HOME/scripts/scratch scratchpad
-	
+
 # make sxhkd reload its configuration files
 alt + shift + r
     pkill -USR1 -x sxhkd
@@ -98,7 +95,7 @@ alt + shift + q
 
 # restart bspwm
 ctrl + alt + shift + r
-    killall sxhkd && bspc wm -r
+    kill $(xdotool search --class scratchpad getwindowpid) && killall sxhkd && bspc wm -r
 
 # close and kill 
 alt + shift + {c,x}
