@@ -1,6 +1,4 @@
-## Set HDMI to primary output, VGA to secondary.
-xrandr --output VGA-0 --mode 1440x900 --pos 1366x0 --rotate normal --output HDMI-0 --primary --mode 1366x768 --pos 0x0 --rotate normal &
-## Set DPI to 96 -- Yes, I know I can combine the two xrandr commands. I separated them on purpose.
+## Set DPI to 96.
 xrandr --dpi 96 &
 ## Toggle numlock.
 numlockx &

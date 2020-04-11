@@ -2,8 +2,7 @@
 
 sxhkd &
 
-bspc monitor HDMI-0 -d I II III IV V
-bspc monitor VGA-0 -d VI VII VIII IX X
+bspc monitor VGA-0 -d I II III IV V VI VII VIII IX X
 
 bspc config border_width         5
 bspc config window_gap           7
@@ -15,7 +14,7 @@ bspc config single_monocle       true
 
 bspc rule -a Emacs state=tiled
 bspc rule -a FreeTube state=floating
-bspc rule -a Ripcord state=floating
+bspc rule -a Ripcord state=tiled
 bspc rule -a Gimp state=floating
 bspc rule -a Gameboy state=floating
 bspc rule -a scratchpad sticky=on state=floating hidden=on
