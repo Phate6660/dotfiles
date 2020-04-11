@@ -49,10 +49,12 @@ export EDITOR="/usr/bin/emacs -nw"
 export SUDO_EDITOR="/usr/bin/emacs -nw"
 export HISTCONTROL="erasedups:ignoreboth" 
 export PASTEL_COLOR_MODE=24bit # For https://github.com/sharkdp/pastel
-export LIBAACS_PATH=libmmbd
-export LIBBDPLUS_PATH=libmmbd
+
+# Variables for paths in EHDDs
 export ANIME="/mnt/ehdd/Videos/Anime"
+export MOVIES="/mnt/ehdd/Videos/Movies"
 export MUSIC="/mnt/ehdd2/Music"
+export TV="/mnt/ehdd/Videos/TV"
 
 # Color for less
 export LESS=-R
@@ -67,7 +69,7 @@ export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
 ## Functions
 # Obtain the weather in your terminal. Change [REDACTED] to either your town, zip code, coordinates, or IP Address.
 wttr() {
-    local request="wttr.in/${1-[REDACTED]?u}"
+    local request="wttr.in/${1-{[REDACTED]}?u}"
     [ "$COLUMNS" -lt 125 ] && request+='?n'
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
@@ -99,7 +101,7 @@ hmm () {
 play() {
     search=$@
     search=${search// /+}
-    mpv ytdl://ytsearch:"$search" --ytdl-format bestaudio
+    mpv ytdl://ytsearch:"$search" --ytdl-format=bestaudio
 }
 
 # Play a playlist in mpv, but reverse it beforehand
@@ -114,7 +116,7 @@ lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
 list(){ for file in *; do printf '%s\n' "$file"; done; }
 
 # With arguments, play video with mpv. Without arguments, open invido.us in firefox.
-yt() { if [ -z ${1+x} ]; then firefox --new-tab invidio.us; else mpv "$1"; fi; }
+yt() { if [ -z ${1+x} ]; then palemoon --new-tab invidio.us; else mpv "$1"; fi; }
 
 # Use python as a calculator. Example: calc 2*3+4/5-6
 calc() { perl -e "print($@)"; }
@@ -146,9 +148,9 @@ e-shrooms() {
 }
 
 ## Aliases
-alias rsfetch="rsfetch -PdbcehklrstuU@w -C 0 -L /home/valley/downloads/ascii/dragon_with_sign -m mpd -p portage" # Shameless self-advertizing: https://github.com/rsfetch/rsfetch
+alias rsfetch="/usr/bin/rsfetch -PdbcehklrstuU@w -C0 -L/home/valley/downloads/ascii/dragon_with_sign -mmpd -pportage" # Shameless self-advertizing: https://github.com/rsfetch/rsfetch
 alias onefetch="onefetch -i '/home/valley/downloads/Yes Yes(nat the lich.jpg'"
-alias fetch="tewisay -f /usr/share/cowsay/cows/te.cow \"$(\rsfetch -PdbcehkMrstuU@w -C 0 -m mpd -p portage)\""
+alias fetch="tewisay -f /usr/share/cowsay/cows/te.cow \"$(/usr/bin/rsfetch -PdbcehkMrstuU@w -C 0 -m mpd -p portage)\""
 alias myip="curl --silent https://ipecho.net/plain; echo" # Display public IP Address.
 alias ss="ss -ntlp"
 alias aria="aria2c -c -j16 -x16 -s16 -k 1M" # aria > wget/curl | fite me
@@ -159,6 +161,11 @@ alias remacs="RUST_BACKTRACE=1 remacs -q"
 alias gb="gameboy -a"
 alias netris="ssh netris.rocketnine.space"
 alias navi="navi -p /home/valley/.config/navi"
+alias cstats="CCACHE_DIR=/var/cache/ccache ccache -s"
+
+alias adev="fuser -fv /dev/snd/* /dev/dsp*"
+alias astat="cat /proc/asound/card0/pcm0p/sub0/hw_params"
+alias avol="awk -F\"[][]\" '/dB/ { print \$2 }' <(amixer sget Master)"
 
 alias top="btm -af"
 alias find="fd -a -j4"
