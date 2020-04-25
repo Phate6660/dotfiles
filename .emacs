@@ -7,10 +7,11 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
+ '(fringe-mode 1 nil (fringe))
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(centaur-tabs cargo rust-mode auto-package-update use-package speed-type)))
+	(wallpaper exwm engine-mode emojify vterm lua-mode centaur-tabs cargo rust-mode auto-package-update use-package speed-type)))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
@@ -32,7 +33,8 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; settings
+;; settings -- general
+(server-start) ;; start server
 (global-display-line-numbers-mode) ;; line numbers
 (setq-default inhibit-splash-screen t) ;; no startup stuff
 (setq x-select-enable-clipboard t) ;; enable clipboard
@@ -63,6 +65,16 @@
 (set-mouse-color "white")
 ;; Disable cursor blinking
 (blink-cursor-mode 0)
+;; Load Gentoo stuff
+(require 'site-gentoo)
+;; Kill vterm buffer on exit
+(setq vterm-kill-buffer-on-exit t)
+;; Ask for sudo password if needed
+(defadvice find-file (after find-file-sudo activate)
+  "Find file as root if necessary."
+  (unless (and buffer-file-name
+               (file-writable-p buffer-file-name))
+    (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
 ;; Packages
 (require 'package)
@@ -84,6 +96,7 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+;; Automatically update packages
 (use-package auto-package-update
   :defer nil
   :ensure t
@@ -92,6 +105,7 @@ There are two things you can do about this warning:
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
 
+;; Customizable tabs
 (use-package centaur-tabs
   :demand
   :config
@@ -100,6 +114,161 @@ There are two things you can do about this warning:
   :bind
   ("C-<next>" . centaur-tabs-backward)
   ("C-<prior>" . centaur-tabs-forward))
+
+;; Terminal
+(use-package vterm
+    :ensure t)
+
+;; Show emojis
+(use-package emojify
+    :ensure t)
+
+;; EXWM
+(require 'exwm)
+(require 'exwm-config)
+(require 'exwm-systemtray)
+(exwm-systemtray-enable)
+;; Turn on `display-time-mode' if you don't use an external bar.
+;; (setq display-time-default-load-average nil)
+;; (display-time-mode t)
+;; Set the initial number of workspaces (they can also be created later).
+(setq exwm-workspace-number 10)
+;; All buffers created in EXWM mode are named "*EXWM*". You may want to
+;; change it in `exwm-update-class-hook' and `exwm-update-title-hook', which
+;; are run when a new X window class name or title is available.  Here's
+;; some advice on this topic:
+;; + Always use `exwm-workspace-rename-buffer` to avoid naming conflict.
+;; + For applications with multiple windows (e.g. GIMP), the class names of
+;    all windows are probably the same.  Using window titles for them makes
+;;   more sense.
+;; In the following example, we use class names for all windows except for
+;; Java applications and GIMP.
+(add-hook 'exwm-update-class-hook
+          (lambda ()
+            (unless (or (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                        (string= "gimp" exwm-instance-name))
+              (exwm-workspace-rename-buffer exwm-class-name))))
+(add-hook 'exwm-update-title-hook
+          (lambda ()
+            (when (or (not exwm-instance-name)
+                      (string-prefix-p "sun-awt-X11-" exwm-instance-name)
+                      (string= "gimp" exwm-instance-name))
+              (exwm-workspace-rename-buffer exwm-title))))
+(add-hook 'exwm-manage-finish-hook
+          (lambda ()
+            (when (and exwm-class-name
+                       (string= exwm-class-name "UXTerm"))
+              (exwm-input-set-local-simulation-keys '(([?\C-c ?\C-c] . ?\C-c))))))
+;; Global keybindings can be defined with `exwm-input-global-keys'.
+;; Here are a few examples:
+(setq exwm-input-global-keys
+      `(
+		;; Bind "s-z" to exit char-mode and fullscreen mode.
+        ([?\s-z] . exwm-layout-toggle-mode-line)
+        ;; Bind "s-r" to exit char-mode and fullscreen mode.
+        ([?\s-r] . exwm-restart)
+        ;; Bind "s-`" to switch workspace interactively.
+        ([?\s-`] . exwm-workspace-switch)
+        ;; Bind "s-0" to "s-9" to switch to a workspace by its index.
+        ,@(mapcar (lambda (i)
+                    `(,(kbd (format "s-%d" i)) .
+                      (lambda ()
+                        (interactive)
+                        (exwm-workspace-switch-create ,i))))
+                  (number-sequence 0 9))
+        ;; Bind "s-&" to launch applications ('M-&' also works if the output
+        ;; buffer does not bother you).
+        ([?\s-&] . (lambda (command)
+       (interactive (list (read-shell-command "$ ")))
+       (start-process-shell-command command nil command)))
+        ;; rofi
+        ([?\s-^] . (lambda ()
+      (interactive)
+      (start-process "" nil "rofi" "-show" "run")))
+		;; xscreensaver
+        ([?\s-x] . (lambda ()
+      (interactive)
+      (start-process "" nil "xscreensaver-command" "-lock")))
+		;; ripcord
+		([?\s-d] . (lambda ()
+      (interactive)
+      (start-process "" nil "/home/valley/downloads/Ripcord-0.4.24-x86_64.AppImage")))
+        ;; palemoon
+		([?\s-w] . (lambda ()
+      (interactive)
+      (start-process "" nil "palemoon")))
+		;; tor browswer bundle
+		([?\s-W] . (lambda ()
+      (interactive)
+      (start-process "" nil "general" "tbb")))
+		;; uxterm
+		([?\s-t] . (lambda ()
+      (interactive)
+      (start-process "" nil "uxterm" "-ti" "340")))
+        ;; music notification
+		([?\s-m] . (lambda ()
+      (interactive)
+      (start-process "" nil "general" "mus")))
+		;; time/date notification
+		([?\s-n] . (lambda ()
+      (interactive)
+      (start-process "" nil "general" "date")))
+		;; ip address notification
+		([?\s-i] . (lambda ()
+      (interactive)
+      (start-process "" nil "general" "ip")))
+		;; fetch notification
+		([?\s-o] . (lambda ()
+      (interactive)
+      (start-process "" nil "general" "fetch")))
+		;; audio stats
+		([?\s-A] . (lambda ()
+      (interactive)
+      (start-process "" nil "general" "stat")))
+		;; audio devices
+		([?\s-a] . (lambda ()
+      (interactive)
+      (start-process "" nil "general" "dev")))
+		;; blender
+		([?\s-b] . (lambda ()
+      (interactive)
+      (start-process "" nil "/home/valley/downloads/blender-2.83-04e318de3a40-linux-glibc217-x86_64/blender")))
+		;; gzdoom
+		([?\s-g] . (lambda ()
+      (interactive)
+      (start-process "" nil "gzdoom" "-file" "/home/valley/.config/gzdoom/*.pk3" "+sv_cheats" "1" "+vid_fps" "true" "+cl_capfps" "false" "+vid_maxfps" "60")))))
+
+;; The following example demonstrates how to use simulation keys to mimic
+;; the behavior of Emacs.  The value of `exwm-input-simulation-keys` is a
+;; list of cons cells (SRC . DEST), where SRC is the key sequence you press
+;; and DEST is what EXWM actually sends to application.  Note that both SRC
+;; and DEST should be key sequences (vector or string).
+(setq exwm-input-simulation-keys
+      '(
+        ;; movement
+        ;; ([?\C-b] . [left])
+        ([?\M-b] . [C-left])
+        ;; ([?\C-f] . [right])
+        ([?\M-f] . [C-right])
+        ([?\C-p] . [up])
+        ([?\C-n] . [down])
+        ;; ([?\C-a] . [home])
+        ;; ([?\C-e] . [end])
+        ([?\M-v] . [prior])
+        ([?\C-v] . [next])
+        ([?\C-d] . [delete])
+        ([?\C-k] . [S-end delete])
+        ;; cut/paste.
+        ([?\C-w] . [?\C-x])
+        ([?\M-w] . [?\C-c])
+        ([?\C-y] . [?\C-v])
+        ;; search
+        ;; ([?\C-s] . [?\C-f])
+		))
+
+;; Do not forget to enable EXWM. It will start by itself when things are
+;; ready.  You can put it _anywhere_ in your configuration.
+(exwm-enable)
 
 ;; Functions
 (defun rename-current-buffer-file ()
@@ -127,8 +296,42 @@ There are two things you can do about this warning:
 (global-set-key (kbd "C-c l") 'insert-ls) ;; insert ls output at cursor in buffer
 (global-set-key (kbd "C-x C-r") 'rename-current-buffer-file) ;; rename current file
 
+;; play/pause song
+(global-set-key (kbd "<XF86AudioPlay>") (lambda ()
+	(interactive)
+    (start-process "" nil "mpc" "toggle")
+))
+
+;; next song
+(global-set-key (kbd "<XF86AudioNext>") (lambda ()
+	(interactive)
+    (start-process "" nil "mpc" "next")
+))
+
+;; previous song
+(global-set-key (kbd "<XF86AudioPrev>") (lambda ()
+	(interactive)
+    (start-process "" nil "mpc" "prev")
+))
+
+;; replay song
+(global-set-key (kbd "<XF86AudioStop>") (lambda ()
+	(interactive)
+    (start-process "" nil "mpc" "cdprev")
+))
+
+;; screenshot
+(global-set-key (kbd "<Print>") (lambda ()
+	(interactive)
+    (start-process "" nil "general" "scr")
+))
+
 ;; Required stuff
 (require 'rust-mode) ;; Rust Mode
 
 ;; Hooks
+(add-hook 'emacs-startup-hook (lambda ()
+    (start-process-shell-command "" nil "xrdb -merge ~/.Xresources")
+))
+(add-hook 'after-init-hook #'global-emojify-mode)
 (add-hook 'rust-mode-hook 'cargo-minor-mode)

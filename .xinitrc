@@ -15,8 +15,13 @@ xsetroot -cursor_name left_ptr &
 ## Start screen saver and locker.
 xscreensaver -no-splash &
 ## Restore wallpapers.
-nitrogen --restore &
+# nitrogen --restore &
 ## Launch Openbox.
 # exec ck-launch-session dbus-launch --sh-syntax --exit-with-session openbox-session
 ## Launch bspwm.
-exec ck-launch-session dbus-launch --sh-syntax --exit-with-session bspwm
+# exec ck-launch-session dbus-launch --sh-syntax --exit-with-session bspwm
+## Launch EXWM
+# Set keyboard repeat rate.
+xset r rate 200 60
+# Finally start Emacs
+exec ck-launch-session dbus-launch --sh-syntax --exit-with-session emacs
