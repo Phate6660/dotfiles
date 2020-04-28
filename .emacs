@@ -11,7 +11,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(wallpaper exwm engine-mode emojify vterm lua-mode centaur-tabs cargo rust-mode auto-package-update use-package speed-type)))
+	(async wallpaper exwm engine-mode emojify vterm lua-mode centaur-tabs cargo rust-mode auto-package-update use-package speed-type)))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
@@ -26,49 +26,57 @@
   ;; current column:line
   "[%c:%l]"))
 (force-mode-line-update t)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
 
-;; settings -- general
-(server-start) ;; start server
-(global-display-line-numbers-mode) ;; line numbers
-(setq-default inhibit-splash-screen t) ;; no startup stuff
-(setq x-select-enable-clipboard t) ;; enable clipboard
-(setq-default tab-width 4) ;; start 4 space tab
+;;;; settings -- general
+;; start server
+(server-start)
+
+;; line numbers
+(global-display-line-numbers-mode)
+
+;; no startup stuff
+(setq-default inhibit-splash-screen t)
+
+;; enable clipboard
+(setq x-select-enable-clipboard t)
+
+;; 4 space tabs
+(setq-default tab-width 4)
 (setq-default standard-indent 4)
 (setq c-basic-offset tab-width)
 (setq-default electric-indent-inhibit t)
 (setq-default indent-tabs-mode t)
-(setq backward-delete-char-untabify-method 'nil) ;; end 4 space tab
-(defalias 'yes-or-no-p 'y-or-n-p) ;; yes/no -> y/n
+(setq backward-delete-char-untabify-method 'nil)
+
+;; yes/no -> y/n
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 ;; (global-hl-line-mode t) ;; highlights line with cursor
+
 (setq use-package-always-defer t)
-;; Save point position between sessions -- start
+
+;; Save point position between sessions
 (require 'saveplace)
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
-;; Save point position between sessions -- end
-;; Write backup files to own directory -- start
+
+;; Write backup files to own directory ("$HOME/.emacs.d/backups")
 (setq backup-directory-alist
       `(("." . ,(expand-file-name
                  (concat user-emacs-directory "backups")))))
 ;; Make backups of files, even when they're in version control
 (setq vc-make-backup-files t)
+
 ;; Set font and size
 (add-to-list 'default-frame-alist '(font . "-misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-1" ))
 (set-face-attribute 'default t :font "-misc-fixed-medium-r-normal--13-120-75-75-c-70-iso8859-1" )
-;; Set mouse color
-(set-mouse-color "white")
-;; Disable cursor blinking
-(blink-cursor-mode 0)
+
 ;; Load Gentoo stuff
 (require 'site-gentoo)
+
 ;; Kill vterm buffer on exit
 (setq vterm-kill-buffer-on-exit t)
+
 ;; Ask for sudo password if needed
 (defadvice find-file (after find-file-sudo activate)
   "Find file as root if necessary."
@@ -123,14 +131,21 @@ There are two things you can do about this warning:
 (use-package emojify
     :ensure t)
 
-;; EXWM
+;; Asynchronous bytecode compilation and various other actions makes Emacs look SIGNIFICANTLY less often which is a good thing.
+(use-package async
+    :ensure t
+    :defer t
+    :init
+    (dired-async-mode 1)
+    (async-bytecomp-package-mode 1)
+    :custom (async-bytecomp-allowed-packages '(all)))
+
+;;;; EXWM
 (require 'exwm)
 (require 'exwm-config)
+;; systray
 (require 'exwm-systemtray)
 (exwm-systemtray-enable)
-;; Turn on `display-time-mode' if you don't use an external bar.
-;; (setq display-time-default-load-average nil)
-;; (display-time-mode t)
 ;; Set the initial number of workspaces (they can also be created later).
 (setq exwm-workspace-number 10)
 ;; All buffers created in EXWM mode are named "*EXWM*". You may want to
@@ -270,7 +285,7 @@ There are two things you can do about this warning:
 ;; ready.  You can put it _anywhere_ in your configuration.
 (exwm-enable)
 
-;; Functions
+;;;; Functions
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
@@ -288,7 +303,19 @@ There are two things you can do about this warning:
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
-;; Keybindings and Macros
+ (defun toggle-transparency ()
+   (interactive)
+   (let ((alpha (frame-parameter nil 'alpha)))
+     (set-frame-parameter
+      nil 'alpha
+      (if (eql (cond ((numberp alpha) alpha)
+                     ((numberp (cdr alpha)) (cdr alpha))
+                     ;; Also handle undocumented (<active> <inactive>) form.
+                     ((numberp (cadr alpha)) (cadr alpha)))
+               100)
+          '(85 . 50) '(100 . 100)))))
+
+;;;; Keybindings and Macros
 (global-set-key (kbd "<home>") 'beginning-of-buffer) ;; move to beginning of buffer
 (global-set-key (kbd "<end>") 'end-of-buffer) ;; move to end of buffer
 (fset 'insert-ls
@@ -320,16 +347,28 @@ There are two things you can do about this warning:
     (start-process "" nil "mpc" "cdprev")
 ))
 
-;; screenshot
-(global-set-key (kbd "<Print>") (lambda ()
-	(interactive)
-    (start-process "" nil "general" "scr")
-))
-
-;; Required stuff
+;;;; Required stuff
 (require 'rust-mode) ;; Rust Mode
 
-;; Hooks
+;; transparent frame and wallpaper
+(set-frame-parameter (selected-frame) 'alpha '(80 50))
+(add-to-list 'default-frame-alist '(alpha . (80 . 50)))
+(use-package wallpaper
+  :ensure t
+  :custom ((wallpaper-cycle-single t)
+           (wallpaper-scaling 'max)
+           (wallpaper-cycle-interval 15)
+           (wallpaper-cycle-directory "/mnt/ehdd/Pictures/wallpapers")))
+
+;; Mouse / Cursor
+(set-mouse-color "white") ;; Set mouse color
+(blink-cursor-mode 0) ;; Disable cursor blinking
+
+;; set wallpaper
+(wallpaper-set-wallpaper)
+(wallpaper-cycle-mode t)
+
+;;;; Hooks
 (add-hook 'emacs-startup-hook (lambda ()
     (start-process-shell-command "" nil "xrdb -merge ~/.Xresources")
 ))
