@@ -124,7 +124,7 @@ lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
 list(){ for file in *; do printf '%s\n' "$file"; done; }
 
 # With arguments, play video with mpv. Without arguments, open invido.us in firefox.
-yt() { if [ -z ${1+x} ]; then firefox --new-tab invidio.us; else mpv "$1"; fi; }
+yt() { if [ -z ${1+x} ]; then palemoon --new-tab invidio.us; else mpv "$1"; fi; }
 
 # Use python as a calculator. Example: calc 2*3+4/5-6
 calc() { perl -e "print($@)"; }
