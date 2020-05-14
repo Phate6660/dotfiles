@@ -85,15 +85,15 @@ wttr() {
 # How much music. Example output:
 # You have:
 # ---------
-# 116 artists.
-# 845 albums.
-# 8878 songs.
-#
-# Which uses up 169GB of storage.
-# Also, you have played 17203 complete songs.
-#
-# Now playing: Prison Song by System Of A Down
-# ============================================
+# 141 artists.
+# 1030 albums.
+# 10533 songs.
+# 
+# Which uses up 209GB of storage.
+# Also, you have played 26325 complete songs.
+# 
+# Now playing: Legend In My Spare Time by Bloodhound Gang
+# =======================================================
 # Note: You may need to change some things, like the music directory and the libre.fm user url.
 hmm () {
     artists="$(mpc list Artist | sed '/^\s*$/d' | wc -l) artists."
@@ -126,7 +126,7 @@ list(){ for file in *; do printf '%s\n' "$file"; done; }
 # With arguments, play video with mpv. Without arguments, open invido.us in firefox.
 yt() { if [ -z ${1+x} ]; then firefox --new-tab invidio.us; else mpv "$1"; fi; }
 
-# Use perl as a calculator. Example: calc 2*3+4/5-6
+# Use python as a calculator. Example: calc 2*3+4/5-6
 calc() { perl -e "print($@)"; }
 
 pvre() {
@@ -134,7 +134,6 @@ pvre() {
     sudo protonvpn c -f
     sudo protonvpn s
     read -p 'Press [ENTER] to continue.'
-    speedtest-cli --secure --no-upload
 }
 
 pvp2p() {
@@ -170,9 +169,9 @@ function vterm_printf(){
 }
 
 ## Aliases
-alias rsfetch="/usr/bin/rsfetch -PdbcehklrstuU@w -C0 -L/home/valley/downloads/ascii/dragon_with_sign -mmpd -pportage" # Shameless self-advertizing: https://github.com/rsfetch/rsfetch
+alias rsfetch="$HOME/.cargo/bin/rsfetch -PdbcehklrstuU@w -C0 -L/home/valley/downloads/ascii/dragon_with_sign -mmpd -pportage" # Shameless self-advertizing: https://github.com/rsfetch/rsfetch
 alias onefetch="onefetch -i '/home/valley/downloads/Yes Yes(nat the lich.jpg'"
-alias fetch="tewisay -f /usr/share/cowsay/cows/te.cow \"$(/usr/bin/rsfetch -PdbcehkMrstuU@w -C 0 -m mpd -p portage)\""
+alias fetch="tewisay -f /usr/share/cowsay/cows/te.cow \"$($HOME/.cargo/bin/rsfetch -PdbcehkMrstuU@w -C 0 -m mpd -p portage)\""
 alias myip="curl --silent https://ipecho.net/plain; echo" # Display public IP Address.
 alias ss="ss -ntlp"
 alias aria="aria2c -c -j16 -x16 -s16 -k 1M" # aria > wget/curl | fite me
@@ -211,7 +210,6 @@ alias ytdl='youtube-dl' # I'm lazy.
 
 alias pvpn="sudo protonvpn" # Another case of me being lazy.
 alias pvstat="sudo protonvpn s" # Check ProtonVPN's status.
-alias speed="speedtest-cli --secure --no-upload" # Speed test. Uses only https and only tests download speed.
 
 ## Source distro-specific files for functions and aliases.
 source "$HOME/.gentoo"

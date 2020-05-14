@@ -11,7 +11,7 @@
  '(menu-bar-mode nil)
  '(package-selected-packages
    (quote
-	(async wallpaper exwm engine-mode emojify vterm lua-mode centaur-tabs cargo rust-mode auto-package-update use-package speed-type)))
+	(crystal-mode async wallpaper exwm engine-mode emojify vterm lua-mode centaur-tabs cargo rust-mode auto-package-update use-package speed-type)))
  '(scroll-bar-mode nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
@@ -103,6 +103,11 @@ There are two things you can do about this warning:
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
+
+;; Ensure that use-package is installed.
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;; Automatically update packages
 (use-package auto-package-update
@@ -219,7 +224,7 @@ There are two things you can do about this warning:
 		;; uxterm
 		([?\s-t] . (lambda ()
       (interactive)
-      (start-process "" nil "uxterm" "-ti" "340")))
+      (start-process "" nil "general" "term")))
         ;; music notification
 		([?\s-m] . (lambda ()
       (interactive)
@@ -303,17 +308,17 @@ There are two things you can do about this warning:
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
- (defun toggle-transparency ()
-   (interactive)
-   (let ((alpha (frame-parameter nil 'alpha)))
-     (set-frame-parameter
-      nil 'alpha
-      (if (eql (cond ((numberp alpha) alpha)
-                     ((numberp (cdr alpha)) (cdr alpha))
-                     ;; Also handle undocumented (<active> <inactive>) form.
-                     ((numberp (cadr alpha)) (cadr alpha)))
-               100)
-          '(85 . 50) '(100 . 100)))))
+(defun toggle-transparency ()
+  (interactive)
+  (let ((alpha (frame-parameter nil 'alpha)))
+    (set-frame-parameter
+     nil 'alpha
+     (if (eql (cond ((numberp alpha) alpha)
+                    ((numberp (cdr alpha)) (cdr alpha))
+                    ;; Also handle undocumented (<active> <inactive>) form.
+                    ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+         '(85 . 50) '(100 . 100)))))
 
 ;;;; Keybindings and Macros
 (global-set-key (kbd "<home>") 'beginning-of-buffer) ;; move to beginning of buffer
@@ -322,30 +327,6 @@ There are two things you can do about this warning:
    "\C-u\C-[!ls\C-m")
 (global-set-key (kbd "C-c l") 'insert-ls) ;; insert ls output at cursor in buffer
 (global-set-key (kbd "C-x C-r") 'rename-current-buffer-file) ;; rename current file
-
-;; play/pause song
-(global-set-key (kbd "<XF86AudioPlay>") (lambda ()
-	(interactive)
-    (start-process "" nil "mpc" "toggle")
-))
-
-;; next song
-(global-set-key (kbd "<XF86AudioNext>") (lambda ()
-	(interactive)
-    (start-process "" nil "mpc" "next")
-))
-
-;; previous song
-(global-set-key (kbd "<XF86AudioPrev>") (lambda ()
-	(interactive)
-    (start-process "" nil "mpc" "prev")
-))
-
-;; replay song
-(global-set-key (kbd "<XF86AudioStop>") (lambda ()
-	(interactive)
-    (start-process "" nil "mpc" "cdprev")
-))
 
 ;;;; Required stuff
 (require 'rust-mode) ;; Rust Mode
@@ -367,6 +348,19 @@ There are two things you can do about this warning:
 ;; set wallpaper
 (wallpaper-set-wallpaper)
 (wallpaper-cycle-mode t)
+
+;; stuff for fetlang (for more info check https://github.com/Phate6660/fet)
+(setq fetlang-highlights
+      '(("(\\([^<]+?\\))" . font-lock-comment-face) ;; comments are anything inside parentheses
+		("Worship\\|Scream\\|Spank\\|Lick\\|Flog\\|Moan\\|worship\\|spank\\|scream\\|lick\\|flog\\|moan\\|Make\\|Have\\|make\\|have" . font-lock-function-name-face)
+		("Dungeon Master\\|Slave\\|dungeon master\\|slave" . font-lock-constant-face)
+		("\"\"\\|one\\|two\\|three\\|four\\|five\\|six\\|seven\\|eight\\|nine\\|ten\\|eleven\\|twelve\\|thirteen\\|fourteen\\|fifteen\\|sixteen\\|seventeen\\|eighteen\\|nineteen\\|twenty\\|thirty\\|fourty\\|fifty\\|sixty\\|seventy\\|eighty\\|ninety\\|hundred\\|thousand\\|million\\|billion\\|trillion" . font-lock-string-face)))
+
+(define-derived-mode fetlang-mode fundamental-mode "fetlang"
+  "major mode for editing mymath language code."
+  (setq font-lock-defaults '(fetlang-highlights)))
+
+(add-to-list 'auto-mode-alist '("\\.fet\\'" . fetlang-mode))
 
 ;;;; Hooks
 (add-hook 'emacs-startup-hook (lambda ()

@@ -63,8 +63,11 @@
 │   ├── herbstluftwm
 │   │   └── autostart
 │   ├── mpv
-│   │   ├── input.conf -- mpv config, specifically for keybindings/controls
-│   │   └── mpv.conf -- main mpv config
+│   │   ├── input.conf
+│   │   ├── mpv.conf
+│   │   └── scripts
+│   │       ├── acompressor.lua
+│   │       └── ytdl_hook.lua
 │   ├── neofetch
 │   │   └── config.conf
 │   ├── openbox
@@ -104,18 +107,26 @@
 │       ├── dwm-restartsig-20180523-6.2.diff
 │       └── dwm-warp-git-20160626-7af4d43.diff
 ├── .emacs -- emacs config
+├── escape_sequence_art -- art created out of escape sequences and unicode blocks, simply displaying the contents of the raw file in a terminal that properly supports escape sequences like xterm should render the art
+│   ├── beserk
+│   ├── dead
+│   ├── haha
+│   ├── loli
+│   ├── mikasa
+│   ├── mirror
+│   └── trap
 ├── etc
 │   ├── dnscrypt-proxy
 │   │   └── dnscrypt-proxy.toml
 │   └── portage
 │       ├── make.conf
-│       ├── make.conf (lto)
 │       └── package.use
 │           └── 00cpuflags
 ├── .gentoo -- gentoo-specific aliases, environmental variables, and/or functions to be sourced in .bashrc
-├── .inputrc -- bash config, mainly for setting keybindings
+├── .inputrc
 ├── kernel
-│   └── 4.19.72-gentoo-VALLEY-config -- outdated kernel config that I'm too lazy to update
+│   ├── 4.19.72-gentoo-VALLEY-config
+│   └── 5.4.31-ck-valley-config
 ├── .mint -- mint-specific aliases, environmental variables, and/or functions to be sourced in .bashrc
 ├── .mozilla
 │   └── PROFILE
@@ -146,5 +157,6 @@
 │   └── xmonad.hs
 └── .Xresources -- for theming X apps
 
-39 directories, 104 files
+
+40 directories, 106 files
 ```
