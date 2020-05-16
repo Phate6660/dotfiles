@@ -31,7 +31,7 @@ update() {
 }
 
 updatefull() {
-    sudo emerge --sync                        # Sync repositories
+    sudo emerge --sync | less                 # Sync repositories and pipe into less for easy reading of the output
     sudo emerge -avuDN --with-bdeps y @world  # Update packages
     sudo emerge -Dac                          # Remove un-needed packages
     sudo revdep-rebuild -i                    # Rebuild any required dependencies
@@ -40,6 +40,7 @@ updatefull() {
 }
 
 ## Aliases
+alias esync="sudo emerge --sync | less"
 alias merge="sudo emerge -atv" # Install package(s). a = ask, t = tree, v = verbose.
 alias changed="sudo emerge --ask --changed-use --deep @world" # Use after changing USE flags.
 alias emake="sudo -e /etc/portage/make.conf" # Edit make.conf with $SUDO_EDITOR.
