@@ -5,9 +5,9 @@
 # ffmpeg version                #
 #-------------------------------#
 
-MUSIC_DIR="/mnt/ehdd/Music"
+MUSIC_DIR="/mnt/ehdd2/Music"
 COVER="/tmp/cover.png"
-COVER_SIZE=125
+COVER_SIZE=400
 
 BORDERS=false
 BORDER_WIDTH=6
