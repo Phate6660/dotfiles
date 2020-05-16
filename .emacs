@@ -107,7 +107,7 @@ There are two things you can do about this warning:
 ;; Ensure that use-package is installed.
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-(package-install 'use-package))
+  (package-install 'use-package))
 
 ;; Automatically update packages
 (use-package auto-package-update
