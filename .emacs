@@ -107,7 +107,7 @@ There are two things you can do about this warning:
 ;; Ensure that use-package is installed.
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
-  (package-install 'use-package))
+(package-install 'use-package))
 
 ;; Automatically update packages
 (use-package auto-package-update
@@ -148,9 +148,6 @@ There are two things you can do about this warning:
 ;;;; EXWM
 (require 'exwm)
 (require 'exwm-config)
-;; systray
-(require 'exwm-systemtray)
-(exwm-systemtray-enable)
 ;; Set the initial number of workspaces (they can also be created later).
 (setq exwm-workspace-number 10)
 ;; All buffers created in EXWM mode are named "*EXWM*". You may want to
@@ -201,11 +198,7 @@ There are two things you can do about this warning:
         ([?\s-&] . (lambda (command)
        (interactive (list (read-shell-command "$ ")))
        (start-process-shell-command command nil command)))
-        ;; rofi
-        ([?\s-^] . (lambda ()
-      (interactive)
-      (start-process "" nil "rofi" "-show" "run")))
-		;; xscreensaver
+        ;; xscreensaver
         ([?\s-x] . (lambda ()
       (interactive)
       (start-process "" nil "xscreensaver-command" "-lock")))
@@ -308,17 +301,17 @@ There are two things you can do about this warning:
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
-(defun toggle-transparency ()
-  (interactive)
-  (let ((alpha (frame-parameter nil 'alpha)))
-    (set-frame-parameter
-     nil 'alpha
-     (if (eql (cond ((numberp alpha) alpha)
-                    ((numberp (cdr alpha)) (cdr alpha))
-                    ;; Also handle undocumented (<active> <inactive>) form.
-                    ((numberp (cadr alpha)) (cadr alpha)))
-              100)
-         '(85 . 50) '(100 . 100)))))
+ (defun toggle-transparency ()
+   (interactive)
+   (let ((alpha (frame-parameter nil 'alpha)))
+     (set-frame-parameter
+      nil 'alpha
+      (if (eql (cond ((numberp alpha) alpha)
+                     ((numberp (cdr alpha)) (cdr alpha))
+                     ;; Also handle undocumented (<active> <inactive>) form.
+                     ((numberp (cadr alpha)) (cadr alpha)))
+               100)
+          '(85 . 50) '(100 . 100)))))
 
 ;;;; Keybindings and Macros
 (global-set-key (kbd "<home>") 'beginning-of-buffer) ;; move to beginning of buffer
@@ -331,7 +324,7 @@ There are two things you can do about this warning:
 ;;;; Required stuff
 (require 'rust-mode) ;; Rust Mode
 
-;; transparent frame and wallpaper
+;; transparent frame and configure wallpaper
 (set-frame-parameter (selected-frame) 'alpha '(80 50))
 (add-to-list 'default-frame-alist '(alpha . (80 . 50)))
 (use-package wallpaper
@@ -339,7 +332,7 @@ There are two things you can do about this warning:
   :custom ((wallpaper-cycle-single t)
            (wallpaper-scaling 'max)
            (wallpaper-cycle-interval 15)
-           (wallpaper-cycle-directory "/mnt/ehdd/Pictures/wallpapers")))
+           (wallpaper-cycle-directory "/mnt/ehdd/Pictures/wallpapers/single"))) ;; Use "single" dir for one wallpaper. I couldn't figure out how to set one wallpaper on it's own...
 
 ;; Mouse / Cursor
 (set-mouse-color "white") ;; Set mouse color
@@ -347,20 +340,7 @@ There are two things you can do about this warning:
 
 ;; set wallpaper
 (wallpaper-set-wallpaper)
-(wallpaper-cycle-mode t)
-
-;; stuff for fetlang (for more info check https://github.com/Phate6660/fet)
-(setq fetlang-highlights
-      '(("(\\([^<]+?\\))" . font-lock-comment-face) ;; comments are anything inside parentheses
-		("Worship\\|Scream\\|Spank\\|Lick\\|Flog\\|Moan\\|worship\\|spank\\|scream\\|lick\\|flog\\|moan\\|Make\\|Have\\|make\\|have" . font-lock-function-name-face)
-		("Dungeon Master\\|Slave\\|dungeon master\\|slave" . font-lock-constant-face)
-		("\"\"\\|one\\|two\\|three\\|four\\|five\\|six\\|seven\\|eight\\|nine\\|ten\\|eleven\\|twelve\\|thirteen\\|fourteen\\|fifteen\\|sixteen\\|seventeen\\|eighteen\\|nineteen\\|twenty\\|thirty\\|fourty\\|fifty\\|sixty\\|seventy\\|eighty\\|ninety\\|hundred\\|thousand\\|million\\|billion\\|trillion" . font-lock-string-face)))
-
-(define-derived-mode fetlang-mode fundamental-mode "fetlang"
-  "major mode for editing mymath language code."
-  (setq font-lock-defaults '(fetlang-highlights)))
-
-(add-to-list 'auto-mode-alist '("\\.fet\\'" . fetlang-mode))
+(setq wallpaper-cycle-mode nil)
 
 ;;;; Hooks
 (add-hook 'emacs-startup-hook (lambda ()
