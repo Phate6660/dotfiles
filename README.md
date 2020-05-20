@@ -62,12 +62,6 @@
 │   │   └── gtk.css
 │   ├── herbstluftwm
 │   │   └── autostart
-│   ├── mpv
-│   │   ├── input.conf
-│   │   ├── mpv.conf
-│   │   └── scripts
-│   │       ├── acompressor.lua
-│   │       └── ytdl_hook.lua
 │   ├── neofetch
 │   │   └── config.conf
 │   ├── openbox
