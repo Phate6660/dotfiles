@@ -1,0 +1,17 @@
+#!/bin/bash
+## Obtain user input and optionally user password (if needed) via Zenity then execute user input.
+## Note: The way I have password authentication set up requires that you put `-S` as a flag for `sudo`.
+
+input="$(zenity --entry --text="What would you like to execute?")"
+confirmation="$(zenity --entry --text="The command entered is: \"$input\".\nAre you sure you want to continue? (yes/no)")"
+if [ "$confirmation" = "yes" ]; then
+	if [[ "$input" = "sudo"* ]]; then
+	    pass="$(zenity --password)"
+	    echo "$pass" | eval "$input"
+		unset pass
+    else
+		eval "$input"
+	fi
+else
+	exit 1
+fi
