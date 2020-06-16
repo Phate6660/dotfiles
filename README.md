@@ -1,3 +1,6 @@
+Note: Everything `mpv` related has been moved to [mpv-config](https://github.com/Phate6660/mpv-config).<br>
+I got very tired of Github telling me that over half my dotfiles were written in Lua.
+
 `$ tree -a -I .git`
 
 ```
