@@ -1,3 +1,5 @@
+This is mostly unmaintained, if you want up-to-date dotfiles they are on my [Codeberg](https://codeberg.org/Phate6660/dotfiles) and [sourcehut](https://sr.ht/~phate/dotfiles) profiles.
+
 Note: Everything `mpv` related has been moved to [mpv-config](https://github.com/Phate6660/mpv-config).<br>
 I got very tired of Github telling me that over half my dotfiles were written in Lua.
 
