@@ -1,9 +1,14 @@
+# LTO
+NTHREADS="2"
+source make.conf.lto # Source LTO + PGO + Aggressive compiler options.
+
 # *FLAGS
-COMMON_FLAGS="-march=ivybridge -O2 -pipe -falign-functions=32"
+COMMON_FLAGS="-march=ivybridge -pipe -falign-functions=32 ${CFLAGS}"
 CFLAGS="${COMMON_FLAGS}"
 CXXFLAGS="${COMMON_FLAGS}"
 FCFLAGS="${COMMON_FLAGS}"
 FFLAGS="${COMMON_FLAGS}"
+LDFLAGS="${LDFLAGS} -Wl,--hash-style=gnu"
 INSTALL_MASK="/usr/lib/systemd /etc/systemd /lib/systemd /usr/lib/modules-load.d" # Don't install any SystemD-specific files.
 
 # Rust settings
@@ -12,11 +17,11 @@ CARGO_TERM_VERBOSE="false"
 
 # NOTE: This stage was built with the bindist Use flag enabled
 # Portage settings
-MAKEOPTS="-j2" 
+MAKEOPTS="-j${NTHREADS}"
 EMERGE_DEFAULT_OPTS="--quiet-build=y --jobs 2 --load-average 3.6" # Quietly build, compile 2 packages at a time, keep the load average at 3.6 or below.
-# CMAKE_MAKEFILE_GENERATOR="ninja" # Use Ninja to generate Makefiles, uncomment after actualling installing it.
+CMAKE_MAKEFILE_GENERATOR="ninja" # Use Ninja to generate Makefiles.
 PORTAGE_NICENESS="15"
-FEATURES="clean-logs ccache fail-clean parallel-fetch parallel-install" # Routinely clean logs, use ccache, clean sources that failed to compile, download sources and install the packages in parallel.
+FEATURES="clean-logs ccache fail-clean parallel-fetch" # Routinely clean logs, use ccache, clean sources that failed to compile, download sources in parallel.
 PORTDIR="/var/db/repos/gentoo"
 DISTDIR="/var/cache/distfiles"
 PKGDIR="/var/cache/binpkgs"
@@ -24,7 +29,7 @@ PORT_LOGDIR="/var/log/portage"
 
 # ccache settings
 CCACHE_DIR="/var/cache/ccache"
-CCACHE_SIZE="40G"
+CCACHE_SIZE="20G"
 
 # Other settings
 GRUB_PLATFORMS="pc" # Only build for 32-bit, everything besides UEFi is 32-bit-only regardless.
@@ -37,16 +42,16 @@ LC_MESSAGES=C
 GENTOO_MIRRORS="https://gentoo.ussg.indiana.edu/ https://gentoo.osuosl.org/ https://mirrors.rit.edu/gentoo/ https://mirror.sjc02.svwh.net/gentoo/"
 
 USE="-X -qt4 -qt5 -kde -gnome -xinerama" # I don't want anything graphical globally, will enable per-package. I also don't want multi-monitor support.
-USE="$USE -systemd -elogind" # No SystemD shit, no elogind.
-USE="$USE -libglvnd" # I'll keep eselect thank you very fucking much.
+USE="$USE -systemd -elogind" # No SystemD shit.
 USE="$USE -cups -printsupport" # No printing support.
 USE="$USE -bluetooth -networkmanager" # No bluetooth, and no NetworkManager.
 USE="$USE -webp -fdk" # I don't want these codecs.
 USE="$USE -geoloc -geoip" # No location or tracking stuff.
+USE="$USE -gpg" # No GPG support.
 USE="$USE -joystick" # No joystick support.
 USE="$USE -bindist" # Blah blah blah, I promise not to share the binaries now give me mah functionality.
 USE="$USE -automount" # Don't support automounting.
 USE="$USE -pulseaudio" # Don't support PulseAudio.
 USE="$USE jpeg png gif flac mp3 opus vorbis wavpack" # Support these codecs.
-USE="$USE custom-cflags custom-optimization" # Support these optimizations.
+USE="$USE custom-cflags custom-optimization lto graphite pgo" # Support these optimizations.
 USE="$USE audiofile alsa cli unicode dvd taglib ncurses openssl man ffmpeg offensive emacs consolekit" # Generalized stuff.

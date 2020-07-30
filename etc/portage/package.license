@@ -1,0 +1,3 @@
+x11-drivers/nvidia-drivers NVIDIA-r2
+sys-kernel/linux-firmware linux-fw-redistributable no-source-code
+games-fps/gzdoom Activision ChexQuest3 DOOM-COLLECTORS-EDITION freedist

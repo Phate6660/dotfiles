@@ -1,0 +1,4 @@
+#!/bin/bash
+
+fortune mythical_linux off/mythical_linux
+echo ---------------------------------------------------------------------------

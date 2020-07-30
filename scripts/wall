@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while true; do
+    nitrogen --set-zoom-fill --random /mnt/ehdd/Pictures/wallpapers/single/
+    sleep 120
+done

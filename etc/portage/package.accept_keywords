@@ -1,0 +1,19 @@
+## Kernel / system stuff
+sys-kernel/ck-sources ~amd64
+app-arch/lzma ~amd64
+## GIMP stuff
+media-gfx/gimp ~amd64
+media-libs/babl ~amd64
+media-libs/gegl ~amd64
+media-libs/libnsgif ~amd64
+dev-util/netsurf-buildsystem ~amd64
+## p6nc stuff
+games-misc/fortune-mod-mythical-linux ~amd64
+## Games
+games-engines/openmw ~amd64
+games-fps/gzdoom ~amd64
+## Generalized stuff
+net-misc/megatools ~amd64
+media-video/makemkv ~amd64
+app-misc/rsfetch ~amd64
+app-portage/pkg-gentoo ~amd64
