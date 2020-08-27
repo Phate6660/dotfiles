@@ -5,8 +5,8 @@ I got very tired of Github telling me that over half my dotfiles were written in
 
 ```
 .
-├── .alpine -- alpine-specific aliases, environmental variables, and/or functions to be sourced in .bashrc
-├── ascii -- ascii art for use in rsfetch, neofetch, cat, or anything really
+├── .alpine -- alpine-specific stuff to be sourced in .bashrc
+├── ascii -- ascii art
 │   ├── ahegao
 │   ├── anime
 │   ├── girl
@@ -23,7 +23,7 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   └── vash
 ├── .bashrc -- bash config
 ├── .cache
-│   └── wal -- color schemes for various things
+│   └── wal -- themes for various stuff
 │       ├── colors
 │       ├── colors.css
 │       ├── colors.hs
@@ -53,11 +53,11 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │       └── wal
 ├── .config
 │   ├── bspwm
-│   │   └── bspwmrc -- bspwm config, must be executable
+│   │   └── bspwmrc
 │   ├── cava
 │   │   └── config
-│   ├── discord-rpc
-│   │   └── config.toml -- mpd-discord-rpc config
+│   ├── discord-rpc -- mpd-discord-rpc config
+│   │   └── config.toml
 │   ├── dunst
 │   │   └── dunstrc
 │   ├── greenclip.cfg
@@ -68,9 +68,9 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   ├── neofetch
 │   │   └── config.conf
 │   ├── openbox
-│   │   ├── autostart -- basically xinitrc, but specific to openbox
-│   │   ├── environment -- for setting environmental variables
-│   │   └── rc.xml -- main openbox config
+│   │   ├── autostart
+│   │   ├── environment
+│   │   └── rc.xml
 │   ├── qutebrowser
 │   │   └── config.py
 │   ├── rofi
@@ -79,7 +79,7 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   │   └── rtv.cfg
 │   ├── sxhkd
 │   │   └── sxhkdrc
-│   ├── tint2 -- panel configs, -* dictates location
+│   ├── tint2 -- tint2 configs
 │   │   ├── tint2rc-bottom
 │   │   ├── tint2rc-side
 │   │   └── tint2rc-top
@@ -94,8 +94,8 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   └── youtube-viewer
 │       └── youtube-viewer.conf
 ├── dwm
-│   ├── config.def.h
-│   └── patches
+│   ├── config.def.h -- config for dwm
+│   └── patches -- patches for dwm
 │       ├── dwm-gaplessgrid-20160731-56a31dc.diff
 │       ├── dwm-gridmode-5.8.2.diff
 │       ├── dwm-noborder-6.2.diff
@@ -103,8 +103,13 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │       ├── dwm-r1615-selfrestart.diff
 │       ├── dwm-restartsig-20180523-6.2.diff
 │       └── dwm-warp-git-20160626-7af4d43.diff
-├── .emacs -- emacs config
-├── escape_sequence_art -- art created out of escape sequences and unicode blocks, simply displaying the contents of the raw file in a terminal that properly supports escape sequences like xterm should render the art
+├── .emacs.d
+│   ├── exwm.el -- stuff for exwm
+│   ├── functions.el -- contains functions
+│   ├── init.el -- main init file
+│   ├── packages.el -- stuff related to packages
+│   └── settings.el -- settings
+├── escape_sequence_art -- art made with escape sequences and unicode blocks
 │   ├── beserk
 │   ├── dead
 │   ├── haha
@@ -115,19 +120,25 @@ I got very tired of Github telling me that over half my dotfiles were written in
 ├── etc
 │   ├── dnscrypt-proxy
 │   │   └── dnscrypt-proxy.toml
+│   ├── fstab
 │   └── portage
 │       ├── make.conf
+│       ├── make.conf (old)
+│       ├── package.accept_keywords
+│       ├── package.license
+│       ├── package.mask
 │       └── package.use
 │           └── 00cpuflags
-├── .gentoo -- gentoo-specific aliases, environmental variables, and/or functions to be sourced in .bashrc
-├── .inputrc
-├── kernel
+├── .gentoo -- gentoo-specific stuff to be sourced in .bashrc
+├── .inputrc -- change keybindings and stuff in bash
+├── kernel -- kernel configs
 │   ├── 4.19.72-gentoo-VALLEY-config
-│   └── 5.4.31-ck-valley-config
-├── .mint -- mint-specific aliases, environmental variables, and/or functions to be sourced in .bashrc
+│   ├── 5.4.31-ck-valley-config
+│   └── 5.4.48-ck-valley-config
+├── .mint -- mint-specific stuff to be sourced in .bashrc
 ├── .mozilla
 │   └── PROFILE
-│       └── chrome -- making Firefox look better, mine removes a lot of UI elements and sets others to autohide
+│       └── chrome
 │           ├── userChrome.css
 │           └── userContent.css
 ├── .mpd
@@ -139,21 +150,23 @@ I got very tired of Github telling me that over half my dotfiles were written in
 ├── .ncmpcpp
 │   ├── config
 │   └── config-lyrics
-├── README.md -- the thing that you are reading right now
-├── scripts -- various scripts created or modified by me
+├── README.md -- what you're reading right now ;)
+├── scripts -- various scripts
 │   ├── art.sh
 │   ├── general
 │   ├── ips.sh
-│   └── temp
+│   ├── launcher
+│   ├── temp
+│   ├── wall
+│   └── xfort
 ├── .tmux.conf
 ├── .vimrc
 ├── Windows
 │   └── keybindings.ahk
-├── .xinitrc -- for starting stuff before X
+├── .xinitrc
 ├── .xmonad
 │   └── xmonad.hs
-└── .Xresources -- for theming X apps
+└── .Xresources
 
-
-40 directories, 106 files
+40 directories, 123 files
 ```

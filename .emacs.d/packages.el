@@ -18,6 +18,11 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+;; ensure use-package is already installed
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
 ;; Automatically update packages
 (use-package auto-package-update
   :defer nil
@@ -26,6 +31,15 @@ There are two things you can do about this warning:
   (setq auto-package-update-delete-old-versions t)
   (setq auto-package-update-hide-results t)
   (auto-package-update-maybe))
+
+;; Asynchronous bytecode compilation and various other actions makes Emacs look SIGNIFICANTLY less often which is a good thing.
+(use-package async
+    :ensure t
+    :defer t
+    :init
+    (dired-async-mode 1)
+    (async-bytecomp-package-mode 1)
+    :custom (async-bytecomp-allowed-packages '(all)))
 
 ;; Customizable tabs
 (use-package centaur-tabs
@@ -37,22 +51,9 @@ There are two things you can do about this warning:
   ("C-<next>" . centaur-tabs-backward)
   ("C-<prior>" . centaur-tabs-forward))
 
-;; Terminal
-(use-package vterm
-    :ensure t)
-
 ;; Show emojis
 (use-package emojify
     :ensure t)
-
-;; Asynchronous bytecode compilation and various other actions makes Emacs look SIGNIFICANTLY less often which is a good thing.
-(use-package async
-    :ensure t
-    :defer t
-    :init
-    (dired-async-mode 1)
-    (async-bytecomp-package-mode 1)
-    :custom (async-bytecomp-allowed-packages '(all)))
 
 ;; Flycheck
 (use-package flycheck
@@ -62,3 +63,14 @@ There are two things you can do about this warning:
 ;; lsp-mode
 (use-package lsp-mode
     :ensure t)
+
+;; company
+(use-package company
+    :ensure t)
+
+;; Enable scala-mode for highlighting, indentation and motion commands
+(use-package scala-mode
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+;; Add metals backend for lsp-mode
+(use-package lsp-metals)

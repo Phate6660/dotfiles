@@ -3,7 +3,7 @@ $include /etc/inputrc
 "\C-?": backward-kill-word
 
 set colored-stats On
-set completion-ignore-case On
+set completion-ignore-case Off
 set completion-prefix-display-length 3
 set mark-symlinked-directories On
 set show-all-if-ambiguous On
