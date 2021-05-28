@@ -8,7 +8,7 @@ local w = vim.wo     -- Access to window-local options
 
 -- Settings
 local indent, width = 4, 100
-cmd('colorscheme desert')       -- Set the colorscheme
+cmd('colorscheme koehler')      -- Set the colorscheme
 b.expandtab = true              -- Use spaces instead of tabs
 b.shiftwidth = indent           -- Size of an indent
 b.smartindent = true            -- Insert indents automatically
@@ -24,7 +24,6 @@ w.wrap = false                  -- Disable line wrap
 
 cmd('autocmd Filetype css setlocal sw=2 ts=2')  -- 2 space indentation for CSS
 cmd('autocmd Filetype html setlocal sw=2 ts=2') -- 2 space indentation for HTML
-cmd('autocmd Filetype lua setlocal sw=2 ts=2')  -- 2 space indentation for Lua
 cmd('autocmd Filetype xml setlocal sw=2 ts=2')  -- 2 space indentation for XML
 
 -- Package Management
@@ -40,6 +39,10 @@ paq {'nvim-lua/popup.nvim'}
 paq {'nvim-telescope/telescope.nvim'} 
 paq {'vim-syntastic/syntastic'}         -- Syntax checking
 paq {'rust-lang/rust.vim'}              -- Rust support
+paq {'glepnir/indent-guides.nvim'}      -- Indentation guides
+
+-- indent-guides
+require 'indent_guides'.setup {}
 
 -- LSP
 local lsp = require 'lspconfig'
@@ -50,27 +53,27 @@ lsp.rls.setup {} -- rust
 local compe = require 'compe'
 o.completeopt = 'menuone,noselect'
 compe.setup {
-  enabled = true;
-  autocomplete = true; -- Note: this does NOT mean auto-complete, it means tab-complete
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
+    enabled = true;
+    autocomplete = true; -- Note: this does NOT mean auto-complete, it means tab-complete
+    debug = false;
+    min_length = 1;
+    preselect = 'enable';
+    throttle_time = 80;
+    source_timeout = 200;
+    incomplete_delay = 400;
+    max_abbr_width = 100;
+    max_kind_width = 100;
+    max_menu_width = 100;
+    documentation = true;
 
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    treesitter = true;
-  };
+    source = {
+        path = true;
+        buffer = true;
+        calc = true;
+        nvim_lsp = true;
+        nvim_lua = true;
+        treesitter = true;
+    };
 }
 
 -- Syntastic
@@ -86,8 +89,8 @@ telescope.setup {}
 -- Treesitter
 local ts = require 'nvim-treesitter.configs'
 ts.setup {
-  ensure_installed = 'maintained',
-  highlight = {
-      enable = true
-  }
+    ensure_installed = 'maintained',
+    highlight = {
+        enable = true
+    }
 }
