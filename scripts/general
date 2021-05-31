@@ -1,21 +1,75 @@
 #!/bin/bash
 # Usage: general ARGs
 # Example: general scr 
-# Result: The script will take a screenshot with imlib2_grab, place the screenshot in /home/valley/pictures/screenshots, and name the file with 10 random characters from /dev/urandom.
+#
+# Result: The script will take a screenshot with imlib2_grab,
+# place the screenshot in /home/valley/pictures/screenshots, 
+# and name the file with 10 random characters from /dev/urandom.
 
 case $1 in
-    date) notify-send "date:" "$(date +"%I:%M %p | %a %d, %b of %Y")";;
+    date) notify-send "date:" "$(coreutils date +"%I:%M %p | %a %d, %b of %Y")";;
     ip) notify-send "vpn status:" "$(ips.sh)";;
-    mus) dunstify -I /tmp/cover.png -- "$(mpc | sed -n 2p | tr -s ' ' | awk -F\  '{ print $3 }')" "$(mpc -f "%title% \[$(mpc status -f %file% | head -n1 | sed 's/.*\.//')\] ($(mpc | sed -n 2p | awk -F\  '{ print $2 }' | sed s/#//g))\n%album% (%date%)\n%artist%\n%genre%" | head -n4)";;
-    fetch) dunstify "$ rsfetch -cDdEehkmMstuUp portage -C 0" -- "$(~/projects/github/rsfetch/target/release/rsfetch -cDdEehkmMstuUp portage -C 0)";;
-	warn) dunstify "oops" "You almost quit your program.\nPlease use A-S-c next time.";;
-	term) uxterm -ti 340 & sleep 0.25 && transset -a 0.8;;
-	scr) ( FILE="$(head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9_-' | fold -w 10 | head -n 1)" && export FILE && imlib2_grab "$FILE.png" && mv "$FILE.png" "/home/valley/pictures/screenshots/" );;
-	tbb) sh -c '"/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" --detach || ([ !  -x "/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser" ] && "$(dirname "$*")"/Browser/start-tor-browser --detach)';;
-	color) uxterm -ti 340 -e "grabc | pastel color && read -p \"Press [ENTER] to continue.\"";;
-	cd) dunstify "current desktop:" "$(bspc query -T -d | jq -r .name)";;
-	stat) dunstify "audio stats:" -- "------------\n$(cat /proc/asound/card0/pcm0p/sub0/hw_params)";;
-	dev) dunstify "processes using alsa:" -- "---------------------\n$(fuser -v /dev/snd/* /dev/dsp* &> $HOME/.adev && sed 1d $HOME/.adev)";;
+    fetch) 
+        dunstify \
+            "$ rsfetch -cDdEehkmMstuUp portage -C 0" \
+            -- \
+            "$(rsfetch -cDdEehkmMstuUp portage -C 0)";;
+    warn) dunstify "oops" "You almost quit your program.\nPlease use A-S-c next time.";;
+    term) uxterm & sleep 0.25 && transset -a 0.8;;
+    scr) 
+        ( 
+            FILE="$(head -c 500 /dev/urandom | tr -dc 'a-zA-Z0-9_-' | fold -w 10 | head -n 1)" \
+            && export FILE \
+            && imlib2_grab "$FILE.png" \
+            && mv "$FILE.png" "/home/valley/pictures/screenshots/" 
+        );;
+    tbb) 
+        sh -c "'/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser' --detach \
+            || ([ !  -x '/home/valley/downloads/tor-browser_en-US/Browser/start-tor-browser' ] \
+            && \"$(dirname "$*")\"/Browser/start-tor-browser --detach)";;
+    color) uxterm -ti 340 -e "grabc | pastel color && read -p \"Press [ENTER] to continue.\"";;
+    cd) dunstify "current desktop:" "$(bspc query -T -d | jq -r .name)";;
+    stat) 
+        dunstify \
+            "audio stats:" \
+            -- \
+            "------------\n$(cat /proc/asound/card0/pcm0p/sub0/hw_params)";;
+    dev) 
+        dunstify \
+            "processes using alsa:" \
+            -- \
+            "---------------------\n\
+            $(fuser -v /dev/snd/* /dev/dsp* &> "$HOME"/.adev && sed 1d "$HOME"/.adev)";;
     temp) dunstify "cpu temps:" -- "----------\n$(temp)";;
-    musinf) dunstify "$ mediainfo \"$MUSIC/$(mpc -f %file% | head -n1)\"" "$(mediainfo "$MUSIC/$(mpc -f %file% | head -n1)")";;
+    musinf) 
+        dunstify \
+            "$ mediainfo \"$MUSIC/$(mpc -f %file% | head -n1)\"" \
+            "$(mediainfo "$MUSIC/$(mpc -f %file% | head -n1)")";;
+    musinf2) 
+        if [ "$(playerctl -p spotify,mpd metadata -f "{{ playerName }}")" == "mpd" ]; then
+            dunstify \
+                "$(echo -e \
+                "$(playerctl -p spotify,mpd metadata -f \
+                "Player: {{ playerName }}\n\nTIT: {{ title }}\
+                \nALB: {{ album }}\nART: {{ artist }}")")" -I "/tmp/cover.png"
+        elif [ "$(playerctl -p spotify,mpd metadata -f "{{ playerName }}")" == "spotify" ]; then
+            id="$(basename \
+                "$(dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify \
+                /org/mpris/MediaPlayer2 \
+                org.freedesktop.DBus.Properties.Get string:org.mpris.MediaPlayer2.Player \
+                string:Metadata \
+                | awk -F '"' 'BEGIN {RS=" entry"}; /"mpris:artUrl"/ {a = $4} END {print a}')")"
+            url="https://i.scdn.co/image/$id"
+            curl "$url" -o "/tmp/cover-spotify.jpg"
+            dunstify "$(echo -e \
+                "$(playerctl -p spotify,mpd metadata -f \
+                "Player: {{ playerName }}\n\nTIT: {{ title }}\
+                \nALB: {{ album }}\nART: {{ artist }}")")" -I "/tmp/cover-spotify.jpg"
+        else
+            dunstify "$(echo -e \
+                "$(playerctl -p spotify,mpd metadata -f \
+                "Player: {{ playerName }}\n\nTIT: {{ title }}\
+                \nALB: {{ album }}\nART: {{ artist }}")")"
+        fi
+        ;;
 esac
