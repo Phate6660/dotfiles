@@ -7,8 +7,9 @@ local w = vim.wo     -- Access to window-local options
 
 --- Settings
 local indent, width = 4, 100
-cmd('command Sin execute "set ts=4 sw=4"')
-cmd('colorscheme koehler')      -- Set the colorscheme
+cmd('set ts=4 sw=4')
+g.neon_style = "dark"
+cmd('colorscheme neon')         -- Set the colorscheme
 b.expandtab = true              -- Use spaces instead of tabs
 b.shiftwidth = indent           -- Size of an indent
 b.smartindent = true            -- Insert indents automatically
@@ -42,6 +43,12 @@ paq {'vim-syntastic/syntastic'}         -- Syntax checking
 paq {'rust-lang/rust.vim'}              -- Rust support
 paq {'glepnir/indent-guides.nvim'}      -- Indentation guides
 paq {'rafcamlet/nvim-luapad'}           -- Lua stuff
+paq {'bakpakin/fennel.vim'}             -- Fennel support
+paq {'glacambre/firenvim'}              -- nvim in firefox
+paq {'arp242/globedit.vim'}             -- Better commands for edit, tabedit, etc, that accepts globs
+paq {'rafamadriz/neon'}                 -- Colorscheme made specifically for treesitter and lsp
+paq {'hoob3rt/lualine.nvim'}            -- A fast statusline
+paq {'jghauser/mkdir.nvim'}             -- Automatically make parent directories if non-existant when saving files
 
 --- indent-guides
 require 'indent_guides'.setup {}
@@ -54,8 +61,8 @@ lsp.denols.setup {} -- javascript and typescript
 -- fsharp - start
 -- these file extensions default to forth, set to fsharp instead
 cmd('autocmd BufNewFile,BufRead *.fs,*.fsx,*.fsi set filetype=fsharp')
-lsp.fsautocomplete.setup{
-    cmd = {'fsautocomplete', '--background-service-enabled'}
+lsp.fsautocomplete.setup {
+	cmd = {'fsautocomplete', '--background-service-enabled'}
 }
 -- fsharp - end
 
@@ -94,6 +101,42 @@ require'lspconfig'.sumneko_lua.setup {
 	},
 }
 -- lua - end
+
+lsp.pyls.setup{} -- python
+
+--- lualine
+local lualine = require 'lualine'
+lualine.setup {
+	options = {
+		icons_enabled = false,
+		theme = 'neon',
+		component_separators = {'', ''},
+		section_separators = {'', ''},
+		disabled_filetypes = {},
+		lower = true
+	},
+	sections = {
+		lualine_a = {'mode'},
+		lualine_b = {'branch'},
+		lualine_c = {'filename'},
+		lualine_x = {'encoding', 'fileformat', 'filetype'},
+		lualine_y = {'progress'},
+		lualine_z = {'location'}
+	},
+	inactive_sections = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = {'filename'},
+		lualine_x = {'location'},
+		lualine_y = {},
+		lualine_z = {}
+	},
+	tabline = {},
+	extensions = {}
+}
+
+-- mkdir.nvim
+require 'mkdir'
 
 --- nvim-compe
 local compe = require 'compe'
@@ -147,22 +190,22 @@ ts.setup {
 --- Keybindings
 -- \ + F = find and preview files
 vim.api.nvim_set_keymap(
-    'n',
-    '<leader>f',
-    [[<cmd>lua require('telescope.builtin').find_files()<cr>]],
-    {
-        noremap = true,
-        silent = true
-    }
+'n',
+'<leader>f',
+[[<cmd>lua require('telescope.builtin').find_files()<cr>]],
+{
+	noremap = true,
+	silent = true
+}
 )
 
 -- \ + space = find and preview buffers
 vim.api.nvim_set_keymap(
-    'n',
-    '<leader><space>',
-    [[<cmd>lua require('telescope.builtin').buffers()<cr>]],
-    {
-        noremap = true,
-        silent = true
-    }
+'n',
+'<leader><space>',
+[[<cmd>lua require('telescope.builtin').buffers()<cr>]],
+{
+	noremap = true,
+	silent = true
+}
 )
