@@ -1,0 +1,312 @@
+## WM Settings
+modkey = "Mod1"
+layouts = ["GridHorizontal", "Fibonacci", "Monocle"]
+tags = ["Firefox", "2", "3", "4", "5", "6", "7", "Editing", "Instant Messaging", "tmux"]
+
+[[workspaces]]
+y = 0
+x = 0
+height = 1024
+width = 1280
+
+[[workspaces]]
+y = 0
+x = 1280
+height = 900
+width = 1440
+
+## WM-Specific Keybindings
+
+[[keybind]]
+command = "CloseWindow"
+modifier = ["Alt", "Shift"]
+key = "c"
+
+[[keybind]]
+command = "SoftReload"
+modifier = ["Alt", "Shift"]
+key = "r"
+
+[[keybind]]
+command = "HardReload"
+modifier = ["Control", "Alt", "Shift"]
+key = "r"
+
+[[keybind]]
+command = "ToggleFullScreen"
+modifier = ["Mod4"]
+key = "f"
+
+[[keybind]]
+command = "Execute"
+value = "rofi -show run"
+modifier = ["Control", "Alt"]
+key = "space"
+
+[[keybind]]
+command = "FocusNextTag"
+modifier = ["Control", "Alt"]
+key = "Right"
+
+[[keybind]]
+command = "FocusPreviousTag"
+modifier = ["Control", "Alt"]
+key = "Left"
+
+[[keybind]]
+command = "NextLayout"
+modifier = ["Control", "Alt"]
+key = "Up"
+
+[[keybind]]
+command = "PreviousLayout"
+modifier = ["Control", "Alt"]
+key = "Down"
+
+[[keybind]]
+command = "Execute"
+value = "pkill leftwm"
+modifier = ["Control", "Alt"]
+key = "Delete"
+
+[[keybind]]
+command = "FocusWindowUp"
+modifier = ["Alt"]
+key = "Up"
+
+[[keybind]]
+command = "FocusWindowDown"
+modifier = ["Alt"]
+key = "Down"
+
+[[keybind]]
+command = "FocusWorkspaceNext"
+modifier = ["Alt"]
+key = "Right"
+
+[[keybind]]
+command = "FocusWorkspacePrevious"
+modifier = ["Alt"]
+key = "Left"
+
+[[keybind]]
+command = "MoveWindowUp"
+modifier = ["Alt", "Shift"]
+key = "Up"
+
+[[keybind]]
+command = "MoveWindowDown"
+modifier = ["Alt", "Shift"]
+key = "Down"
+
+[[keybind]]
+command = "GotoTag"
+value = "1"
+modifier = ["Alt"]
+key = "1"
+
+[[keybind]]
+command = "GotoTag"
+value = "2"
+modifier = ["Alt"]
+key = "2"
+
+[[keybind]]
+command = "GotoTag"
+value = "3"
+modifier = ["Alt"]
+key = "3"
+
+[[keybind]]
+command = "GotoTag"
+value = "4"
+modifier = ["Alt"]
+key = "4"
+
+[[keybind]]
+command = "GotoTag"
+value = "5"
+modifier = ["Alt"]
+key = "5"
+
+[[keybind]]
+command = "GotoTag"
+value = "6"
+modifier = ["Alt"]
+key = "6"
+
+[[keybind]]
+command = "GotoTag"
+value = "7"
+modifier = ["Alt"]
+key = "7"
+
+[[keybind]]
+command = "GotoTag"
+value = "8"
+modifier = ["Alt"]
+key = "8"
+
+[[keybind]]
+command = "GotoTag"
+value = "9"
+modifier = ["Alt"]
+key = "9"
+
+[[keybind]]
+command = "GotoTag"
+value = "10"
+modifier = ["Alt"]
+key = "0"
+
+[[keybind]]
+command = "MoveToTag"
+value = "1"
+modifier = ["Alt", "Shift"]
+key = "1"
+
+[[keybind]]
+command = "MoveToTag"
+value = "2"
+modifier = ["Alt", "Shift"]
+key = "2"
+
+[[keybind]]
+command = "MoveToTag"
+value = "3"
+modifier = ["Alt", "Shift"]
+key = "3"
+
+[[keybind]]
+command = "MoveToTag"
+value = "4"
+modifier = ["Alt", "Shift"]
+key = "4"
+
+[[keybind]]
+command = "MoveToTag"
+value = "5"
+modifier = ["Alt", "Shift"]
+key = "5"
+
+[[keybind]]
+command = "MoveToTag"
+value = "6"
+modifier = ["Alt", "Shift"]
+key = "6"
+
+[[keybind]]
+command = "MoveToTag"
+value = "7"
+modifier = ["Alt", "Shift"]
+key = "7"
+
+[[keybind]]
+command = "MoveToTag"
+value = "8"
+modifier = ["Alt", "Shift"]
+key = "8"
+
+[[keybind]]
+command = "MoveToTag"
+value = "9"
+modifier = ["Alt", "Shift"]
+key = "9"
+
+[[keybind]]
+command = "MoveToTag"
+value = "10"
+modifier = ["Alt", "Shift"]
+key = "0"
+
+## Program Keybindings
+
+[[keybind]]
+command = "Execute"
+value = "rofi -show run"
+modifier = ["Control", "Alt"]
+key = "space"
+
+[[keybind]]
+command = "Execute"
+value = "bwmenu"
+modifier = ["Mod4"]
+key = "b"
+
+[[keybind]]
+command = "Execute"
+value = "uxterm"
+modifier = ["Alt"]
+key = "Return"
+
+[[keybind]]
+command = "Execute"
+value = "alacritty"
+modifier = ["Alt", "Shift"]
+key = "Return"
+
+[[keybind]]
+command = "Execute"
+value = "slock"
+modifier = ["Super"]
+key = "x"
+
+[[keybind]]
+command = "Execute"
+value = "playerctl -p spotify,mpd play-pause"
+modifier = []
+key = "XF86XK_AudioPlay"
+
+[[keybind]]
+command = "Execute"
+value = "playerctl -p spotify,mpd previous"
+modifier = []
+key = "XF86XK_AudioPrev"
+
+[[keybind]]
+command = "Execute"
+value = "playerctl -p spotfy,mpd next"
+modifier = []
+key = "XF86XK_AudioNext"
+
+[[keybind]]
+command = "Execute"
+value = "playerctl -p spotify,mpd position 0"
+modifier = []
+key = "XF86XK_AudioStop"
+
+[[keybind]]
+command = "Execute"
+value = "musinfo"
+modifier = ["Mod4"]
+key = "m"
+
+[[keybind]]
+command = "Execute"
+value = "general musinf2"
+modifier = ["Mod4", "Shift"]
+key = "m"
+
+[[keybind]]
+command = "Execute"
+value = "general date"
+modifier = ["Mod4"]
+key = "n"
+
+[[keybind]]
+command = "Execute"
+value = "general fetch"
+modifier = ["Mod4"]
+key = "o"
+
+[[keybind]]
+command = "Execute"
+value = "general wai"
+modifier = ["Mod4"]
+key = "i"
+
+[[keybind]]
+command = "Execute"
+value = "general scr"
+modifier = []
+key = "Print"

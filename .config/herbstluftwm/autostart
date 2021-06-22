@@ -10,35 +10,41 @@ hc emit_hook reload
 hc keyunbind --all
 
 ### keybindings ###
-Mod=Mod4                                                    # Use the super key as the main modifier
+# User super/hyper as the main modifier
+Mod=Mod4
 
-hc keybind Ctrl-Mod1-Delete  quit                            # Quit herbstluftwm
-hc keybind Mod1-Shift-r      reload                          # Reload the configuration
-hc keybind Mod1-Shift-c      close                           # Close currently focused window
-hc keybind Mod1-Return       spawn /home/valley/scripts/term-trans # Spawn uxterm (transparent)
-hc keybind Mod1-Shift-Return spawn uxterm                    # Spawn uxterm
-hc keybind $Mod-t            spawn /home/valley/scripts/general tag # Display currently focused tag through notification
-hc keybind $Mod-w            spawn sudo -u ff firefox        # Spawn Firefox
-hc keybind XF86AudioPlay     spawn mpc toggle                # Play/Pause song (MPD)
-hc keybind XF86AudioNext     spawn mpc next                  # Play next song (MPD)
-hc keybind XF86AudioPrev     spawn mpc prev                  # Play previous song (MPD)
-hc keybind $Mod-Mod1-g       spawn rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}' # Spawn clipbord menu in Rofi
-hc keybind $Mod-f            spawn pcmanfm                   # Spawn file manager
-hc keybind $Mod-Shift-f      spawn filezilla                 # Spawn filezilla
-hc keybind Ctrl-Mod1-space   spawn rofi -show run            # Spawn Rofi (-run)
-hc keybind $Mod-m            spawn /home/valley/scripts/general mus # Spawn notification with music info
-hc keybind $Mod-n            spawn /home/valley/scripts/general date # Spawn notification with current time and date (in 12 hr format)
-hc keybind $Mod-d            spawn mpv dvd://                # Play DVD using mpv and dvdnav (slow but most compatible)
-hc keybind $Mod-Shift-d      spawn mpv dvdread://            # Play DVD using mpv and dvdread (fast yet least compatible)
-hc keybind Print             spawn scrot -uz -e 'mv $f ~/pictures/scrot/' # Take a screenshot, then move the screenshot to ~/pictures/scrot
-hc keybind $Mod-Shift-b      spawn /home/valley/downloads/blender-2.80-163996b68129-linux-glibc217-x86_64/blender # Spawn Blender 2.80
-hc keybind $Mod-b            spawn /home/valley/bin/bwmenu   # Spawn Bitwarden Rofi menu
-hc keybind $Mod-Shift-u      spawn udiskie -a -N             # Spawn udiskie (only needed for if udiskie fails to autostart for some reason)
-hc keybind $Mod-x            spawn slock                     # Lock the screen
-hc keybind $Mod-a            spawn /home/valley/scripts/script-dmenu # Rofi (-dmenu) for launching and editing scripts.
-hc keybind Ctrl-q            spawn sh -c "echo 'You almost quit your program' | rofi -dmenu -p 'You fucked up'" # Give warning for almost quitting application
-hc keybind $Mod-i            spawn /home/valley/scripts/general ip # Show IP Address in notification
-hc keybind $Mod-k            spawn /home/valley/scripts/keybinds # Display keybindings
+# Quit herbstluftwm
+hc keybind Ctrl-Mod1-Delete  quit
+# Reload the configuration
+hc keybind Mod1-Shift-r      reload
+# Close the currently focused window
+hc keybind Mod1-Shift-c      close
+# Spawn a transparent xterm
+hc keybind Mod1-Return       spawn /home/valley/scripts/general term
+# Spawn alacritty
+hc keybind Mod1-Shift-Return spawn alacritty
+# Toggle/next/previious audio (mpris -- spotify or MPD)
+hc keybind XF86AudioPlay     spawn playerctl -p spotify,mpd play-pause
+hc keybind XF86AudioNext     spawn playerctl -p spotify,mpd next
+hc keybind XF86AudioPrev     spawn playerctl -p spotify,mpd previous
+# Launcher
+hc keybind Ctrl-Mod1-space   spawn rofi -show run
+# Music info (MPD) in notification
+hc keybind $Mod-m            spawn /home/valley/.cargo/bin/musinfo
+# Music info (Spotify or MPD) in notification
+hc keybind $Mod-Shift-m      spawn /home/valley/scripts/general musinf2
+# Time and date in notification
+hc keybind $Mod-n            spawn /home/valley/scripts/general date
+# Take a screenshot
+hc keybind Print             spawn /home/valley/scripts/general scr
+# Password manager
+hc keybind $Mod-b            spawn bwmenu
+# Lock the screen
+hc keybind $Mod-x            spawn slock
+# Accidental-window-closing-shield
+hc keybind Ctrl-q            spawn dunstify "Oops:" "You almost quit your program!"
+# View system info in notification
+hc keybind $Mod-o            spawn /home/valley/scripts/general fetch
 
 ### basic movement ###
 # focusing clients
@@ -54,7 +60,7 @@ hc keybind Mod1-Shift-Up    shift up
 hc keybind Mod1-Shift-Right shift right
 
 ### tags ###
-tag_names=( {1..9} )
+tag_names=( {1..10} )
 tag_keys=( {1..9} 0 )
 
 hc rename default "${tag_names[0]}" || true
@@ -79,10 +85,7 @@ hc keybind Ctrl-Mod1-p pseudotile toggle
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind $Mod-space                                                           \
-            or , and . compare tags.focus.curframe_wcount = 2                   \
-                     . cycle_layout +1 vertical horizontal max vertical grid    \
-               , cycle_layout +1
+hc keybind $Mod-space  cycle_layout +1 grid
 
 ### mouse ###
 hc mouseunbind --all
@@ -116,9 +119,9 @@ hc attr theme.active.inner_color '#3E4A00'
 hc attr theme.active.outer_color '#3E4A00'
 hc attr theme.background_color '#141414'
 
-hc set window_gap 0
+hc set window_gap 15
 hc set frame_padding 0
-hc set smart_window_surroundings 0
+hc set smart_window_surroundings 1
 hc set smart_frame_surroundings 1
 hc set mouse_recenter_gap 0
 
@@ -135,8 +138,6 @@ hc rule focus=on # normally focus new clients
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-hc rule class="Firefox" floating=on
-hc rule class="Navigator" floating=on
 
 # unlock, just to be sure
 hc unlock
@@ -145,11 +146,4 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 
 # do multi monitor setup here, e.g.:
 # hc set_monitors 1280x1024+0+0 1280x1024+1280+0
-# or simply:
-hc set_monitors 1366x768 1438x900+1366+0
-
-### autostart once  ###
-if hc silent new_attr bool my_not_first_autostart ; then
-    udiskie -a -N &
-    uxterm -e /home/valley/scripts/auto &
-fi
+hc set_monitors 1280x1024 1440x900+1280+0

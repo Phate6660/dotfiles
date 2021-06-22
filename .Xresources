@@ -70,3 +70,13 @@ URxvt*depth: 32
 ! rofi
 rofi.theme:     ~/.cache/wal/colors-rofi-dark.rasi
 rofi.font:      Misc Fixed 9
+
+! Xterm
+XTerm*decTerminalID: vt340
+UXTerm*decTerminalID: vt340
+XTerm*numColorRegisters: 256
+UXTerm*numColorRegisters: 256
+XTerm*metaSendsEscape: true
+XTerm*eightBitInput: false
+UXTerm*metaSendsEscape: true
+UXTerm*eightBitInput: false

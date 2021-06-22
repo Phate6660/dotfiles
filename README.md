@@ -5,8 +5,7 @@ I got very tired of Github telling me that over half my dotfiles were written in
 
 ```
 .
-├── .alpine -- alpine-specific stuff to be sourced in .bashrc
-├── ascii -- ascii art
+├── ascii
 │   ├── ahegao
 │   ├── anime
 │   ├── girl
@@ -21,9 +20,9 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   ├── tifa
 │   ├── totoro
 │   └── vash
-├── .bashrc -- bash config
+├── .bashrc
 ├── .cache
-│   └── wal -- themes for various stuff
+│   └── wal
 │       ├── colors
 │       ├── colors.css
 │       ├── colors.hs
@@ -52,11 +51,13 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │       ├── sequences
 │       └── wal
 ├── .config
+│   ├── alacritty
+│   │   └── alacritty.yml
 │   ├── bspwm
 │   │   └── bspwmrc
 │   ├── cava
 │   │   └── config
-│   ├── discord-rpc -- mpd-discord-rpc config
+│   ├── discord-rpc
 │   │   └── config.toml
 │   ├── dunst
 │   │   └── dunstrc
@@ -65,6 +66,13 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   │   └── gtk.css
 │   ├── herbstluftwm
 │   │   └── autostart
+│   ├── leftwm
+│   │   ├── config.toml
+│   │   └── themes
+│   │       └── current
+│   │           ├── down
+│   │           ├── theme.toml
+│   │           └── up
 │   ├── neofetch
 │   │   └── config.conf
 │   ├── openbox
@@ -79,7 +87,7 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   │   └── rtv.cfg
 │   ├── sxhkd
 │   │   └── sxhkdrc
-│   ├── tint2 -- tint2 configs
+│   ├── tint2
 │   │   ├── tint2rc-bottom
 │   │   ├── tint2rc-side
 │   │   └── tint2rc-top
@@ -94,8 +102,8 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   └── youtube-viewer
 │       └── youtube-viewer.conf
 ├── dwm
-│   ├── config.def.h -- config for dwm
-│   └── patches -- patches for dwm
+│   ├── config.def.h
+│   └── patches
 │       ├── dwm-gaplessgrid-20160731-56a31dc.diff
 │       ├── dwm-gridmode-5.8.2.diff
 │       ├── dwm-noborder-6.2.diff
@@ -104,16 +112,15 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │       ├── dwm-restartsig-20180523-6.2.diff
 │       └── dwm-warp-git-20160626-7af4d43.diff
 ├── .emacs.d
-│   ├── exwm.el -- stuff for exwm
-│   ├── functions.el -- contains functions
-│   ├── init.el -- main init file
-│   ├── packages.el -- stuff related to packages
-│   └── settings.el -- settings
-├── escape_sequence_art -- art made with escape sequences and unicode blocks
+│   ├── exwm.el
+│   ├── functions.el
+│   ├── init.el
+│   ├── packages.el
+│   └── settings.el
+├── escape_sequence_art
 │   ├── beserk
 │   ├── dead
 │   ├── haha
-│   ├── loli
 │   ├── mikasa
 │   ├── mirror
 │   └── trap
@@ -122,20 +129,25 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   │   └── dnscrypt-proxy.toml
 │   ├── fstab
 │   └── portage
+│       ├── env
+│       │   ├── less-aggressive-cflags.conf
+│       │   ├── no-aggressive-cflags.conf
+│       │   └── notmpfs.conf
 │       ├── make.conf
 │       ├── make.conf (old)
-│       ├── package.accept_keywords
-│       ├── package.license
+│       ├── package.env
 │       ├── package.mask
-│       └── package.use
-│           └── 00cpuflags
-├── .gentoo -- gentoo-specific stuff to be sourced in .bashrc
-├── .inputrc -- change keybindings and stuff in bash
-├── kernel -- kernel configs
+│       └── repos.conf
+│           ├── gentoo.conf
+│           ├── p6nc.conf
+│           └── xmake-io.conf
+├── .inputrc
+├── kernel
 │   ├── 4.19.72-gentoo-VALLEY-config
+│   ├── 5.11.3-ck-VALLEY-config
 │   ├── 5.4.31-ck-valley-config
 │   └── 5.4.48-ck-valley-config
-├── .mint -- mint-specific stuff to be sourced in .bashrc
+├── LICENSE
 ├── .mozilla
 │   └── PROFILE
 │       └── chrome
@@ -150,8 +162,8 @@ I got very tired of Github telling me that over half my dotfiles were written in
 ├── .ncmpcpp
 │   ├── config
 │   └── config-lyrics
-├── README.md -- what you're reading right now ;)
-├── scripts -- various scripts
+├── README.md
+├── scripts
 │   ├── art.sh
 │   ├── general
 │   ├── ips.sh
@@ -168,5 +180,5 @@ I got very tired of Github telling me that over half my dotfiles were written in
 │   └── xmonad.hs
 └── .Xresources
 
-40 directories, 123 files
+45 directories, 129 files
 ```

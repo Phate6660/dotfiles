@@ -14,13 +14,13 @@
 # - NVim
 # Created by: https://github.com/Phate6660
 
-if [[ $- != *i* ]] ; then
-        return
+# Do nothing of not interactive
+if [[ $- != *i* ]]; then
+    return
 fi
 
 ## Functions
 # Search for a running process. Example: `psg firefox`
-# shellcheck disable=SC2009
 psg() {
     ps auxfww | grep -v grep | grep -i -e VSZ -e "$1"
 }
@@ -33,14 +33,13 @@ wttr() {
 }
 
 # Neatly output contents of $PATH
-lspath() { echo -e "${PATH//:/\\n}"; }
+lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
 
 # Reconnect to protonvpn
 pvre() {
     sudo protonvpn d
     sudo protonvpn c -f
     sudo protonvpn s
-    # shellcheck disable=SC2162
     read -p 'Press [ENTER] to continue.'
 }
 
@@ -88,10 +87,10 @@ br() {
 # 1113 albums.
 # 11306 songs.
 # 17107 files.
-# 
+#
 # Which uses up 232GB of storage.
-# Also, you have played 45955 complete songs since the end of March 2019.
-# 
+# Also, you have played 46937 complete songs since the end of March 2019.
+#
 # Now playing: Seamless by American Head Charge
 # ====================================================
 # Note: You may need to change some things, like the music directory and the libre.fm user url.
@@ -99,22 +98,11 @@ hmm() {
     artists="$(mpc list Artist | sed '/^\s*$/d' | wc -l) artists."
     albums="$(mpc list Album | sed '/^\s*$/d' | wc -l) albums."
     songs="$(mpc list Title | sed '/^\s*$/d' | wc -l) songs."
-	files="$(tree -a "$MUSIC" | tail -n1 | awk -F\  '{print $3}') files."
+	files="$(tree -a $MUSIC | tail -n1 | awk -F\  '{print $3}') files."
     size="Which uses up $(\du -hs /mnt/ehdd2/Music | cut -c 1-4)B of storage."
-    amount="Also, you have played \
-        $(w3m -dump https://libre.fm/user/phate6660/stats | grep Total | sed "s/[^0-9]//g") \
-        complete songs since the end of March 2019."
+    amount="Also, you have played $(w3m -dump https://libre.fm/user/phate6660/stats | grep Total | sed "s/[^0-9]//g") complete songs since the end of March 2019."
     status="$(w3m -dump https://libre.fm/user/phate6660/ | grep "playing" | sed 's/×\ //g')"
-    echo -e "\n\
-        You have:\n\
-        ---------\n\
-        ${artists}\n\
-        ${albums}\n\
-        ${songs}\n\
-        ${files}\n\n\
-        ${size}\n\
-        ${amount}\n\n\
-        $status\n"
+    echo -e "\nYou have:\n---------\n$artists\n$albums\n$songs\n$files\n\n$size\n$amount\n\n$status\n"
 }
 
 # Update Gentoo
@@ -123,27 +111,26 @@ update() {
     sudo emerge -avuDN --with-bdeps y @world  # Update packages
     sudo emerge -Dac                          # Remove un-needed packages
     sudo revdep-rebuild -i                    # Rebuild any required dependencies
-	sudo prelink -amR                         # Prelink libs for faster startup times
-    # shellcheck disable=SC2162
     read -p "Your system has been updated. Press [ENTER] to continue."
 }
 
-# A wrapper function for mpv
+# A quality of life wrapper function for mpv
 play() {
     local command="mpv --fullscreen"
     case "$1" in
-        cd) eval "$command ${*:2} cdda://";;
-        dvd) eval "$command --deinterlace=yes ${*:2} dvd://";;
-        list) eval "$command --playlist=$2 ${*:3}";;
-        *) eval "$command ${*:2}";;
+        cd) eval "$command ${@:2} cdda://";;
+        dvd) eval "$command --deinterlace=yes ${@:2} dvd://";;
+        list) eval "$command --playlist=$2 ${@:3}";;
+        *) eval "$command ${@:2}";;
     esac
 }
 
+# Print colorscheme
 colors() {
     for x in {0..8}; do 
         for i in {30..37}; do 
             for a in {40..47}; do 
-                echo -ne "\e[${x};${i};${a}""m\\\e[${x};${i};${a}""m\e[0;37;40m "
+                echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "
             done
             echo
         done
@@ -151,47 +138,30 @@ colors() {
     echo ""
 }
 
+# Notify When Done
 # usage: nwd COMMAND
 # Runs COMMAND and sends a notification when finished.
 nwd() {
-    local COMMAND="$*"
+    local COMMAND="$@"
     eval "$COMMAND"
     notify-send "$ $COMMAND" "Your command is finished."
 }
 
+# Quality of life alias for using the unofficial (but still awesome) Rust rewrites of GNU Coreutils
 uu() {
-    coreutils "$*"
+    coreutils "$@"
 }
 
+# Restart pulseaudio then load the tcp module (needed for MPD service -> userland pulseaudio)
 rp() {
+    pulseaudio -k
     pulseaudio --start
     pacmd load-module module-native-protocol-tcp auth-ip-acl=127.0.0.1
 }
 
-conda_init() {
-    # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('/home/valley/.anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
-    else
-        if [ -f "/home/valley/.anaconda3/etc/profile.d/conda.sh" ]; then
-            . "/home/valley/.anaconda3/etc/profile.d/conda.sh"
-        else
-            export PATH="/home/valley/.anaconda3/bin:$PATH"
-        fi
-    fi
-    unset __conda_setup
-}
-
+# Set up OCaml development environment
 ocaml_dev() {
-    eval "$(opam config env)"
-}
-
-RPG_CLI="/home/valley/downloads/git/rpg-cli/target/release/rpg-cli"
-rpg () {
-   $RPG_CLI "$@"
-   # shellcheck disable=SC2164
-   cd "$($RPG_CLI --pwd)"
+    eval `opam config env`
 }
 
 ## General Stuff
@@ -211,23 +181,21 @@ shopt -s extglob
 export PS1="\[$(tput bold)\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;99m\]\@\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]-[\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;51m\]\d\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput sgr0)\]\n\[$(tput bold)\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;118m\]\u\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]@\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;69m\]\h\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput sgr0)\]\n\[$(tput bold)\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;244m\]\W\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;255m\]-\[$(tput sgr0)\]\[\033[38;5;15m\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;51m\]\$?\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput sgr0)\]\[\033[38;5;255m\]-\[$(tput sgr0)\]\[\033[38;5;226m\]> \[$(tput sgr0)\]"
 
 # Set the PATH
-export PATH="$HOME/.cargo/bin:$PATH:$HOME/scripts:$HOME/projects/node_modules/web-ext/bin:$HOME/dotnet:/home/valley/.dotnet/tools:$HOME/.config/composer/vendor/bin:$HOME/downloads/armv7-eabihf--glibc--bleeding-edge-2020.08-1/bin:$HOME/.local/bin:$HOME/downloads/git/Nim/bin:$HOME/.local/share/ponyup/bin"
+export PATH="$HOME/.cargo/bin:$HOME/scripts:$HOME/.local/bin:$PATH"
 
 # Variables for paths in EHDDs
-export ANIME="/mnt/ehdd/Videos/Anime"
-export ANIME2="/mnt/ehdd2/Videos/Anime"
 export EHDD="/mnt/ehdd"
 export EHDD2="/mnt/ehdd2"
-export MOVIES="/mnt/ehdd/Videos/Movies"
-export MUSIC="/mnt/ehdd2/Music"
-export TV="/mnt/ehdd/Videos/TV"
+export ANIME="$EHDD/Videos/Anime"
+export MOVIES="$EHDD/Videos/Movies"
+export MUSIC="$EHDD2/Music"
+export TV="$EHDD/Videos/TV"
 
 # Enable filtering in mpv bash completion
-_mpv_use_media_globexpr=1
+export _mpv_use_media_globexpr=1
 
 # Enable completions
 source /etc/bash/bashrc.d/bash_completion.sh
-source /home/valley/downloads/git/mpv-bash-completion/mpv.sh # Source mpv completions
 
 # Generate LS_COLORS with vivid
 export LS_COLORS="$(vivid generate molokai)"
@@ -269,7 +237,11 @@ export DOTNET_CLI_TELEMETRY_OPTOUT="true"
 ## Aliases
 # cat -> bat with plain output
 alias cat="bat -p"
-# ls -> exa with extended metadata, type indicators, headers, showing all files, and git status
+# ls -> exa with {
+# extended metadata,
+# type indicators,
+# headers,
+# and showing all files
 alias ls="exa -lFha --git"
 # ps -> ps with {
 # show all processes,
@@ -294,9 +266,13 @@ alias astat="cat /proc/asound/card0/pcm0p/sub0/hw_params"
 alias avol="awk -F\"[][]\" '/dB/ { print \$2 }' <(amixer sget Master)"
 # Set the keyboard rate | TODO: remember what those numbers mean so I can explain it
 alias setr="xset r rate 200 60"
-# ss -> ss with no service names, only tcp sockets, displaying listening sockets, and showing processes using sockets
+# ss -> ss with {
+# no service names,
+# only tcp sockets,
+# displaying listening sockets,
+# and showing processes using sockets
 alias ss="ss -ntlp"
-# Use aria2 with 16 threads and rate each thread to 1M
+# Use aria2 with 5 threads and rate each thread to 5M
 alias aria="aria2c -c -j5 -x5 -s5 -k 5M"
 # Alias to cure my laziness
 alias e="emacsclient"
@@ -308,7 +284,3 @@ alias lsanime="exa -I \
               -L 3 -T $ANIME"
 alias wall="nitrogen --set-zoom-fill --random /mnt/ehdd/Pictures/wallpapers/"
 alias neofetch="MUSIC_C=mpd neofetch"
-
-[[ -s "$HOME/.xmake/profile" ]] && source "$HOME/.xmake/profile" # load xmake profile
-
-alias luamake=/home/valley/downloads/git/lua-language-server/3rd/luamake/luamake

@@ -4,24 +4,17 @@ xrandr --dpi 96 &
 numlockx &
 ## Merge Xresources.
 xrdb -merge ~/.Xresources &
-## Start Compton.
-compton --vsync opengl --backend glx -o 1 -i 1 -e 1 --no-fading-openclose --refresh-rate 60 -CGb &
 ## Start unclutter, set timer to 3 seconds, and hide mouse in root window as well.
 unclutter -idle 3 -root &
 ## Disable all the screen blanking and turning off shit.
 xset -dpms s off s noblank &
-## Set mouse cursor, not usually required unless using a WM like bspwm.
-xsetroot -cursor_name left_ptr &
-## Start screen saver and locker.
-xscreensaver -no-splash &
-## Restore wallpapers.
-nitrogen --restore &
 # Set keyboard repeat rate.
 xset r rate 200 60 &
+# Start the compositor.
+picom --backend glx --vsync --refresh-rate 60 --experimental-backends --no-fading-openclose -b &
 ## Launch Openbox.
 # exec ck-launch-session dbus-launch --sh-syntax --exit-with-session openbox-session
-## Launch bspwm.
-exec ck-launch-session dbus-launch --sh-syntax --exit-with-session bspwm
-## Launch EXWM
-# Finally start Emacs
-#exec ck-launch-session dbus-launch --sh-syntax --exit-with-session emacs
+## Launch LeftWM.
+#exec dbus-launch --sh-syntax --exit-with-session leftwm
+## Launch herbstluftwm
+exec dbus-launch --sh-syntax --exit-with-session herbstluftwm
