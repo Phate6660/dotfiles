@@ -22,6 +22,7 @@ fi
 ## Functions
 # Search for a running process. Example: `psg firefox`
 psg() {
+    # shellcheck disable=SC2009
     ps auxfww | grep -v grep | grep -i -e VSZ -e "$1"
 }
 
@@ -32,15 +33,11 @@ wttr() {
     curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
 }
 
-# Neatly output contents of $PATH
-lspath() { echo -e "$(echo "$PATH" | sed 's/\:/\\n/g')"; }
-
 # Reconnect to protonvpn
 pvre() {
     sudo protonvpn d
     sudo protonvpn c -f
     sudo protonvpn s
-    read -p 'Press [ENTER] to continue.'
 }
 
 # Connect to a P2P server in protonvpn
@@ -98,11 +95,11 @@ hmm() {
     artists="$(mpc list Artist | sed '/^\s*$/d' | wc -l) artists."
     albums="$(mpc list Album | sed '/^\s*$/d' | wc -l) albums."
     songs="$(mpc list Title | sed '/^\s*$/d' | wc -l) songs."
-	files="$(tree -a $MUSIC | tail -n1 | awk -F\  '{print $3}') files."
+    files="$(tree -a "${MUSIC}" | tail -n1 | awk -F\  '{print $3}') files."
     size="Which uses up $(\du -hs /mnt/ehdd2/Music | cut -c 1-4)B of storage."
     amount="Also, you have played $(w3m -dump https://libre.fm/user/phate6660/stats | grep Total | sed "s/[^0-9]//g") complete songs since the end of March 2019."
     status="$(w3m -dump https://libre.fm/user/phate6660/ | grep "playing" | sed 's/×\ //g')"
-    echo -e "\nYou have:\n---------\n$artists\n$albums\n$songs\n$files\n\n$size\n$amount\n\n$status\n"
+    echo -e "\nYou have:\n---------\n${artists}\n${albums}\n${songs}\n${files}\n\n${size}\n${amount}\n\n${status}\n"
 }
 
 # Update Gentoo
@@ -111,6 +108,7 @@ update() {
     sudo emerge -avuDN --with-bdeps y @world  # Update packages
     sudo emerge -Dac                          # Remove un-needed packages
     sudo revdep-rebuild -i                    # Rebuild any required dependencies
+    # shellcheck disable=SC2162
     read -p "Your system has been updated. Press [ENTER] to continue."
 }
 
@@ -118,10 +116,10 @@ update() {
 play() {
     local command="mpv --fullscreen"
     case "$1" in
-        cd) eval "$command ${@:2} cdda://";;
-        dvd) eval "$command --deinterlace=yes ${@:2} dvd://";;
-        list) eval "$command --playlist=$2 ${@:3}";;
-        *) eval "$command ${@:2}";;
+        cd) eval "${command} ${*:2} cdda://";;
+        dvd) eval "${command} --deinterlace=yes ${*:2} dvd://";;
+        list) eval "${command} --playlist=$2 ${*:3}";;
+        *) eval "${command} ${*:2}";;
     esac
 }
 
@@ -130,7 +128,7 @@ colors() {
     for x in {0..8}; do 
         for i in {30..37}; do 
             for a in {40..47}; do 
-                echo -ne "\e[$x;$i;$a""m\\\e[$x;$i;$a""m\e[0;37;40m "
+                echo -ne "\e[${x};${i};${a}""m\\\e[${x};${i};${a}""m\e[0;37;40m "
             done
             echo
         done
@@ -142,9 +140,9 @@ colors() {
 # usage: nwd COMMAND
 # Runs COMMAND and sends a notification when finished.
 nwd() {
-    local COMMAND="$@"
-    eval "$COMMAND"
-    notify-send "$ $COMMAND" "Your command is finished."
+    local COMMAND="$*"
+    eval "${COMMAND}"
+    notify-send "$ ${COMMAND}" "Your command is finished."
 }
 
 # Quality of life alias for using the unofficial (but still awesome) Rust rewrites of GNU Coreutils
@@ -161,7 +159,23 @@ rp() {
 
 # Set up OCaml development environment
 ocaml_dev() {
-    eval `opam config env`
+    eval "$(opam config env)"
+}
+
+# Quality of life function for playing playlist in mpv
+# First argument is the playlist, everything else is passed as args
+mpl() {
+    mpv --playlist="$1" "${*:1}"
+}
+
+# Neatly output contents of $PATH
+lspath() {
+    echo -e "${PATH//\:/\\n}"
+}
+
+# Set the wallpaper, first argument is the monoitor (0 = first, 1 = second)
+wall() {
+    nitrogen --set-zoom-fill --random /mnt/ehdd/Pictures/wallpapers/ --head="$1"
 }
 
 ## General Stuff
@@ -178,26 +192,29 @@ shopt -s extglob
 # [11:21 PM]-[Tue Dec 10]
 # [valley@gentoo]
 # [~]-[0]->
+# shellcheck disable=SC2155
 export PS1="\[$(tput bold)\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;99m\]\@\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]-[\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;51m\]\d\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput sgr0)\]\n\[$(tput bold)\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;118m\]\u\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]@\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;69m\]\h\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput sgr0)\]\n\[$(tput bold)\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;244m\]\W\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;255m\]-\[$(tput sgr0)\]\[\033[38;5;15m\][\[$(tput sgr0)\]\[$(tput sgr0)\]\[\033[38;5;51m\]\$?\[$(tput bold)\]\[$(tput sgr0)\]\[\033[38;5;15m\]]\[$(tput sgr0)\]\[\033[38;5;255m\]-\[$(tput sgr0)\]\[\033[38;5;226m\]> \[$(tput sgr0)\]"
 
 # Set the PATH
-export PATH="$HOME/.cargo/bin:$HOME/scripts:$HOME/.local/bin:$PATH"
+export PATH="${HOME}/.cargo/bin:${HOME}/scripts:${HOME}/.local/bin:${PATH}"
 
 # Variables for paths in EHDDs
 export EHDD="/mnt/ehdd"
 export EHDD2="/mnt/ehdd2"
-export ANIME="$EHDD/Videos/Anime"
-export MOVIES="$EHDD/Videos/Movies"
-export MUSIC="$EHDD2/Music"
-export TV="$EHDD/Videos/TV"
+export ANIME="${EHDD}/Videos/Anime"
+export MOVIES="${EHDD}/Videos/Movies"
+export MUSIC="${EHDD2}/Music"
+export TV="${EHDD}/Videos/TV"
 
 # Enable filtering in mpv bash completion
 export _mpv_use_media_globexpr=1
 
 # Enable completions
+# shellcheck disable=SC1091
 source /etc/bash/bashrc.d/bash_completion.sh
 
 # Generate LS_COLORS with vivid
+# shellcheck disable=SC2155
 export LS_COLORS="$(vivid generate molokai)"
 
 # Color for less
@@ -221,6 +238,7 @@ export CFLAGS="${COMMON_FLAGS}"
 export CXXFLAGS="${COMMON_FLAGS}"
 
 # Make GPG work
+# shellcheck disable=SC2155
 export GPG_TTY="$(tty)"
 
 # Set various EDITOR related stuff
@@ -236,13 +254,14 @@ export DOTNET_CLI_TELEMETRY_OPTOUT="true"
 
 ## Aliases
 # cat -> bat with plain output
-alias cat="bat -p"
+alias cat="bat -p --color=always"
 # ls -> exa with {
 # extended metadata,
 # type indicators,
 # headers,
 # and showing all files
-alias ls="exa -lFha --git"
+# }
+alias ls="exa -lFha --git --color=always"
 # ps -> ps with {
 # show all processes,
 # display user-oriented format,
@@ -263,6 +282,7 @@ alias adev="fuser -fv /dev/snd/*"
 # View audio stats like bitrate and samplerate of audio currently playing in ALSA
 alias astat="cat /proc/asound/card0/pcm0p/sub0/hw_params"
 # View volume for ALSA
+# shellcheck disable=SC2142
 alias avol="awk -F\"[][]\" '/dB/ { print \$2 }' <(amixer sget Master)"
 # Set the keyboard rate | TODO: remember what those numbers mean so I can explain it
 alias setr="xset r rate 200 60"
@@ -271,16 +291,16 @@ alias setr="xset r rate 200 60"
 # only tcp sockets,
 # displaying listening sockets,
 # and showing processes using sockets
+# }
 alias ss="ss -ntlp"
 # Use aria2 with 5 threads and rate each thread to 5M
 alias aria="aria2c -c -j5 -x5 -s5 -k 5M"
 # Alias to cure my laziness
-alias e="emacsclient"
+alias e="nvim"
 # rsfetch with options wanted
 alias rsfetch="rsfetch -cDdEeghkmMstuUC 0 -p portage"
 # View anime collection as a tree, excludes various files through globbing, and extends down 3 levels
 alias lsanime="exa -I \
-              '*Menu*|*Screen*|*SP*|*CD*|*Sample*|*Extra*|*.jpg|*.png|*.ass|*.srt|*.mp4|*.mkv|*.txt|*.nfo|*.sfv|*.md5|*.mka|*.rar|playlist' \
-              -L 3 -T $ANIME"
-alias wall="nitrogen --set-zoom-fill --random /mnt/ehdd/Pictures/wallpapers/"
+    '*Menu*|*Screen*|*SP*|*CD*|*Sample*|*Extra*|*.jpg|*.png|*.ass|*.srt|*.mp4|*.mkv|*.txt|*.nfo|*.sfv|*.md5|*.mka|*.rar|playlist' \
+    -L 3 -T \${ANIME}"
 alias neofetch="MUSIC_C=mpd neofetch"
