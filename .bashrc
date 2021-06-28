@@ -61,20 +61,20 @@ br() {
     f=$(mktemp)
     (
         set +e
-        broot --outcmd "$f" "$@"
+        broot --outcmd "${f}" "$@"
         code=$?
-        if [ "$code" != 0 ]; then
-            rm -f "$f"
-            exit "$code"
+        if [ "${code}" != 0 ]; then
+            rm -f "${f}"
+            exit "${code}"
         fi
     )
     code=$?
-    if [ "$code" != 0 ]; then
-        return "$code"
+    if [ "${code}" != 0 ]; then
+        return "${code}"
     fi
-    d=$(<"$f")
-    rm -f "$f"
-    eval "$d"
+    d=$(<"${f}")
+    rm -f "${f}"
+    eval "${d}"
 }
 
 # How much music. Example output:
@@ -173,9 +173,11 @@ lspath() {
     echo -e "${PATH//\:/\\n}"
 }
 
-# Set the wallpaper, first argument is the monoitor (0 = first, 1 = second)
+# Set the wallpaper by choosing a random wallpaper
+# recursively in the set directory, and on the set monitor (starts at 0).
+# Example: `wall /mnt/ehdd/Pictures/wallpapers/ 0`
 wall() {
-    nitrogen --set-zoom-fill --random /mnt/ehdd/Pictures/wallpapers/ --head="$1"
+    nitrogen --set-zoom-fill --random "$1" --head="$2"
 }
 
 ## General Stuff
@@ -248,8 +250,8 @@ export SUDO_EDITOR="nvim"
 # Set XZ to use max compression (-9) and multithread using the number of CPUs (-T0)
 export XZ_DEFAULTS="-9 -T0"
 
-# dotnet
-export DOTNET_ROOT="$HOME/dotnet"
+# dotnet (I swear I only use it for F#)
+export DOTNET_ROOT="${HOME}/dotnet"
 export DOTNET_CLI_TELEMETRY_OPTOUT="true"
 
 ## Aliases
