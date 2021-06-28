@@ -30,7 +30,7 @@ psg() {
 wttr() {
     local request="wttr.in/${1-[REDACTED]?u}"
     [ "$COLUMNS" -lt 125 ] && request+='?n'
-    curl -H "Accept-Language: ${LANG%_*}" --compressed "$request"
+    curl -H "Accept-Language: ${LANG%_*}" --compressed "${request}"
 }
 
 # Reconnect to protonvpn
