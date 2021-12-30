@@ -10,6 +10,8 @@ unclutter -idle 3 -root &
 xset -dpms s off s noblank &
 # Set keyboard repeat rate.
 xset r rate 200 60 &
+# Set the wallpaper
+feh --bg-fill -d -r -z /mnt/ehdd/Pictures/wallpapers &
 # Start the compositor.
 picom --backend glx --vsync --refresh-rate 60 --experimental-backends --no-fading-openclose -b &
 ## Launch Openbox.

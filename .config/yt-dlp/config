@@ -1,0 +1,5 @@
+-f "bestvideo[height<=?1080][fps<=?60][vcodec!=vp9]+bestaudio/best"
+-o "%(title)s.%(ext)s"
+--downloader aria2c
+--downloader-args aria2c:"-c -j 16 -x 16 -s 16 -k 1M"
+--sponsorblock-mark all

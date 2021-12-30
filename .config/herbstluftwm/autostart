@@ -19,20 +19,18 @@ hc keybind Ctrl-Mod1-Delete  quit
 hc keybind Mod1-Shift-r      reload
 # Close the currently focused window
 hc keybind Mod1-Shift-c      close
-# Spawn a transparent xterm
-hc keybind Mod1-Return       spawn /home/valley/scripts/general term
 # Spawn alacritty
-hc keybind Mod1-Shift-Return spawn alacritty
+hc keybind Mod1-Return spawn alacritty
+# Spawn a transparent xterm
+hc keybind Mod1-Shift-Return       spawn /home/valley/scripts/general term
 # Toggle/next/previious audio (mpris -- spotify or MPD)
-hc keybind XF86AudioPlay     spawn playerctl -p spotify,mpd play-pause
-hc keybind XF86AudioNext     spawn playerctl -p spotify,mpd next
-hc keybind XF86AudioPrev     spawn playerctl -p spotify,mpd previous
+hc keybind XF86AudioPlay     spawn playerctl -p spotify,strawberry play-pause
+hc keybind XF86AudioNext     spawn playerctl -p spotify,strawberry next
+hc keybind XF86AudioPrev     spawn playerctl -p spotify,strawberry previous
 # Launcher
 hc keybind Ctrl-Mod1-space   spawn rofi -show run
-# Music info (MPD) in notification
-hc keybind $Mod-m            spawn /home/valley/.cargo/bin/musinfo
-# Music info (Spotify or MPD) in notification
-hc keybind $Mod-Shift-m      spawn /home/valley/scripts/general musinf2
+# Music info (Spotify or Strawberry) in notification
+hc keybind $Mod-m      spawn /home/valley/scripts/general musinf2
 # Time and date in notification
 hc keybind $Mod-n            spawn /home/valley/scripts/general date
 # Take a screenshot
@@ -146,4 +144,4 @@ herbstclient set tree_style '╾│ ├└╼─┐'
 
 # do multi monitor setup here, e.g.:
 # hc set_monitors 1280x1024+0+0 1280x1024+1280+0
-hc set_monitors 1280x1024 1440x900+1280+0
+hc set_monitors 1280x1024 1440x900+1280+124
