@@ -1,0 +1,14 @@
+bat
+bottom
+cargo-edit
+cargo-update
+cavif
+exa
+fd-find
+flamegraph
+git-delta
+hyperfine
+pastel
+ripgrep
+vivid
+xcp
